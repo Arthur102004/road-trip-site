@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trip Info: OKC ⇄ Vegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-info">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html" aria-current="page">Trip Info</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>Editable · Saves on This Device</span></span>
+    <h1 class="poster">Trip Info</h1>
+    <p style="max-width:600px;">Flights, lodging, notes, and the pre-trip checklist. Click any cell to edit, and changes save automatically to this browser.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot dot-outbound"></span>Outbound date</span>
+      <span class="legend-item"><span class="legend-dot dot-vegas"></span>Vegas date</span>
+      <span class="legend-item"><span class="legend-dot dot-return"></span>Return date</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="save-btn">Save now</button>
+      <button class="btn" id="reset-btn">Reset to defaults</button>
+      <span class="save-flash mono" id="save-flash">saved ✓</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Flights</h2>
+      <button class="btn" id="add-flight">+ Add flight</button>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="flights-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Who</th>
+            <th>Date</th>
+            <th>Route</th>
+            <th>Flight # / confirmation</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="flights-body"></tbody>
+      </table>
+    </div>
+    <p class="small">The two flyers need a one-way ticket into Vegas plus a flight home from OKC. Tap 🎤 on a row to fill in the date/route/flight # by voice.</p>
+    <p class="small mono" id="mic-status" aria-live="polite"></p>
+
+    <div class="card card-accent email-extract">
+      <h3 class="mt-0" style="font-size:1rem;">📋 Paste a confirmation email</h3>
+      <p class="small mt-0">Paste the text of a flight confirmation email below. We'll try to pull out the date, route, and flight number(s) and add it as a new row for you to check.</p>
+      <textarea class="notes" id="email-paste" placeholder="Paste your confirmation email here..." style="min-height:110px;"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="extract-email-btn">Extract &amp; add flight</button>
+        <span class="locate-status mono" id="extract-status"></span>
+      </div>
+      <div class="email-extract-preview callout" id="email-extract-preview" hidden></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Where We're Staying</h2>
+      <button class="btn" id="add-stay">+ Add night</button>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="stays-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Night</th>
+            <th>City</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="stays-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Hotel Picks</h2>
+      <span class="pill mono">Vegas is booked: these are the 5 stopovers</span>
+    </div>
+
+    <div class="card card-accent hotel-card" style="margin-bottom:1rem;">
+      <div class="hotel-card-head">
+        <h3>Santa Rosa, NM <span class="small mono">Fri Jul 31</span></h3>
+        <label class="claim-toggle">
+          <input type="checkbox" class="claim-check" data-city-key="santa-rosa" />
+          <span>I'll book this</span>
+        </label>
+      </div>
+      <div class="claim-name-row" data-claim-name-for="santa-rosa" hidden>
+        <input type="text" class="claim-name-input mono" placeholder="Your name" data-city-key="santa-rosa" />
+      </div>
+      <ul class="hotel-picks">
+        <li class="hotel-pick hotel-pick-top">
+          <div>
+            <span class="hotel-pick-tag">Top pick</span>
+            <strong>La Quinta Inn &amp; Suites by Wyndham Santa Rosa</strong>
+            <span class="hotel-rating mono">9.2/10</span>
+            <p>Has a Tesla Supercharger on site, so prioritize this one.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=La%20Quinta%20Inn%20%26%20Suites%20by%20Wyndham%20Santa%20Rosa%2C%20Santa%20Rosa%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-runner">
+          <div>
+            <span class="hotel-pick-tag">Runner-up</span>
+            <strong>Hotel Blue 66</strong>
+            <span class="hotel-rating mono">4.1★</span>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Hotel%20Blue%2066%2C%20Santa%20Rosa%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-budget">
+          <div>
+            <span class="hotel-pick-tag">Budget</span>
+            <strong>Motel 6 Santa Rosa</strong>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Motel%206%20Santa%20Rosa%2C%20Santa%20Rosa%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card card-accent hotel-card" style="margin-bottom:1rem;">
+      <div class="hotel-card-head">
+        <h3>Albuquerque, NM <span class="small mono">Sat Aug 1</span></h3>
+        <label class="claim-toggle">
+          <input type="checkbox" class="claim-check" data-city-key="albuquerque" />
+          <span>I'll book this</span>
+        </label>
+      </div>
+      <div class="claim-name-row" data-claim-name-for="albuquerque" hidden>
+        <input type="text" class="claim-name-input mono" placeholder="Your name" data-city-key="albuquerque" />
+      </div>
+      <ul class="hotel-picks">
+        <li class="hotel-pick hotel-pick-top">
+          <div>
+            <span class="hotel-pick-tag">Top pick</span>
+            <strong>Hotel Albuquerque at Old Town</strong>
+            <span class="hotel-rating mono">9.0/10</span>
+            <p>0.3 mi from Old Town Plaza.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Hotel%20Albuquerque%20at%20Old%20Town%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-runner">
+          <div>
+            <span class="hotel-pick-tag">Runner-up</span>
+            <strong>Sheraton Albuquerque Uptown</strong>
+            <p>Has a Tesla connector for guests.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Sheraton%20Albuquerque%20Uptown%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-budget">
+          <div>
+            <span class="hotel-pick-tag">Budget</span>
+            <strong>Hampton Inn &amp; Suites Albuquerque</strong>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Hampton%20Inn%20%26%20Suites%20Albuquerque%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card card-accent hotel-card" style="margin-bottom:1rem;">
+      <div class="hotel-card-head">
+        <h3>Phoenix, AZ <span class="small mono">Sun Aug 2</span></h3>
+        <label class="claim-toggle">
+          <input type="checkbox" class="claim-check" data-city-key="phoenix" />
+          <span>I'll book this</span>
+        </label>
+      </div>
+      <div class="claim-name-row" data-claim-name-for="phoenix" hidden>
+        <input type="text" class="claim-name-input mono" placeholder="Your name" data-city-key="phoenix" />
+      </div>
+      <ul class="hotel-picks">
+        <li class="hotel-pick hotel-pick-top">
+          <div>
+            <span class="hotel-pick-tag">Top pick</span>
+            <strong>Found:Re Phoenix</strong>
+            <p>Boutique, downtown.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Found%3ARe%20Phoenix%2C%20Phoenix%2C%20AZ" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-runner">
+          <div>
+            <span class="hotel-pick-tag">Runner-up</span>
+            <strong>Best Western Downtown Phoenix</strong>
+            <span class="hotel-rating mono">8.4/10</span>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Best%20Western%20Downtown%20Phoenix%2C%20Phoenix%2C%20AZ" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-budget">
+          <div>
+            <span class="hotel-pick-tag">Budget</span>
+            <strong>SureStay by Best Western Motor Lodge</strong>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=SureStay%20by%20Best%20Western%20Motor%20Lodge%2C%20Phoenix%2C%20AZ" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card card-accent hotel-card" style="margin-bottom:1rem;">
+      <div class="hotel-card-head">
+        <h3>Grand Junction, CO <span class="small mono">Fri Aug 7</span></h3>
+        <label class="claim-toggle">
+          <input type="checkbox" class="claim-check" data-city-key="grand-junction" />
+          <span>I'll book this</span>
+        </label>
+      </div>
+      <div class="claim-name-row" data-claim-name-for="grand-junction" hidden>
+        <input type="text" class="claim-name-input mono" placeholder="Your name" data-city-key="grand-junction" />
+      </div>
+      <ul class="hotel-picks">
+        <li class="hotel-pick hotel-pick-top">
+          <div>
+            <span class="hotel-pick-tag">Top pick</span>
+            <strong>Hotel Maverick</strong>
+            <span class="hotel-rating mono">9.4/10</span>
+            <p>Boutique, downtown.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Hotel%20Maverick%2C%20Grand%20Junction%2C%20CO" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-runner">
+          <div>
+            <span class="hotel-pick-tag">Runner-up</span>
+            <strong>SpringHill Suites Marriott Grand Junction Downtown</strong>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=SpringHill%20Suites%20Marriott%20Grand%20Junction%20Downtown%2C%20Grand%20Junction%2C%20CO" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-budget">
+          <div>
+            <span class="hotel-pick-tag">Budget</span>
+            <strong>Grand Vista Hotel</strong>
+            <span class="hotel-rating mono">8.2/10</span>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Grand%20Vista%20Hotel%2C%20Grand%20Junction%2C%20CO" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card card-accent hotel-card">
+      <div class="hotel-card-head">
+        <h3>Hays, KS <span class="small mono">Sat Aug 8</span></h3>
+        <label class="claim-toggle">
+          <input type="checkbox" class="claim-check" data-city-key="hays" />
+          <span>I'll book this</span>
+        </label>
+      </div>
+      <div class="claim-name-row" data-claim-name-for="hays" hidden>
+        <input type="text" class="claim-name-input mono" placeholder="Your name" data-city-key="hays" />
+      </div>
+      <ul class="hotel-picks">
+        <li class="hotel-pick hotel-pick-top">
+          <div>
+            <span class="hotel-pick-tag">Top pick</span>
+            <strong>Hilton Garden Inn Hays</strong>
+            <p>Top-rated in town.</p>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Hilton%20Garden%20Inn%20Hays%2C%20Hays%2C%20KS" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-runner">
+          <div>
+            <span class="hotel-pick-tag">Runner-up</span>
+            <strong>Econo Lodge Hays I-70</strong>
+            <span class="hotel-rating mono">4.2★ · 829 reviews · 86% recommend</span>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Econo%20Lodge%20Hays%20I-70%2C%20Hays%2C%20KS" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+        <li class="hotel-pick hotel-pick-budget">
+          <div>
+            <span class="hotel-pick-tag">Budget</span>
+            <strong>Baymont by Wyndham Hays</strong>
+          </div>
+          <a class="btn hotel-search-link" href="https://www.google.com/travel/hotels?q=Baymont%20by%20Wyndham%20Hays%2C%20Hays%2C%20KS" target="_blank" rel="noopener noreferrer">Search</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Pre-Trip Checklist</h2>
+    </div>
+    <div class="card">
+      <ul class="checklist" id="checklist"></ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Notes</h2>
+    </div>
+    <div class="card">
+      <textarea class="notes" id="notes" placeholder="Cost splits, packing list, who's bringing what, anything else..."></textarea>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/info.js"></script>
+</body>
+</html>

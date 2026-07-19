@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vegas on a Budget: OKC ⇄ Vegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-vegas">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html" aria-current="page">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>Aug 3 - 7, 2026 · 4 Nights</span></span>
+    <h1 class="poster neon" style="color:var(--magenta);">Vegas on<br />a Budget</h1>
+    <p style="max-width:600px;">Strategy: stack the free stuff daily, pick one cheap thing per day, and vote as a group on one or two splurges for the whole trip. Splitting one splurge five ways beats five separate ones.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2.5rem;">
+
+  <div class="budget-tier tier-free">
+    <div class="budget-tier-head">
+      <span class="pill pill-free">✓ Free: do all of these</span>
+    </div>
+    <div class="card accent-free">
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Bellagio Conservatory &amp; Botanical Gardens</h4>
+          <p>Stunning seasonal displays inside the Bellagio.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Fountains of Bellagio</h4>
+          <p>Shows every 15-30 min in the evening; the classic free Vegas moment.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Fremont Street Experience &amp; Viva Vision</h4>
+          <p>Downtown light-canopy show, plus cheap food around it.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>AREA15 entry</h4>
+          <p>Free to walk the immersive district with a pre-booked pass; pay only for what you enter.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Pinball Hall of Fame</h4>
+          <p>Free entry, bring quarters, hundreds of machines.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Seven Magic Mountains</h4>
+          <p>Neon boulder stacks 25 min south; quick photo run.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="0" />
+        <div class="budget-item-body">
+          <h4>Ethel M Chocolate Factory &amp; Cactus Garden</h4>
+          <p>Free self-guided tour, free samples, big cactus garden.</p>
+        </div>
+        <span class="budget-price pill pill-free">free</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="budget-tier tier-cheap">
+    <div class="budget-tier-head">
+      <span class="pill pill-food">$ Cheap: under $40</span>
+    </div>
+    <div class="card accent-cheap">
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="20" />
+        <div class="budget-item-body">
+          <h4>Spider-Man: Brand New Day</h4>
+          <p>Out Jul 31, brand new while you're in town. IMAX at Red Rock or Dolby at Town Square.</p>
+        </div>
+        <span class="budget-price pill pill-food">$15-25</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="30" />
+        <div class="budget-item-body">
+          <h4>Go-karting</h4>
+          <p>Vegas Superkarts or Pole Position Raceway.</p>
+        </div>
+        <span class="budget-price pill pill-food">$26-35</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="35" />
+        <div class="budget-item-body">
+          <h4>Flavortown all-you-can-eat brunch</h4>
+          <p>Guy Fieri's bottomless Strip brunch, the budget feast.</p>
+        </div>
+        <span class="budget-price pill pill-food">~$35</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="21" />
+        <div class="budget-item-body">
+          <h4>Neon Museum</h4>
+          <p>Boneyard of old Vegas signs, best at night. Student discount at the door.</p>
+        </div>
+        <span class="budget-price pill pill-food">~$21</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="32" />
+        <div class="budget-item-body">
+          <h4>The Mob Museum</h4>
+          <p>Organized-crime history downtown. Student rate available.</p>
+        </div>
+        <span class="budget-price pill pill-food">$30-35</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="12" />
+        <div class="budget-item-body">
+          <h4>Las Vegas Natural History Museum</h4>
+          <p>Cheapest museum in town.</p>
+        </div>
+        <span class="budget-price pill pill-food">~$12</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="25" />
+        <div class="budget-item-body">
+          <h4>SlotZilla zipline</h4>
+          <p>Fly under the Fremont lights.</p>
+        </div>
+        <span class="budget-price pill pill-food">$25 / $45</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="budget-tier tier-splurge">
+    <div class="budget-tier-head">
+      <span class="pill pill-vegas">★ Group splurges: vote on 1-2</span>
+    </div>
+    <div class="card accent-splurge">
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="50" />
+        <div class="budget-item-body">
+          <h4>Omega Mart (AREA15)</h4>
+          <p>Surreal supermarket hiding a whole world. Book ahead.</p>
+        </div>
+        <span class="budget-price pill pill-vegas">$45-54</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="75" />
+        <div class="budget-item-body">
+          <h4>Mountain biking at Lee Canyon</h4>
+          <p>Lift-served downhill, 20-30° cooler up the mountain.</p>
+        </div>
+        <span class="budget-price pill pill-vegas">$60-90</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="117" />
+        <div class="budget-item-body">
+          <h4>The Sphere</h4>
+          <p>Wizard of Oz experience.</p>
+        </div>
+        <span class="budget-price pill pill-vegas">$95-140</span>
+      </label>
+      <label class="budget-item">
+        <input type="checkbox" class="budget-check" data-cost="125" />
+        <div class="budget-item-body">
+          <h4>Maverick Helicopters</h4>
+          <p>Strip night flight, per person.</p>
+        </div>
+        <span class="budget-price pill pill-vegas">$99-150</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="budget-summary" id="budget-summary">
+    <div class="budget-summary-inner">
+      <div class="budget-summary-figures">
+        <span class="budget-summary-count mono" id="budget-summary-count">0 activities selected</span>
+        <span class="budget-summary-total">Est. <strong id="budget-total">$0</strong> / person</span>
+      </div>
+      <button class="btn" id="budget-clear">Clear</button>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/vegas.js"></script>
+</body>
+</html>

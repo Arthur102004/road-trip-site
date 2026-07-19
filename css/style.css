@@ -1,0 +1,1460 @@
+/* ============================================================
+   OKC ⇄ Vegas Road Trip — design system
+   Dark asphalt base, color-coded legs, poster/body/mono type
+   ============================================================ */
+
+:root {
+  --bg: #15161a;
+  --bg-raised: #1c1e23;
+  --bg-card: #212329;
+  --border: #33363e;
+
+  --text: #f2f1ee;
+  --text-dim: #a6a9b2;
+  --text-faint: #6d7078;
+
+  --orange: #f0713a;   /* outbound */
+  --magenta: #f0439b;  /* vegas */
+  --teal: #2fb39f;     /* return */
+  --gold: #e8b84b;     /* food / wingstop */
+  --green: #4cc57e;    /* free */
+
+  --orange-dim: #4a2c1c;
+  --magenta-dim: #4a1c37;
+  --teal-dim: #12362f;
+  --gold-dim: #453416;
+  --green-dim: #163a25;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  --page-accent: var(--orange);
+  --page-accent-dim: var(--orange-dim);
+
+  --font-head: "Anton", "Impact", "Arial Narrow Bold", "Arial Narrow", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+/* per-page identity color — set on <body> so nav, hero, and section
+   accents shift page to page instead of defaulting to orange everywhere */
+body.page-home     { --page-accent: var(--orange);  --page-accent-dim: var(--orange-dim); }
+body.page-itinerary{ --page-accent: var(--orange);  --page-accent-dim: var(--orange-dim); }
+body.page-charging { --page-accent: var(--gold);    --page-accent-dim: var(--gold-dim); }
+body.page-vegas    { --page-accent: var(--magenta); --page-accent-dim: var(--magenta-dim); }
+body.page-info     { --page-accent: var(--teal);    --page-accent-dim: var(--teal-dim); }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* native cross-document view transition — browsers that support it (Chrome/Edge)
+   get a real cross-fade between pages for free; unsupported browsers just
+   ignore this and fall back to the JS fade below */
+@view-transition {
+  navigation: auto;
+}
+
+/* ---------- page enter/leave (multi-page transitions) ---------- */
+
+body {
+  animation: page-enter 0.45s ease both;
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body.page-leaving {
+  animation: page-leave 0.18s ease forwards;
+}
+
+@keyframes page-leave {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 999;
+  background: linear-gradient(90deg, var(--orange), var(--magenta), var(--teal));
+  transition: width 0.4s ease, opacity 0.3s ease 0.2s;
+  opacity: 1;
+}
+
+.page-loader.done {
+  width: 100%;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body, body.page-leaving {
+    animation: none;
+  }
+  .page-loader {
+    display: none;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(240, 113, 58, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(240, 67, 155, 0.08), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(47, 179, 159, 0.05), transparent 50%);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin: 0 0 0.5em;
+  overflow-wrap: break-word;
+}
+
+p, .route-line, .callout, .stop-food, .stop-do {
+  overflow-wrap: break-word;
+}
+
+h1 { font-size: clamp(2.6rem, 9vw, 5.2rem); letter-spacing: 0; }
+h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+h3 { font-size: 1.2rem; letter-spacing: 0.015em; }
+
+/* poster treatment for hero titles — layered stroke gives it a
+   printed/vinyl-decal feel instead of a plain bold web font */
+.poster {
+  text-shadow: 3px 3px 0 var(--page-accent-dim);
+}
+
+p { margin: 0 0 1em; color: var(--text-dim); }
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- layout shells ---------- */
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+main {
+  padding-bottom: 4rem;
+}
+
+/* ---------- nav ---------- */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(21, 22, 26, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+/* route strip — the outbound/vegas/return color code, printed as a
+   literal stripe under the nav on every page so it reads as one system */
+.route-strip {
+  position: sticky;
+  top: 60px;
+  z-index: 49;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--orange) 0%, var(--orange) 33.33%,
+    var(--magenta) 33.33%, var(--magenta) 66.66%,
+    var(--teal) 66.66%, var(--teal) 100%
+  );
+}
+
+.site-nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.brand {
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.brand span { color: var(--orange); }
+.brand .mid { color: var(--magenta); }
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--bg);
+  background: var(--page-accent);
+  border-radius: 999px;
+  padding: 0.4em 0.9em;
+  margin: -0.4em -0.9em;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+
+  .nav-links.open {
+    max-height: 400px;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-links a[aria-current="page"] {
+    color: var(--text);
+    background: var(--page-accent-dim);
+    border-radius: 0;
+    margin: 0;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid var(--page-accent);
+    padding: 0.9rem 1.25rem 0.9rem calc(1.25rem - 3px);
+  }
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding: 3.5rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 100% at 10% 0%, color-mix(in srgb, var(--page-accent) 14%, transparent), transparent 60%);
+  pointer-events: none;
+}
+
+.hero .wrap { position: relative; }
+
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  max-width: 100%;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--page-accent);
+  padding: 0.3em 0.7em;
+  transform: skew(-8deg);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.hero .eyebrow span {
+  display: inline-block;
+  min-width: 0;
+  white-space: normal;
+  transform: skew(8deg);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- badges / pills ---------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  padding: 0.35em 0.75em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.pill-outbound { color: var(--orange); border-color: var(--orange-dim); background: var(--orange-dim); }
+.pill-vegas    { color: var(--magenta); border-color: var(--magenta-dim); background: var(--magenta-dim); }
+.pill-return   { color: var(--teal); border-color: var(--teal-dim); background: var(--teal-dim); }
+.pill-food     { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-dim); }
+.pill-free     { color: var(--green); border-color: var(--green-dim); background: var(--green-dim); }
+
+/* ---------- cards ---------- */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+/* thin top accent in the page's identity color — for cards that aren't
+   tied to a specific outbound/vegas/return leg but should still carry
+   the page's color through the body copy, not just the nav/hero */
+.card-accent {
+  border-top: 3px solid var(--page-accent);
+}
+
+.card + .card { margin-top: 1rem; }
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 760px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+.section {
+  position: relative;
+  padding: 3rem 0;
+}
+
+/* dashed road-line divider between sections, site-wide, instead of a flat border */
+.section:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--border) 0, var(--border) 18px,
+    transparent 18px, transparent 34px
+  );
+}
+
+/* ---------- leg accent border ---------- */
+
+.leg-outbound { border-left: 6px solid var(--orange); box-shadow: var(--shadow), -1px 0 16px -8px var(--orange); }
+.leg-vegas    { border-left: 6px solid var(--magenta); box-shadow: var(--shadow), -1px 0 16px -8px var(--magenta); }
+.leg-return   { border-left: 6px solid var(--teal); box-shadow: var(--shadow), -1px 0 16px -8px var(--teal); }
+
+/* spectrum border — for content that spans the whole trip rather than
+   one leg (e.g. the Tesla playbook), a gradient stands in for a single color */
+.leg-spectrum {
+  border-left: 6px solid transparent;
+  border-image: linear-gradient(180deg, var(--orange), var(--magenta), var(--teal)) 1 100%;
+}
+
+/* budget-tier accents (vegas page) — same treatment as leg-*, keyed to
+   the free/cheap/splurge color coding from the design notes */
+.accent-free    { border-left: 6px solid var(--green); box-shadow: var(--shadow), -1px 0 16px -8px var(--green); }
+.accent-cheap   { border-left: 6px solid var(--gold); box-shadow: var(--shadow), -1px 0 16px -8px var(--gold); }
+.accent-splurge { border-left: 6px solid var(--magenta); box-shadow: var(--shadow), -1px 0 16px -8px var(--magenta); }
+
+/* ---------- road divider ---------- */
+
+.road-divider {
+  height: 2px;
+  margin: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--border) 0, var(--border) 18px,
+    transparent 18px, transparent 34px
+  );
+  border: none;
+}
+
+/* ---------- day card (itinerary) ---------- */
+
+.day-card {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+/* timeline node — a lit dot on the colored rail, like a stop on a route map */
+.day-card::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 1.7rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 3px solid var(--bg);
+  z-index: 1;
+}
+
+.leg-outbound.day-card::before { background: var(--orange); box-shadow: 0 0 0 3px var(--orange-dim); }
+.leg-vegas.day-card::before    { background: var(--magenta); box-shadow: 0 0 0 3px var(--magenta-dim); }
+.leg-return.day-card::before   { background: var(--teal); box-shadow: 0 0 0 3px var(--teal-dim); }
+
+/* rail connector — bridges the gap to the next day so the dots read as one route line */
+.day-card::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: 1.7rem;
+  bottom: -1rem;
+  width: 2px;
+  z-index: 0;
+}
+
+.leg-outbound.day-card::after { background: var(--orange-dim); }
+.leg-vegas.day-card::after    { background: var(--magenta-dim); }
+.leg-return.day-card::after   { background: var(--teal-dim); }
+.day-card:last-child::after   { display: none; }
+
+.day-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.day-head h3 {
+  font-size: 1.5rem;
+}
+
+.day-date {
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
+.day-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.day-card ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--text-dim);
+}
+
+.day-card li { margin-bottom: 0.35rem; }
+
+.callout {
+  margin-top: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  border: 1px dashed var(--border);
+  font-size: 0.92rem;
+}
+
+.callout strong { color: var(--text); }
+
+/* ---------- stop card (charging) ---------- */
+
+.stop-card h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+.stop-card .miles {
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-transform: none;
+}
+
+.stop-food, .stop-do {
+  font-size: 0.92rem;
+  margin: 0.4rem 0 0;
+}
+
+a.map-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-faint);
+}
+
+a.map-link:hover {
+  color: var(--page-accent);
+  border-bottom-color: var(--page-accent);
+}
+
+.stop-food span, .stop-do span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* ---------- locate (charging) ---------- */
+
+.locate-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 1.75rem;
+}
+
+.locate-status {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.nearest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  background: var(--green);
+  padding: 0.3em 0.6em;
+  border-radius: 999px;
+  animation: pulse-badge 1.8s ease-in-out infinite;
+}
+
+.nearest-badge[hidden] {
+  display: none;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(76, 197, 126, 0.55); }
+  50% { box-shadow: 0 0 0 7px rgba(76, 197, 126, 0); }
+}
+
+.stop-card.is-nearest {
+  border-color: var(--green);
+  box-shadow: var(--shadow), 0 0 0 2px var(--green), 0 0 28px -6px var(--green);
+}
+
+/* ---------- charge timer (charging) ---------- */
+
+.charge-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--border);
+}
+
+.timer-display {
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  min-width: 5ch;
+}
+
+.charge-timer.is-running .timer-display { color: var(--page-accent); }
+.charge-timer.is-done .timer-display { color: var(--green); font-size: 0.95rem; }
+
+.timer-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.timer-controls .btn {
+  min-height: 40px;
+  padding: 0.5em 0.9em;
+  font-size: 0.72rem;
+}
+
+/* ---------- budget list (vegas) ---------- */
+
+.budget-tier {
+  margin-bottom: 2.5rem;
+}
+
+.budget-tier-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.budget-tier-head .pill {
+  font-size: 0.95rem;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.budget-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.budget-item:last-child { border-bottom: none; }
+
+.budget-check {
+  width: 19px;
+  height: 19px;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+  accent-color: var(--page-accent);
+  cursor: pointer;
+}
+
+.budget-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.budget-item h4 {
+  font-family: var(--font-body);
+  text-transform: none;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.2rem;
+  font-size: 0.98rem;
+}
+
+.budget-item p { margin: 0; font-size: 0.88rem; }
+
+.budget-item:has(.budget-check:checked) h4 {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+/* price badge — reuses the .pill look so each activity carries its own
+   free/cheap/splurge color, not just the section header */
+.budget-price {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* ---------- running total (vegas) ---------- */
+
+.budget-summary {
+  position: sticky;
+  bottom: 1rem;
+  z-index: 20;
+  margin-top: 2rem;
+}
+
+.budget-summary-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.budget-summary.has-selection .budget-summary-inner {
+  border-color: var(--magenta);
+  box-shadow: var(--shadow), 0 0 0 2px var(--magenta), 0 0 28px -6px var(--magenta);
+}
+
+.budget-summary-figures {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.budget-summary-count {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.budget-summary-total {
+  font-size: 1rem;
+  color: var(--text-dim);
+}
+
+.budget-summary-total strong {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  color: var(--magenta);
+  font-weight: 400;
+  margin: 0 0.15em;
+}
+
+/* ---------- tables (trip info) ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  font-weight: normal;
+}
+
+td[contenteditable="true"], input.cell-input {
+  outline: none;
+}
+
+td[contenteditable="true"]:focus,
+td[contenteditable="true"]:hover {
+  background: var(--bg-raised);
+  border-radius: 4px;
+}
+
+#flights-table td:first-child,
+#flights-table th:first-child,
+#stays-table td:first-child,
+#stays-table th:first-child {
+  width: 18px;
+  padding-right: 0;
+}
+
+/* ---------- voice input (trip info flights) ---------- */
+
+.mic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.mic-btn:hover {
+  border-color: var(--page-accent);
+  color: var(--text);
+}
+
+.mic-btn.listening {
+  color: var(--bg);
+  background: var(--magenta);
+  border-color: var(--magenta);
+  animation: mic-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240, 67, 155, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(240, 67, 155, 0); }
+}
+
+.mic-btn.unsupported {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.mic-btn.unsupported:hover {
+  opacity: 0.8;
+  border-color: var(--gold);
+}
+
+.email-extract {
+  margin-top: 1rem;
+}
+
+.email-extract-preview {
+  margin-top: 0.9rem;
+}
+
+.email-extract-preview dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.email-extract-preview dt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+}
+
+.email-extract-preview dd {
+  margin: 0;
+  color: var(--text);
+}
+
+.email-extract-preview dd.unfilled {
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.status-select {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  min-height: 40px;
+  background: var(--bg-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.4em 0.7em;
+}
+
+.status-select.status-booked { color: var(--green); border-color: var(--green-dim); }
+.status-select.status-not-booked { color: var(--orange); border-color: var(--orange-dim); }
+.status-select.status-searching { color: var(--text-faint); border-color: var(--border); }
+
+/* ---------- hotel picks (trip info) ---------- */
+
+.hotel-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.hotel-card-head h3 {
+  margin: 0;
+}
+
+.claim-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.claim-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--page-accent);
+  cursor: pointer;
+}
+
+.hotel-card:has(.claim-check:checked) {
+  border-color: var(--green);
+  box-shadow: var(--shadow), 0 0 0 2px var(--green);
+}
+
+.hotel-card:has(.claim-check:checked) .claim-toggle {
+  color: var(--green);
+}
+
+.claim-name-row {
+  margin: 0.6rem 0 1rem;
+}
+
+.claim-name-input {
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.6em 0.8em;
+}
+
+.claim-name-input:focus { outline: 1px solid var(--green); }
+
+.hotel-picks {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.hotel-pick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.hotel-pick-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2em 0.55em;
+  border-radius: 999px;
+  margin-right: 0.6em;
+}
+
+.hotel-pick-top .hotel-pick-tag { color: var(--gold); background: var(--gold-dim); }
+.hotel-pick-runner .hotel-pick-tag { color: var(--text-dim); background: var(--bg-raised); }
+.hotel-pick-budget .hotel-pick-tag { color: var(--green); background: var(--green-dim); }
+
+.hotel-pick strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hotel-rating {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin-left: 0.6em;
+}
+
+.hotel-pick p {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+}
+
+.hotel-search-link {
+  min-height: 36px;
+  padding: 0.5em 0.9em;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+.hotel-note {
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.7em 1.2em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.btn:hover { border-color: var(--text-faint); text-decoration: none; }
+
+.btn-primary {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #1a0d05;
+  font-weight: 700;
+}
+
+.btn-primary:hover { background: #ff8450; }
+
+.btn-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1rem 0; }
+
+.save-flash {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--green);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.save-flash.show { opacity: 1; }
+
+/* ---------- checklist ---------- */
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist input[type="checkbox"] {
+  margin-top: 0.2rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--page-accent);
+  flex-shrink: 0;
+}
+
+.checklist .check-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--page-accent);
+  border-radius: 4px;
+  padding: 0.2em 0.45em;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.checklist label.done {
+  color: var(--text-faint);
+  text-decoration: line-through;
+}
+
+/* ---------- notes ---------- */
+
+textarea.notes {
+  width: 100%;
+  min-height: 160px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  padding: 0.9rem;
+  resize: vertical;
+}
+
+textarea.notes:focus { outline: 1px solid var(--orange); }
+
+/* ---------- route legend ---------- */
+
+.route-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.route-line .seg-outbound { color: var(--orange); }
+.route-line .seg-vegas { color: var(--magenta); }
+.route-line .seg-return { color: var(--teal); }
+
+.route-line .arrow { color: var(--text-faint); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-outbound { background: var(--orange); }
+.dot-vegas { background: var(--magenta); }
+.dot-return { background: var(--teal); }
+
+/* ---------- hard rules banner ---------- */
+
+.rules-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.rules-banner strong { color: var(--gold); }
+
+/* ---------- footer ---------- */
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ---------- misc utility ---------- */
+
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.small { font-size: 0.85rem; color: var(--text-faint); }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-head h2 {
+  position: relative;
+  padding-left: 1.1rem;
+  margin: 0;
+}
+
+.section-head h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  bottom: 0.12em;
+  width: 5px;
+  background: var(--page-accent);
+}
+
+/* ---------- neon (vegas) ---------- */
+
+.neon {
+  text-shadow:
+    0 0 4px color-mix(in srgb, var(--page-accent) 85%, white 15%),
+    0 0 16px var(--page-accent),
+    0 0 42px var(--page-accent);
+}
+
+/* ---------- stat band (home hero) ---------- */
+
+.stat-band {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem 3rem;
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.stat-band .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stat-band .stat .num {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1;
+}
+
+.stat-band .stat .label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.num-outbound { color: var(--orange); }
+.num-vegas    { color: var(--magenta); }
+.num-return   { color: var(--teal); }
+.num-food     { color: var(--gold); }
+
+/* ---------- countdown (home) ---------- */
+
+.countdown-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.countdown-card {
+  flex: 1;
+  min-width: 220px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.countdown-card.countdown-outbound {
+  border-color: var(--orange-dim);
+  box-shadow: var(--shadow), 0 0 28px -10px var(--orange);
+}
+
+.countdown-card.countdown-vegas {
+  border-color: var(--magenta-dim);
+  box-shadow: var(--shadow), 0 0 28px -10px var(--magenta);
+}
+
+.countdown-num {
+  font-family: var(--font-head);
+  font-size: clamp(2.75rem, 8vw, 4rem);
+  line-height: 1;
+}
+
+.countdown-outbound .countdown-num { color: var(--orange); }
+.countdown-vegas .countdown-num { color: var(--magenta); }
+
+.countdown-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.countdown-label .countdown-date {
+  color: var(--text-faint);
+}
+
+/* ---------- print button ---------- */
+
+.print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+/* ---------- print stylesheet ----------
+   ink-friendly, no chrome/interactivity, no page-break-splitting of cards */
+
+@media print {
+  .no-print,
+  .site-nav,
+  .route-strip,
+  .page-loader,
+  .nav-toggle,
+  .locate-row,
+  .hero .btn-row,
+  .charge-timer,
+  .mic-btn,
+  .email-extract,
+  .budget-summary,
+  .hotel-search-link,
+  .claim-toggle,
+  .claim-name-row,
+  #add-flight,
+  #add-stay,
+  .btn[data-remove],
+  [data-remove],
+  [data-mic],
+  footer .small#offline-status {
+    display: none !important;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    background-image: none !important;
+  }
+
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  body {
+    animation: none !important;
+  }
+
+  h1, h2, h3, h4, .brand, .stop-card h3, .day-head h3 {
+    color: #111 !important;
+  }
+
+  p, li, td, .small, .callout, .stop-food, .stop-do {
+    color: #222 !important;
+  }
+
+  a, a.map-link {
+    color: #111 !important;
+    text-decoration: underline !important;
+  }
+
+  .hero {
+    padding: 1rem 0;
+    border-bottom: 2px solid #111;
+  }
+
+  .hero::before { display: none !important; }
+
+  .hero .eyebrow {
+    background: none !important;
+    color: #111 !important;
+    transform: none !important;
+    padding: 0 !important;
+  }
+
+  .hero .eyebrow span { transform: none !important; }
+
+  .poster { text-shadow: none !important; }
+
+  .card,
+  .day-card,
+  .stop-card,
+  .callout,
+  .hotel-card {
+    background: #fff !important;
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .leg-outbound, .leg-vegas, .leg-return, .leg-spectrum,
+  .accent-free, .accent-cheap, .accent-splurge {
+    border-left-width: 4px !important;
+  }
+
+  .pill, .status-select, .hotel-pick-tag {
+    border: 1px solid #999 !important;
+    background: #eee !important;
+    color: #111 !important;
+  }
+
+  .section:not(:last-of-type)::after {
+    background-image: none !important;
+    border-bottom: 1px dashed #999;
+  }
+
+  .day-card::before, .day-card::after {
+    display: none !important;
+  }
+
+  .nearest-badge, .save-flash {
+    display: none !important;
+  }
+
+  main { padding-bottom: 0; }
+
+  footer {
+    border-top: 1px solid #999;
+    color: #444 !important;
+  }
+}

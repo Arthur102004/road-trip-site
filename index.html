@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OKC ⇄ Vegas: Road Trip 2026</title>
+<meta name="description" content="OKC to Las Vegas round trip, Jul 30 - Aug 10 2026. Route, itinerary, charging stops, and Vegas on a budget." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-home">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links">
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>UWC-USA Reunion · Jul 30 - Aug 10, 2026</span></span>
+    <h1 class="poster">OKC ⇄ Las Vegas<br />Road Trip</h1>
+    <p style="max-width:560px;">5 friends, one electric Tesla Model Y, ~3,000 miles round trip through the desert Southwest and back through the Rockies.</p>
+    <div class="hero-meta">
+      <span class="pill pill-outbound">● Orange: outbound</span>
+      <span class="pill pill-vegas">● Magenta: Vegas</span>
+      <span class="pill pill-return">● Teal: return</span>
+    </div>
+
+    <div class="rules-banner">
+      <span><strong>Wake:</strong> 9:00 AM every driving day</span>
+      <span><strong>No pools:</strong> nobody swims</span>
+      <span><strong>Budget:</strong> keep it student-priced</span>
+    </div>
+
+    <div class="countdown-row">
+      <div class="countdown-card countdown-outbound">
+        <span class="countdown-num mono" id="countdown-departure-num">-</span>
+        <span class="countdown-label"><span id="countdown-departure-label">days until departure</span> <span class="countdown-date">· Jul 31</span></span>
+      </div>
+      <div class="countdown-card countdown-vegas">
+        <span class="countdown-num mono" id="countdown-vegas-num">-</span>
+        <span class="countdown-label"><span id="countdown-vegas-label">days until vegas</span> <span class="countdown-date">· Aug 3</span></span>
+      </div>
+    </div>
+
+    <div class="stat-band">
+      <div class="stat"><span class="num mono num-outbound">3,000</span><span class="label">miles round trip</span></div>
+      <div class="stat"><span class="num mono num-vegas">12</span><span class="label">days on the road</span></div>
+      <div class="stat"><span class="num mono num-return">5</span><span class="label">friends, 1 crew</span></div>
+      <div class="stat"><span class="num mono num-food">1</span><span class="label">tesla model y</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Trip at a Glance</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="card card-accent">
+          <h3 class="mono" style="text-transform:none;color:var(--text-faint);font-size:0.8rem;">Crew</h3>
+          <p style="color:var(--text);font-size:1.1rem;margin:0;">5 friends (students)</p>
+        </div>
+        <div class="card card-accent">
+          <h3 class="mono" style="text-transform:none;color:var(--text-faint);font-size:0.8rem;">Vehicle</h3>
+          <p style="color:var(--text);font-size:1.1rem;margin:0;">1 Tesla Model Y, electric, seats 5, round trip from OKC</p>
+        </div>
+        <div class="card card-accent">
+          <h3 class="mono" style="text-transform:none;color:var(--text-faint);font-size:0.8rem;">Distance</h3>
+          <p style="color:var(--text);font-size:1.1rem;margin:0;">~3,000 miles round trip</p>
+        </div>
+      </div>
+
+      <div class="card card-accent" style="margin-top:1.5rem;">
+        <h3>How everyone travels</h3>
+        <p class="mt-0">3 drive the whole loop out and back. 2 fly into Las Vegas on <strong style="color:var(--text)">Aug 3</strong> and ride home with the group. Everyone flies home out of <strong style="color:var(--text)">OKC on Aug 10</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Route Overview</h2>
+      </div>
+
+      <div class="card leg-outbound">
+        <span class="pill pill-outbound">Outbound</span>
+        <p class="route-line mt-0" style="margin-top:0.75rem;">
+          <span class="seg-outbound">OKC</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">Santa Rosa, NM</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">UWC Montezuma</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">Albuquerque</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">Phoenix</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">Hoover Dam</span>
+          <span class="arrow">→</span>
+          <span class="seg-outbound">Las Vegas</span>
+        </p>
+      </div>
+
+      <div class="card leg-return" style="margin-top:1rem;">
+        <span class="pill pill-return">Return: scenic, different states</span>
+        <p class="route-line mt-0" style="margin-top:0.75rem;">
+          <span class="seg-return">Las Vegas</span>
+          <span class="arrow">→</span>
+          <span class="seg-return">Grand Junction, CO</span>
+          <span class="arrow">→</span>
+          <span class="seg-return">Hays, KS</span>
+          <span class="arrow">→</span>
+          <span class="seg-return">OKC</span>
+        </p>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot dot-outbound"></span>Orange = on the road, outbound</span>
+        <span class="legend-item"><span class="legend-dot dot-vegas"></span>Pink/magenta = Las Vegas</span>
+        <span class="legend-item"><span class="legend-dot dot-return"></span>Teal = the scenic way home</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Crew &amp; Logistics</h2>
+      </div>
+      <div class="grid grid-2">
+        <div class="card leg-outbound">
+          <h3>Driving</h3>
+          <p><strong style="color:var(--text)">Out (Jul 31-Aug 3):</strong> 3 people in the Model Y.</p>
+          <p><strong style="color:var(--text)">Home (Aug 7-9):</strong> all 5 in the Model Y, which seats exactly 5.</p>
+        </div>
+        <div class="card leg-vegas">
+          <h3>Flying</h3>
+          <p><strong style="color:var(--text)">In:</strong> 2 friends land in Las Vegas on Aug 3 and join the house.</p>
+          <p><strong style="color:var(--text)">Home:</strong> everyone flies out of OKC on Aug 10.</p>
+        </div>
+        <div class="card card-accent">
+          <h3>Charging</h3>
+          <p>Electric car, so charge stops replace gas stops. Anchor charging in big cities so there's plenty to do during a 20-40 minute Supercharge. Full playbook on the <a href="charging.html">Charging Stops</a> page.</p>
+        </div>
+        <div class="card leg-vegas">
+          <h3>Lodging status</h3>
+          <p>Las Vegas is <strong style="color:var(--green)">booked</strong>: Airbnb "Modern 5B/3B, Near Strip," Aug 3-7. Hotel picks are set for the five stopover cities; OKC nights are still open. Track it on the <a href="info.html">Trip Info</a> page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Jump To</h2>
+      </div>
+      <div class="grid grid-3">
+        <a href="itinerary.html" class="card leg-outbound" style="display:block;">
+          <h3 class="mt-0">Day-by-Day</h3>
+          <p class="mt-0 small">All 12 days, mile by mile, with charging and eats.</p>
+        </a>
+        <a href="charging.html" class="card leg-vegas" style="display:block;">
+          <h3 class="mt-0">Charging Stops</h3>
+          <p class="mt-0 small">Every Supercharger city, Wingstop-first, plus the Tesla playbook.</p>
+        </a>
+        <a href="vegas.html" class="card leg-return" style="display:block;">
+          <h3 class="mt-0">Vegas on a Budget</h3>
+          <p class="mt-0 small">Free stuff, cheap stuff, and the group splurge vote.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/countdown.js"></script>
+</body>
+</html>

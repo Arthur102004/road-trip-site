@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Charging Stops: OKC ⇄ Vegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-charging">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html" aria-current="page">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>Tesla Model Y · Supercharge + Explore</span></span>
+    <h1 class="poster">Charging Stops</h1>
+    <p style="max-width:600px;">Anchor charging in big cities so there's plenty to do during a 20-40 minute Supercharge. Wingstop is called out at every stop that has one, both directions.</p>
+    <div class="locate-row">
+      <button class="btn btn-primary" id="locate-btn">📍 Track My Location</button>
+      <span class="locate-status mono" id="locate-status" aria-live="polite">Finds the closest charge stop below.</span>
+    </div>
+    <div class="btn-row no-print">
+      <button class="btn print-btn" id="print-btn">🖨️ Print this page</button>
+      <span class="locate-status mono">Signal drops in the desert, so print it or it'll auto-save offline below.</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Outbound</h2>
+      <span class="pill pill-outbound">OKC → Las Vegas</span>
+    </div>
+    <div class="grid grid-2">
+
+      <div class="card leg-outbound stop-card" data-lat="35.4676" data-lng="-97.5164">
+        <h3>Oklahoma City <span class="miles">start / finish</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Cattlemen's · Tucker's · Florence's.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Bricktown%2C%20Oklahoma%20City%2C%20OK" target="_blank" rel="noopener noreferrer">Bricktown</a>, <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Myriad%20Botanical%20Gardens%2C%20Oklahoma%20City%2C%20OK" target="_blank" rel="noopener noreferrer">Myriad Botanical Gardens</a>, <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=OKC%20National%20Memorial%2C%20Oklahoma%20City%2C%20OK" target="_blank" rel="noopener noreferrer">OKC National Memorial</a> (all free/cheap).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="35.2220" data-lng="-101.8313">
+        <h3>Amarillo, TX <span class="miles">lunch charge</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · The Big Texan.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Cadillac%20Ranch%2C%20Amarillo%2C%20TX" target="_blank" rel="noopener noreferrer">Cadillac Ranch</a> (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Palo%20Duro%20Canyon%2C%20Amarillo%2C%20TX" target="_blank" rel="noopener noreferrer">Palo Duro Canyon</a> ($8, 30 min south).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="34.9381" data-lng="-104.6819">
+        <h3>Santa Rosa, NM <span class="miles">quick top-up / overnight</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Joseph's Bar &amp; Grill.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Route%2066%20Auto%20Museum%2C%20Santa%20Rosa%2C%20NM" target="_blank" rel="noopener noreferrer">Route 66 Auto Museum</a> (~$5), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Blue%20Hole%2C%20Santa%20Rosa%2C%20NM" target="_blank" rel="noopener noreferrer">Blue Hole</a> (look, no swim, free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="35.5939" data-lng="-105.2239">
+        <h3>Las Vegas, NM <span class="miles">charge during campus visit</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Plaza restaurants.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=United%20World%20College%20USA%2C%20Montezuma%2C%20NM" target="_blank" rel="noopener noreferrer">UWC campus</a> (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Montezuma%20Hot%20Springs%2C%20Montezuma%2C%20NM" target="_blank" rel="noopener noreferrer">Montezuma Hot Springs</a> (free, shallow soak).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="35.0844" data-lng="-106.6504">
+        <h3>Albuquerque, NM <span class="miles">overnight charge</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Frontier · El Pinto · Green Jeans Food Hall.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Old%20Town%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Old Town</a> (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Sandia%20Peak%20Tramway%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Sandia Peak Tramway</a> ($29 student, sunset), Route 66 neon in <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Nob%20Hill%2C%20Albuquerque%2C%20NM" target="_blank" rel="noopener noreferrer">Nob Hill</a> (free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="35.1983" data-lng="-111.6513">
+        <h3>Flagstaff, AZ <span class="miles">coffee charge</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · downtown eats.</div>
+        <div class="stop-do"><span>Do</span>30° cooler than Phoenix. <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Historic%20Downtown%20Flagstaff%2C%20Flagstaff%2C%20AZ" target="_blank" rel="noopener noreferrer">Historic downtown</a>/Route 66 (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Meteor%20Crater%2C%20Winslow%2C%20AZ" target="_blank" rel="noopener noreferrer">Meteor Crater</a> (~$32, 35 min east), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Standin%27%20on%20the%20Corner%20Park%2C%20Winslow%2C%20AZ" target="_blank" rel="noopener noreferrer">Standin' on the Corner</a> in Winslow (free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="33.4484" data-lng="-112.0740">
+        <h3>Phoenix, AZ <span class="miles">overnight, park in shade</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Pizzeria Bianco · Little Miss BBQ.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Roosevelt%20Row%2C%20Phoenix%2C%20AZ" target="_blank" rel="noopener noreferrer">Roosevelt Row</a> murals after dark (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Mill%20Avenue%2C%20Tempe%2C%20AZ" target="_blank" rel="noopener noreferrer">Mill Avenue Tempe</a> (free), D-backs game at <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Chase%20Field%2C%20Phoenix%2C%20AZ" target="_blank" rel="noopener noreferrer">Chase Field</a> (from ~$15, AC stadium).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-outbound stop-card" data-lat="35.1894" data-lng="-114.0530">
+        <h3>Kingman, AZ <span class="miles">quick charge before Hoover Dam</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Mr. D'z Route 66 Diner.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hoover%20Dam" target="_blank" rel="noopener noreferrer">Hoover Dam</a> ahead ($10 parking), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Route%2066%20Museum%2C%20Kingman%2C%20AZ" target="_blank" rel="noopener noreferrer">Route 66 Museum</a> (~$10).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-vegas stop-card" data-lat="36.1699" data-lng="-115.1398">
+        <h3>Las Vegas, NV <span class="miles">home base</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Tacos El Gordo · Spring Mountain Rd (Chinatown) · Flavortown brunch.</div>
+        <div class="stop-do"><span>Do</span>Keep it charged for Aug 7. See <a href="vegas.html">Vegas on a Budget</a>.</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Return</h2>
+      <span class="pill pill-return">Las Vegas → OKC</span>
+    </div>
+    <div class="grid grid-2">
+
+      <div class="card leg-return stop-card" data-lat="37.0965" data-lng="-113.5684">
+        <h3>St. George, UT <span class="miles">first charge out of Vegas</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · downtown eats.</div>
+        <div class="stop-do"><span>Do</span>Red-cliff views along I-15 (free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-return stop-card" data-lat="39.0639" data-lng="-108.5506">
+        <h3>Grand Junction, CO <span class="miles">overnight charge</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Bin 707 Foodbar · Main Street.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Colorado%20National%20Monument%2C%20Grand%20Junction%2C%20CO" target="_blank" rel="noopener noreferrer">Colorado National Monument</a> drive ($25/car), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Downtown%20Grand%20Junction%2C%20Grand%20Junction%2C%20CO" target="_blank" rel="noopener noreferrer">downtown</a> (free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-return stop-card" data-lat="39.5744" data-lng="-106.0956">
+        <h3>Denver area, CO <span class="miles">Rockies-day charge</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Frisco Main Street.</div>
+        <div class="stop-do"><span>Do</span>Frisco/Silverthorne or metro. <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Glenwood%20Canyon%2C%20Glenwood%20Springs%2C%20CO" target="_blank" rel="noopener noreferrer">Glenwood Canyon</a> and <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Vail%20Pass%2C%20Vail%2C%20CO" target="_blank" rel="noopener noreferrer">Vail Pass</a> views (free), <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=16th%20Street%20Mall%2C%20Denver%2C%20CO" target="_blank" rel="noopener noreferrer">16th Street Denver</a> if detouring (free).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-return stop-card" data-lat="38.8792" data-lng="-99.3268">
+        <h3>Hays, KS <span class="miles">overnight</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Gella's Diner &amp; Lb. Brewing Co., the clear local favorite.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Historic%20Chestnut%20Street%20District%2C%20Hays%2C%20KS" target="_blank" rel="noopener noreferrer">Historic Chestnut Street district</a> (free). Next charges: Salina and Wichita.</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card leg-return stop-card" data-lat="37.6872" data-lng="-97.3301">
+        <h3>Wichita, KS <span class="miles">last charge before OKC</span> <span class="nearest-badge" hidden>📍 <span class="nearest-dist"></span> mi</span></h3>
+        <div class="stop-food"><span>Eat</span>Wingstop · Old Town eats.</div>
+        <div class="stop-do"><span>Do</span><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Keeper%20of%20the%20Plains%2C%20Wichita%2C%20KS" target="_blank" rel="noopener noreferrer">Keeper of the Plains</a> (free, fire lights at night).</div>
+        <div class="charge-timer" role="timer">
+          <span class="timer-display mono">25:00</span>
+          <div class="timer-controls">
+            <button class="btn timer-start">Start</button>
+            <button class="btn timer-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Fun Stops on the Drive Out</h2>
+      <span class="pill mono">costs + where</span>
+    </div>
+    <div class="grid grid-2">
+      <div class="card leg-outbound stop-card">
+        <h3>Pops 66 Soda Ranch <span class="miles">Arcadia, OK</span></h3>
+        <div class="stop-do"><span>Cost</span>Free. Giant neon soda bottle, 700+ sodas. Near OKC.</div>
+      </div>
+      <div class="card leg-outbound stop-card">
+        <h3>Meow Wolf: House of Eternal Return <span class="miles">Santa Fe, NM</span></h3>
+        <div class="stop-do"><span>Cost</span>~$45. Immersive art, ~1 hr from ABQ.</div>
+      </div>
+      <div class="card leg-outbound stop-card">
+        <h3>Montezuma Castle National Monument <span class="miles">Camp Verde, AZ</span></h3>
+        <div class="stop-do"><span>Cost</span>$10. 1,000-year-old cliff dwelling on I-17, a namesake echo of UWC Montezuma.</div>
+      </div>
+      <div class="card leg-outbound stop-card">
+        <h3>Sedona <span class="miles">~30 min off I-17</span></h3>
+        <div class="stop-do"><span>Cost</span>~$5 parking. Red-rock country and short hikes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Tesla Model Y Playbook</h2>
+      <span class="pill mono">safety &amp; charging</span>
+    </div>
+
+    <div class="card leg-spectrum" style="margin-bottom:1rem;">
+      <h3>Charging &amp; range</h3>
+      <p>Drive by the in-car Trip Planner: it routes you through Superchargers and warms the battery for fast charging before arrival. Back it up with A Better Routeplanner (ABRP) and PlugShare for live status. Charge to 100% the night before each big day and aim to reach each Supercharger with about 20% left. Loaded with five people, climbing mountains, and running AC, real range runs well under the dash estimate, so plan conservatively.</p>
+    </div>
+
+    <div class="card leg-spectrum" style="margin-bottom:1rem;">
+      <h3>Beating the desert heat</h3>
+      <p>Each morning while still plugged in, use Scheduled Departure to pre-cool the cabin on grid power, not the battery, so you leave full and cold. Keep Cabin Overheat Protection on when parked. Driving, keep windows up and climate on Auto. At stops, park and charge in shade; in extreme heat the car cools its battery before it will charge fast.</p>
+    </div>
+
+    <div class="card leg-spectrum" style="margin-bottom:1rem;">
+      <h3>Learn the car first</h3>
+      <p>It's a rental, so spend 20 minutes in a parking lot: door handles, drive/reverse, one-pedal regen braking, opening the charge port, plugging into a Supercharger. Set up phone keys for each driver and update the software before departure. Treat Autopilot as assistance only, hands on the wheel. Find the tire repair kit. There is no spare.</p>
+    </div>
+
+    <div class="card leg-spectrum" style="margin-bottom:1rem;">
+      <h3>On-road safety</h3>
+      <p>Swap drivers every 2-3 hours and never push through drowsiness. Seatbelts for all five, every leg. Carry more water than feels necessary (the desert is unforgiving if you break down), plus a first-aid kit, flashlight, and snacks. August is monsoon season in New Mexico and Arizona: watch for afternoon storms and never drive through a flooded wash. Download offline maps for dead-signal stretches.</p>
+    </div>
+
+    <div class="card leg-spectrum">
+      <h3>Build charging into the schedule</h3>
+      <p>Supercharger stops run 20-40 minutes versus five for gas, so fold them into meals and leg-stretches. It nudges arrival times later, especially on the long return days.</p>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/maps-link.js"></script>
+<script src="js/print.js"></script>
+<script src="js/charging.js"></script>
+</body>
+</html>
