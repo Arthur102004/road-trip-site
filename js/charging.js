@@ -46,6 +46,107 @@
     best.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  // ---------- nearby now: real food/things-to-do anywhere, via Overpass ----------
+
+  const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+  const RADIUS_METERS = 1609; // ~1 mile
+
+  const CATEGORY_LABELS = {
+    restaurant: "Restaurant",
+    cafe: "Cafe",
+    fast_food: "Fast Food",
+    ice_cream: "Ice Cream",
+    bar: "Bar",
+    pub: "Pub",
+    attraction: "Attraction",
+    museum: "Museum",
+    viewpoint: "Viewpoint",
+    artwork: "Artwork",
+    park: "Park",
+  };
+
+  function overpassQuery(lat, lon) {
+    return `[out:json][timeout:20];
+(
+  node["amenity"~"^(restaurant|cafe|fast_food|ice_cream|bar|pub)$"](around:${RADIUS_METERS},${lat},${lon});
+  node["tourism"~"^(attraction|museum|viewpoint|artwork)$"](around:${RADIUS_METERS},${lat},${lon});
+  node["leisure"="park"](around:${RADIUS_METERS},${lat},${lon});
+);
+out body 40;`;
+  }
+
+  function mapsDirectionsUrl(lat, lon) {
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+  }
+
+  function renderNearby(lat, lon, elements) {
+    const section = document.getElementById("nearby-section");
+    const list = document.getElementById("nearby-list");
+    const meta = document.getElementById("nearby-meta");
+    if (!section || !list) return;
+
+    const places = elements
+      .filter((el) => el.tags && el.tags.name)
+      .map((el) => {
+        const category = el.tags.amenity || el.tags.tourism || el.tags.leisure || "place";
+        return {
+          name: el.tags.name,
+          category: CATEGORY_LABELS[category] || category,
+          lat: el.lat,
+          lon: el.lon,
+          dist: haversineMiles(lat, lon, el.lat, el.lon),
+        };
+      })
+      .sort((a, b) => a.dist - b.dist)
+      .slice(0, 20);
+
+    list.innerHTML = "";
+
+    if (places.length === 0) {
+      section.hidden = false;
+      meta.textContent = "nothing found within 1 mi";
+      list.innerHTML = `<div class="card">Nothing turned up within a mile of you. Try again once you've moved, or check the planned stops below.</div>`;
+      return;
+    }
+
+    meta.textContent = `${places.length} within 1 mi`;
+    places.forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "card card-accent nearby-item";
+      card.innerHTML = `
+        <h3>${escapeHtmlLocal(p.name)} <span class="miles">${p.dist < 0.1 ? "<0.1" : p.dist.toFixed(1)} mi</span></h3>
+        <div class="stop-do"><span>${escapeHtmlLocal(p.category)}</span></div>
+        <a class="btn hotel-search-link" href="${mapsDirectionsUrl(p.lat, p.lon)}" target="_blank" rel="noopener noreferrer">Directions</a>
+      `;
+      list.appendChild(card);
+    });
+    section.hidden = false;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function escapeHtmlLocal(str) {
+    const div = document.createElement("div");
+    div.textContent = str ?? "";
+    return div.innerHTML;
+  }
+
+  function fetchNearby(lat, lon) {
+    return fetch(OVERPASS_URL, {
+      method: "POST",
+      body: "data=" + encodeURIComponent(overpassQuery(lat, lon)),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("bad response");
+        return res.json();
+      })
+      .then((data) => {
+        renderNearby(lat, lon, data.elements || []);
+      })
+      .catch(() => {
+        status.textContent = "Nearest planned stop is highlighted below. Couldn't reach the map data service for nearby places, check your connection and try again.";
+      });
+  }
+
   if (btn) {
     btn.addEventListener("click", () => {
       if (!("geolocation" in navigator)) {
@@ -61,8 +162,14 @@
         (pos) => {
           btn.disabled = false;
           btn.textContent = originalLabel;
-          highlightNearest(pos.coords.latitude, pos.coords.longitude);
-          status.textContent = "Nearest charge stop is highlighted below.";
+          const { latitude, longitude } = pos.coords;
+          highlightNearest(latitude, longitude);
+          status.textContent = "Nearest planned stop is highlighted below. Searching nearby for food and things to do…";
+          fetchNearby(latitude, longitude).then(() => {
+            if (status.textContent.includes("Searching nearby")) {
+              status.textContent = "Nearest planned stop is highlighted below, and nearby places are listed above.";
+            }
+          });
         },
         (err) => {
           btn.disabled = false;

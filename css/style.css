@@ -537,12 +537,26 @@ main {
   gap: 0.5rem 0.6rem;
 }
 
-.stop-card .miles {
+.stop-card .miles,
+.nearby-item .miles {
   font-family: var(--font-mono);
   color: var(--text-faint);
   font-size: 0.8rem;
   font-weight: normal;
   text-transform: none;
+}
+
+/* ---------- nearby now (charging) ---------- */
+
+.nearby-item h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+.nearby-item .stop-do {
+  margin-bottom: 0.9rem;
 }
 
 .stop-food, .stop-do {
@@ -1351,6 +1365,7 @@ footer .wrap {
   .page-loader,
   .nav-toggle,
   .locate-row,
+  .nearby-section,
   .hero .btn-row,
   .charge-timer,
   .mic-btn,

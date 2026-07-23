@@ -34,7 +34,7 @@
     <p style="max-width:600px;">Anchor charging in big cities so there's plenty to do during a 20-40 minute Supercharge. Wingstop is called out at every stop that has one, both directions.</p>
     <div class="locate-row">
       <button class="btn btn-primary" id="locate-btn">📍 Track My Location</button>
-      <span class="locate-status mono" id="locate-status" aria-live="polite">Finds the closest charge stop below.</span>
+      <span class="locate-status mono" id="locate-status" aria-live="polite">Finds the closest planned stop, plus real food and things to do near you right now, wherever you are.</span>
     </div>
     <div class="btn-row no-print">
       <button class="btn print-btn" id="print-btn">🖨️ Print this page</button>
@@ -46,7 +46,15 @@
 <main>
 <div class="wrap" style="padding-top:2rem;">
 
-  <div class="section" style="padding-top:0;">
+  <div class="section nearby-section" id="nearby-section" style="padding-top:0;" hidden>
+    <div class="section-head">
+      <h2>Nearby Now</h2>
+      <span class="pill mono" id="nearby-meta"></span>
+    </div>
+    <div class="grid grid-2" id="nearby-list"></div>
+  </div>
+
+  <div class="section" id="outbound-section">
     <div class="section-head">
       <h2>Outbound</h2>
       <span class="pill pill-outbound">OKC → Las Vegas</span>
