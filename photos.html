@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Photo Wall: OKC ⇄ Vegas</title>
+<meta name="description" content="A photo spot for each day of the OKC to Las Vegas road trip, plus a link to the shared album." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<script>(function(){try{if(localStorage.getItem("roadtrip-sunlight-mode")==="1")document.documentElement.classList.add("sunlight-mode");}catch(e){}})();</script>
+</head>
+<body class="page-photos">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+      <li><a href="expenses.html">Expenses</a></li>
+      <li><a href="photos.html" aria-current="page">Photos</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>One Spot Per Day</span></span>
+    <h1 class="poster">Photo Wall</h1>
+    <p style="max-width:600px;">A tile for each day of the trip. Paste a direct photo link to fill one in, or just lean on the shared album below for now.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Shared Album</h2>
+    </div>
+    <div class="card card-accent">
+      <label class="estimate-field">
+        <span>Shared Google Photos album link</span>
+        <input type="text" id="album-url" placeholder="https://photos.app.goo.gl/..." />
+      </label>
+      <div class="btn-row mt-0">
+        <a class="btn btn-primary" id="album-open-btn" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Open shared album</a>
+        <span class="small mono" id="album-status"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Day by Day</h2>
+    </div>
+    <div class="grid grid-3" id="photo-grid"></div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 31 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/accessibility.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/trip-data.js"></script>
+<script src="js/photos.js"></script>
+</body>
+</html>

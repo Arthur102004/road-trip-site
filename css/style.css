@@ -47,6 +47,7 @@ body.page-charging { --page-accent: var(--gold);    --page-accent-dim: var(--gol
 body.page-vegas    { --page-accent: var(--magenta); --page-accent-dim: var(--magenta-dim); }
 body.page-info     { --page-accent: var(--teal);    --page-accent-dim: var(--teal-dim); }
 body.page-expenses { --page-accent: var(--green);   --page-accent-dim: var(--green-dim); }
+body.page-photos   { --page-accent: var(--magenta); --page-accent-dim: var(--magenta-dim); }
 
 * {
   box-sizing: border-box;
@@ -758,6 +759,121 @@ a.map-link:hover {
   min-width: 44px;
   padding: 0.5em 0.6em;
 }
+
+/* ---------- driving rotation (charging) ---------- */
+
+#rotation-section .card.rotation-warn {
+  border-color: var(--gold);
+  box-shadow: var(--shadow), 0 0 0 2px var(--gold);
+}
+
+#rotation-section .card.rotation-overdue {
+  border-color: var(--orange);
+  box-shadow: var(--shadow), 0 0 0 2px var(--orange), 0 0 28px -6px var(--orange);
+}
+
+.rotation-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+.roster-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.roster-item.is-current .roster-name-input {
+  border-color: var(--page-accent);
+  color: var(--page-accent);
+}
+
+.roster-name-input {
+  flex: 1;
+  min-width: 8ch;
+  min-height: 44px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 0.5em 0.8em;
+}
+
+.roster-name-input:focus { outline: 1px solid var(--page-accent); }
+
+.roster-select-btn {
+  min-height: 44px;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.roster-select-btn:disabled {
+  color: var(--green);
+  border-color: var(--green-dim);
+  cursor: default;
+}
+
+/* ---------- photo wall ---------- */
+
+.photo-tile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.photo-slot {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-raised);
+  border: 1px dashed var(--border);
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.photo-placeholder:hover {
+  color: var(--page-accent);
+  text-decoration: none;
+}
+
+.photo-url-input {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.75rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.8rem;
+  padding: 0.5em 0.7em;
+}
+
+.photo-url-input:focus { outline: 1px solid var(--page-accent); }
 
 /* ---------- budget list (vegas) ---------- */
 
@@ -1695,6 +1811,7 @@ html.sunlight-mode .site-nav {
   .weather-strip,
   .today-card,
   .sunlight-toggle,
+  #rotation-section,
   .hero .btn-row,
   .charge-timer,
   .mic-btn,
