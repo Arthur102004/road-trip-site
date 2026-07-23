@@ -1,4 +1,4 @@
-const CACHE_NAME = "roadtrip-cache-v4";
+const CACHE_NAME = "roadtrip-cache-v5";
 
 const PRECACHE_URLS = [
   "index.html",

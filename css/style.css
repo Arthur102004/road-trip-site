@@ -1112,6 +1112,25 @@ td[contenteditable="true"]:hover {
   margin: 0.5rem 0 0;
 }
 
+/* ---------- emergency card (trip info) ---------- */
+
+.hospital-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hospital-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.hospital-list li:first-child { border-top: none; }
+
 /* ---------- buttons ---------- */
 
 .btn {
@@ -1725,5 +1744,18 @@ html.sunlight-mode .site-nav {
   footer {
     border-top: 1px solid #999;
     color: #444 !important;
+  }
+
+  /* scoped print: "Print emergency card" hides everything else so it lands
+     on its own one-page printout instead of the whole Trip Info page */
+  body.printing-emergency-only .section:not(#emergency-section),
+  body.printing-emergency-only header.hero,
+  body.printing-emergency-only footer {
+    display: none !important;
+  }
+
+  body.printing-emergency-only #emergency-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

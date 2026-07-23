@@ -319,6 +319,70 @@
     </div>
   </div>
 
+  <div class="section" id="emergency-section">
+    <div class="section-head">
+      <h2>🚨 Emergency Card</h2>
+      <button class="btn no-print" id="print-emergency-btn">🖨️ Print emergency card</button>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <h3 class="mt-0">Roadside &amp; Rental</h3>
+      <div class="estimate-grid">
+        <label class="estimate-field">
+          <span>Roadside assistance number</span>
+          <input type="text" id="em-roadside" placeholder="e.g. 1-800-xxx-xxxx" />
+        </label>
+        <label class="estimate-field">
+          <span>Rental company</span>
+          <input type="text" id="em-rental-company" placeholder="e.g. Hertz OKC" />
+        </label>
+        <label class="estimate-field">
+          <span>Reservation number</span>
+          <input type="text" id="em-reservation" placeholder="reservation #" />
+        </label>
+      </div>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <h3 class="mt-0">Insurance</h3>
+      <div class="estimate-grid">
+        <label class="estimate-field">
+          <span>Provider</span>
+          <input type="text" id="em-ins-provider" placeholder="e.g. State Farm" />
+        </label>
+        <label class="estimate-field">
+          <span>Policy #</span>
+          <input type="text" id="em-ins-policy" placeholder="policy #" />
+        </label>
+        <label class="estimate-field">
+          <span>Claims phone</span>
+          <input type="text" id="em-ins-phone" placeholder="1-800-xxx-xxxx" />
+        </label>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem; overflow-x:auto;">
+      <h3 class="mt-0">Crew Contacts</h3>
+      <table id="emergency-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Emergency contact</th>
+            <th>Contact's phone</th>
+          </tr>
+        </thead>
+        <tbody id="emergency-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 class="mt-0">Nearest Hospitals Along the Route</h3>
+      <p class="small mt-0">Live Maps search per stop rather than a named facility — hospitals close, move, and change hours, and a wrong name here is worse than no name.</p>
+      <ul class="hospital-list" id="hospital-list"></ul>
+    </div>
+  </div>
+
   <div class="section">
     <div class="section-head">
       <h2>Notes</h2>

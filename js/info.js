@@ -40,6 +40,21 @@
       { id: 8, text: "Prep the car day one: charge to 100%, learn the controls, load the Trip Planner.", done: false },
     ],
     notes: "",
+    emergency: {
+      roadside: "",
+      rentalCompany: "",
+      reservation: "",
+      insuranceProvider: "",
+      insurancePolicy: "",
+      insurancePhone: "",
+      contacts: [
+        { name: "Arthur", phone: "", emergencyName: "", emergencyPhone: "" },
+        { name: "Driver 1", phone: "", emergencyName: "", emergencyPhone: "" },
+        { name: "Driver 2", phone: "", emergencyName: "", emergencyPhone: "" },
+        { name: "Flyer 1", phone: "", emergencyName: "", emergencyPhone: "" },
+        { name: "Flyer 2", phone: "", emergencyName: "", emergencyPhone: "" },
+      ],
+    },
   };
 
   function loadData() {
@@ -50,12 +65,18 @@
       const flights = (parsed.flights ?? structuredCloneish(DEFAULTS.flights)).map((f) => ({ leg: "outbound", ...f }));
       const stays = (parsed.stays ?? structuredCloneish(DEFAULTS.stays)).map((s) => ({ leg: "outbound", ...s }));
       const hotelClaims = { ...structuredCloneish(DEFAULTS.hotelClaims), ...(parsed.hotelClaims ?? {}) };
+      const emergency = {
+        ...structuredCloneish(DEFAULTS.emergency),
+        ...(parsed.emergency ?? {}),
+        contacts: (parsed.emergency && parsed.emergency.contacts) || structuredCloneish(DEFAULTS.emergency.contacts),
+      };
       return {
         flights,
         stays,
         hotelClaims,
         checklist: parsed.checklist ?? structuredCloneish(DEFAULTS.checklist),
         notes: parsed.notes ?? "",
+        emergency,
       };
     } catch (e) {
       return structuredCloneish(DEFAULTS);
@@ -453,6 +474,89 @@
     });
   }
 
+  // ---------- emergency card ----------
+
+  const EMERGENCY_FIELD_IDS = {
+    roadside: "em-roadside",
+    rentalCompany: "em-rental-company",
+    reservation: "em-reservation",
+    insuranceProvider: "em-ins-provider",
+    insurancePolicy: "em-ins-policy",
+    insurancePhone: "em-ins-phone",
+  };
+
+  // hospitals close, move, and change hours — a live Maps search per overnight
+  // city is safer than a named facility we can't keep current or verify
+  const HOSPITAL_CITIES = [
+    "Oklahoma City, OK",
+    "Santa Rosa, NM",
+    "Albuquerque, NM",
+    "Phoenix, AZ",
+    "Las Vegas, NV",
+    "Grand Junction, CO",
+    "Hays, KS",
+  ];
+
+  function renderEmergencyFields() {
+    Object.entries(EMERGENCY_FIELD_IDS).forEach(([field, id]) => {
+      const input = document.getElementById(id);
+      if (!input) return;
+      input.value = data.emergency[field] || "";
+      input.addEventListener("input", () => {
+        data.emergency[field] = input.value;
+        scheduleSave();
+      });
+    });
+  }
+
+  function renderEmergencyContacts() {
+    const body = document.getElementById("emergency-body");
+    if (!body) return;
+    body.innerHTML = "";
+    data.emergency.contacts.forEach((c, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td contenteditable="true" data-field="name">${escapeHtml(c.name)}</td>
+        <td contenteditable="true" data-field="phone">${escapeHtml(c.phone)}</td>
+        <td contenteditable="true" data-field="emergencyName">${escapeHtml(c.emergencyName)}</td>
+        <td contenteditable="true" data-field="emergencyPhone">${escapeHtml(c.emergencyPhone)}</td>
+      `;
+      tr.querySelectorAll("td[contenteditable]").forEach((td) => {
+        td.addEventListener("input", () => {
+          data.emergency.contacts[i][td.dataset.field] = td.textContent;
+          scheduleSave();
+        });
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  function renderHospitalList() {
+    const list = document.getElementById("hospital-list");
+    if (!list) return;
+    list.innerHTML = HOSPITAL_CITIES.map((city) => {
+      const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`hospital near ${city}`);
+      return `
+        <li>
+          <span>${escapeHtml(city)}</span>
+          <a class="btn hotel-search-link" href="${url}" target="_blank" rel="noopener noreferrer">Nearest hospital</a>
+        </li>
+      `;
+    }).join("");
+  }
+
+  function initEmergencyPrint() {
+    const btn = document.getElementById("print-emergency-btn");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      document.body.classList.add("printing-emergency-only");
+      window.print();
+    });
+    window.addEventListener("afterprint", () => {
+      document.body.classList.remove("printing-emergency-only");
+    });
+  }
+
   // ---------- controls ----------
 
   function renderAll() {
@@ -461,11 +565,15 @@
     renderHotelClaims();
     renderChecklist();
     renderNotes();
+    renderEmergencyFields();
+    renderEmergencyContacts();
+    renderHospitalList();
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     renderAll();
     initEmailExtract();
+    initEmergencyPrint();
 
     document.getElementById("save-btn").addEventListener("click", persist);
 
