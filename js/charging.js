@@ -48,8 +48,20 @@
 
   // ---------- nearby now: real food/things-to-do anywhere, via Overpass ----------
 
-  const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
-  const RADIUS_METERS = 1609; // ~1 mile
+  // public Overpass mirrors, tried in order — the primary instance rate-limits
+  // and times out under load, so a lone endpoint makes wider-radius queries flaky
+  const OVERPASS_ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.osm.ch/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
+  ];
+  const OVERPASS_TIMEOUT_MS = 10000;
+  const METERS_PER_MILE = 1609;
+  const DEFAULT_RADIUS_MILES = 1;
+
+  let currentRadiusMiles = DEFAULT_RADIUS_MILES;
+  let lastCoords = null; // { lat, lon } from the most recent successful locate
+  const nearbyCache = new Map(); // "lat,lon,radius" -> elements[], avoids re-hitting Overpass for a radius already fetched this session
 
   const CATEGORY_LABELS = {
     restaurant: "Restaurant",
@@ -65,25 +77,36 @@
     park: "Park",
   };
 
-  function overpassQuery(lat, lon) {
-    return `[out:json][timeout:20];
+  function overpassQuery(lat, lon, radiusMiles) {
+    const radiusMeters = Math.round(radiusMiles * METERS_PER_MILE);
+    // Overpass truncates "out body N" by its own internal order, not by distance,
+    // so a wider radius needs a bigger raw fetch or nearby results can get starved
+    const fetchLimit = radiusMiles <= 1 ? 60 : radiusMiles <= 3 ? 100 : radiusMiles <= 5 ? 140 : 200;
+    console.log(`[nearby] querying Overpass: radius=${radiusMiles}mi (${radiusMeters}m), limit=${fetchLimit}`);
+    return `[out:json][timeout:25];
 (
-  node["amenity"~"^(restaurant|cafe|fast_food|ice_cream|bar|pub)$"](around:${RADIUS_METERS},${lat},${lon});
-  node["tourism"~"^(attraction|museum|viewpoint|artwork)$"](around:${RADIUS_METERS},${lat},${lon});
-  node["leisure"="park"](around:${RADIUS_METERS},${lat},${lon});
+  node["amenity"~"^(restaurant|cafe|fast_food|ice_cream|bar|pub)$"](around:${radiusMeters},${lat},${lon});
+  node["tourism"~"^(attraction|museum|viewpoint|artwork)$"](around:${radiusMeters},${lat},${lon});
+  node["leisure"="park"](around:${radiusMeters},${lat},${lon});
 );
-out body 40;`;
+out body ${fetchLimit};`;
   }
 
   function mapsDirectionsUrl(lat, lon) {
     return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
   }
 
-  function renderNearby(lat, lon, elements) {
+  function renderNearby(lat, lon, elements, radiusMiles) {
     const section = document.getElementById("nearby-section");
     const list = document.getElementById("nearby-list");
     const meta = document.getElementById("nearby-meta");
     if (!section || !list) return;
+
+    const seenNames = new Set();
+    // cap grows with radius — a fixed top-20-by-distance cap meant widening the
+    // search radius pulled in more Overpass data but never changed what was displayed,
+    // since the nearest 20 within 1 mi still won on distance at every wider radius too
+    const displayLimit = radiusMiles <= 1 ? 15 : radiusMiles <= 3 ? 25 : radiusMiles <= 5 ? 35 : 50;
 
     const places = elements
       .filter((el) => el.tags && el.tags.name)
@@ -98,18 +121,24 @@ out body 40;`;
         };
       })
       .sort((a, b) => a.dist - b.dist)
-      .slice(0, 20);
+      .filter((p) => {
+        const key = p.name.toLowerCase();
+        if (seenNames.has(key)) return false;
+        seenNames.add(key);
+        return true;
+      })
+      .slice(0, displayLimit);
 
     list.innerHTML = "";
 
     if (places.length === 0) {
       section.hidden = false;
-      meta.textContent = "nothing found within 1 mi";
-      list.innerHTML = `<div class="card">Nothing turned up within a mile of you. Try again once you've moved, or check the planned stops below.</div>`;
+      meta.textContent = `nothing found within ${radiusMiles} mi`;
+      list.innerHTML = `<div class="card">Nothing turned up within ${radiusMiles} mi of you. Try a wider radius above, or check the planned stops below.</div>`;
       return;
     }
 
-    meta.textContent = `${places.length} within 1 mi`;
+    meta.textContent = `${places.length} within ${radiusMiles} mi`;
     places.forEach((p) => {
       const card = document.createElement("div");
       card.className = "card card-accent nearby-item";
@@ -130,22 +159,81 @@ out body 40;`;
     return div.innerHTML;
   }
 
-  function fetchNearby(lat, lon) {
-    return fetch(OVERPASS_URL, {
-      method: "POST",
-      body: "data=" + encodeURIComponent(overpassQuery(lat, lon)),
-    })
+  function fetchOverpassOnce(url, body) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), OVERPASS_TIMEOUT_MS);
+    return fetch(url, { method: "POST", body, signal: controller.signal })
       .then((res) => {
-        if (!res.ok) throw new Error("bad response");
+        if (!res.ok) throw new Error(`bad response: ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        renderNearby(lat, lon, data.elements || []);
+        // Overpass sometimes answers 200 with a "remark" (soft timeout/overload)
+        // and an empty/truncated elements array instead of a proper error status —
+        // treat that as a failed attempt so it falls over to the next mirror instead
+        // of rendering as a legitimate "nothing nearby" result
+        if (data.remark && (!data.elements || data.elements.length === 0)) {
+          throw new Error(`overpass remark: ${data.remark}`);
+        }
+        console.log(`[nearby] ${url} returned ${data.elements ? data.elements.length : 0} raw elements`);
+        return data;
+      })
+      .finally(() => clearTimeout(timer));
+  }
+
+  async function fetchOverpassWithFallback(body) {
+    let lastErr;
+    for (const url of OVERPASS_ENDPOINTS) {
+      try {
+        return await fetchOverpassOnce(url, body);
+      } catch (err) {
+        console.log(`[nearby] ${url} failed: ${err.message}`);
+        lastErr = err;
+      }
+    }
+    throw lastErr;
+  }
+
+  function fetchNearby(lat, lon, radiusMiles) {
+    const meta = document.getElementById("nearby-meta");
+    const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)},${radiusMiles}`;
+
+    if (nearbyCache.has(cacheKey)) {
+      console.log(`[nearby] cache hit for ${cacheKey}, skipping Overpass call`);
+      renderNearby(lat, lon, nearbyCache.get(cacheKey), radiusMiles);
+      return Promise.resolve();
+    }
+    console.log(`[nearby] cache miss for ${cacheKey}, calling Overpass`);
+
+    const body = "data=" + encodeURIComponent(overpassQuery(lat, lon, radiusMiles));
+    return fetchOverpassWithFallback(body)
+      .then((data) => {
+        const elements = data.elements || [];
+        nearbyCache.set(cacheKey, elements);
+        renderNearby(lat, lon, elements, radiusMiles);
       })
       .catch(() => {
         status.textContent = "Nearest planned stop is highlighted below. Couldn't reach the map data service for nearby places, check your connection and try again.";
+        if (meta) meta.textContent = `couldn't load ${radiusMiles} mi — the map data service may be rate-limited, try again shortly`;
       });
   }
+
+  const radiusButtons = Array.from(document.querySelectorAll(".radius-btn"));
+
+  radiusButtons.forEach((rBtn) => {
+    rBtn.addEventListener("click", () => {
+      const miles = parseFloat(rBtn.dataset.radius);
+      if (miles === currentRadiusMiles) return;
+      currentRadiusMiles = miles;
+      radiusButtons.forEach((b) => b.setAttribute("aria-pressed", String(b === rBtn)));
+
+      if (lastCoords) {
+        const meta = document.getElementById("nearby-meta");
+        if (meta) meta.textContent = `searching within ${miles} mi…`;
+        fetchNearby(lastCoords.lat, lastCoords.lon, currentRadiusMiles);
+      }
+    });
+  });
 
   if (btn) {
     btn.addEventListener("click", () => {
@@ -163,9 +251,10 @@ out body 40;`;
           btn.disabled = false;
           btn.textContent = originalLabel;
           const { latitude, longitude } = pos.coords;
+          lastCoords = { lat: latitude, lon: longitude };
           highlightNearest(latitude, longitude);
           status.textContent = "Nearest planned stop is highlighted below. Searching nearby for food and things to do…";
-          fetchNearby(latitude, longitude).then(() => {
+          fetchNearby(latitude, longitude, currentRadiusMiles).then(() => {
             if (status.textContent.includes("Searching nearby")) {
               status.textContent = "Nearest planned stop is highlighted below, and nearby places are listed above.";
             }
