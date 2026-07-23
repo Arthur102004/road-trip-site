@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expenses: OKC ⇄ Vegas</title>
+<meta name="description" content="Shared trip expense tracker for the OKC to Las Vegas road trip: who paid, running total, per-person split, and settle-up." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<script>(function(){try{if(localStorage.getItem("roadtrip-sunlight-mode")==="1")document.documentElement.classList.add("sunlight-mode");}catch(e){}})();</script>
+</head>
+<body class="page-expenses">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+      <li><a href="expenses.html" aria-current="page">Expenses</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>Editable · Saves on This Device</span></span>
+    <h1 class="poster">Trip Expenses</h1>
+    <p style="max-width:600px;">Who paid, what for, and who it splits between. Running total, per-person balance, and a settle-up view that minimizes how many payments actually have to happen.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="save-btn">Save now</button>
+      <button class="btn" id="reset-btn">Reset to defaults</button>
+      <span class="save-flash mono" id="save-flash">saved ✓</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Projected Charging Cost</h2>
+    </div>
+    <div class="card card-accent">
+      <p class="small mt-0">Budget estimate for the full round trip, before any real charging receipts come in. Tune the assumptions if you know the car's actual efficiency.</p>
+      <div class="estimate-grid">
+        <label class="estimate-field">
+          <span>Total miles</span>
+          <input type="number" id="est-miles" min="0" step="1" />
+        </label>
+        <label class="estimate-field">
+          <span>kWh / mile</span>
+          <input type="number" id="est-kwh-per-mile" min="0" step="0.01" />
+        </label>
+        <label class="estimate-field">
+          <span>$ / kWh</span>
+          <input type="number" id="est-rate" min="0" step="0.01" />
+        </label>
+      </div>
+      <div class="estimate-result">
+        <div>
+          <span class="estimate-result-label">Projected energy</span>
+          <span class="estimate-result-num mono" id="est-kwh-total">0 kWh</span>
+        </div>
+        <div>
+          <span class="estimate-result-label">Projected cost</span>
+          <span class="estimate-result-num mono" id="est-cost-total">$0</span>
+        </div>
+        <button class="btn" id="est-add-btn">+ Add to expenses</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Crew &amp; Venmo</h2>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="people-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Venmo handle</th>
+          </tr>
+        </thead>
+        <tbody id="people-body"></tbody>
+      </table>
+    </div>
+    <p class="small">Add each person's Venmo username (without the @) to make the settle-up buttons below link straight to a pre-filled payment.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Add Expense</h2>
+    </div>
+    <div class="card">
+      <div class="expense-form">
+        <label class="estimate-field">
+          <span>What for</span>
+          <input type="text" id="exp-description" placeholder="e.g. Supercharging in Amarillo" />
+        </label>
+        <label class="estimate-field">
+          <span>Amount ($)</span>
+          <input type="number" id="exp-amount" min="0" step="0.01" placeholder="0.00" />
+        </label>
+        <label class="estimate-field">
+          <span>Paid by</span>
+          <select id="exp-paid-by"></select>
+        </label>
+        <label class="estimate-field">
+          <span>Category</span>
+          <select id="exp-category">
+            <option value="Charging">Charging</option>
+            <option value="Lodging">Lodging</option>
+            <option value="Food">Food</option>
+            <option value="Tolls">Tolls</option>
+            <option value="Activities">Activities</option>
+          </select>
+        </label>
+      </div>
+      <div class="expense-split-row">
+        <span class="small mono">Split between:</span>
+        <div class="expense-split-checks" id="exp-split-checks"></div>
+      </div>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary" id="exp-add-btn">+ Add expense</button>
+        <span class="small mono" id="exp-form-status" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>All Expenses</h2>
+      <span class="pill mono" id="expense-count"></span>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="expenses-table">
+        <thead>
+          <tr>
+            <th>What for</th>
+            <th>Category</th>
+            <th>Paid by</th>
+            <th>Split</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="expenses-body"></tbody>
+      </table>
+      <p class="small" id="expenses-empty">No expenses logged yet — add the first one above.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Totals</h2>
+      <span class="pill pill-charging mono" id="running-total">$0 total</span>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="totals-table">
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Paid</th>
+            <th>Share owed</th>
+            <th>Net</th>
+          </tr>
+        </thead>
+        <tbody id="totals-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Settle Up</h2>
+    </div>
+    <div class="card" id="settle-card">
+      <div id="settle-list"></div>
+    </div>
+    <p class="small">Uses the fewest possible transfers to bring every balance to zero — not necessarily "who paid whom" in the order it happened.</p>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Jul 31 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>Source: road-trip-content.md</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/accessibility.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/expenses.js"></script>
+</body>
+</html>
