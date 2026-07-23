@@ -280,12 +280,26 @@ out body ${fetchLimit};`;
     return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
   }
 
+  // maps-link.js (loaded earlier) replaces a stop-card h3's leading text node
+  // with an <a> for real stops, so the city name has to be read from whichever
+  // of those two shapes is currently present, not assumed to be one or the other
+  function extractCityName(h3) {
+    if (!h3) return "this stop";
+    const link = h3.querySelector("a");
+    if (link) return link.textContent.trim();
+    const firstText = Array.from(h3.childNodes).find((n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+    return firstText ? firstText.textContent.trim() : h3.textContent.trim();
+  }
+
   document.querySelectorAll(".charge-timer").forEach((el) => {
     let remaining = DURATION;
     let intervalId = null;
     const display = el.querySelector(".timer-display");
     const startBtn = el.querySelector(".timer-start");
     const resetBtn = el.querySelector(".timer-reset");
+    const cityName = extractCityName(el.closest(".stop-card")?.querySelector("h3"));
+
+    resetBtn.setAttribute("aria-label", `Reset charge timer for ${cityName}`);
 
     function render() {
       display.textContent = formatTime(remaining);
@@ -299,6 +313,7 @@ out body ${fetchLimit};`;
       el.classList.add("is-done");
       display.textContent = "Charged ✓";
       startBtn.textContent = "Start";
+      startBtn.setAttribute("aria-label", `Restart charge timer for ${cityName}`);
     }
 
     function tick() {
@@ -315,6 +330,7 @@ out body ${fetchLimit};`;
       el.classList.add("is-running");
       intervalId = setInterval(tick, 1000);
       startBtn.textContent = "Pause";
+      startBtn.setAttribute("aria-label", `Pause charge timer for ${cityName}`);
     }
 
     function pause() {
@@ -322,6 +338,7 @@ out body ${fetchLimit};`;
       intervalId = null;
       el.classList.remove("is-running");
       startBtn.textContent = "Start";
+      startBtn.setAttribute("aria-label", `Start charge timer for ${cityName}`);
     }
 
     startBtn.addEventListener("click", () => {
@@ -339,6 +356,7 @@ out body ${fetchLimit};`;
       render();
     });
 
+    startBtn.setAttribute("aria-label", `Start charge timer for ${cityName}`);
     render();
   });
 })();

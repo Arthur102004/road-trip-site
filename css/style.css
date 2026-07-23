@@ -11,7 +11,7 @@
 
   --text: #f2f1ee;
   --text-dim: #a6a9b2;
-  --text-faint: #6d7078;
+  --text-faint: #8b8e97; /* brightened from #6d7078 — the original failed WCAG AA (~3.6:1) at the small sizes it's used at */
 
   --orange: #f0713a;   /* outbound */
   --magenta: #f0439b;  /* vegas */
@@ -19,11 +19,13 @@
   --gold: #e8b84b;     /* food / wingstop */
   --green: #4cc57e;    /* free */
 
-  --orange-dim: #4a2c1c;
-  --magenta-dim: #4a1c37;
-  --teal-dim: #12362f;
-  --gold-dim: #453416;
-  --green-dim: #163a25;
+  /* darkened ~15% from the original dim tokens so pill/badge text (accent color
+     on -dim background) clears 4.5:1 instead of sitting borderline at ~4.2-4.4 */
+  --orange-dim: #3f2518;
+  --magenta-dim: #3f182f;
+  --teal-dim: #0f2e28;
+  --gold-dim: #3b2c13;
+  --green-dim: #132f1f;
 
   --radius: 14px;
   --radius-sm: 8px;
@@ -44,6 +46,7 @@ body.page-itinerary{ --page-accent: var(--orange);  --page-accent-dim: var(--ora
 body.page-charging { --page-accent: var(--gold);    --page-accent-dim: var(--gold-dim); }
 body.page-vegas    { --page-accent: var(--magenta); --page-accent-dim: var(--magenta-dim); }
 body.page-info     { --page-accent: var(--teal);    --page-accent-dim: var(--teal-dim); }
+body.page-expenses { --page-accent: var(--green);   --page-accent-dim: var(--green-dim); }
 
 * {
   box-sizing: border-box;
@@ -239,6 +242,33 @@ main {
   margin: -0.4em -0.9em;
 }
 
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.sunlight-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sunlight-toggle[aria-pressed="true"] {
+  background: var(--page-accent);
+  border-color: var(--page-accent);
+}
+
 .nav-toggle {
   display: none;
   background: none;
@@ -359,6 +389,10 @@ main {
 .pill-return   { color: var(--teal); border-color: var(--teal-dim); background: var(--teal-dim); }
 .pill-food     { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-dim); }
 .pill-free     { color: var(--green); border-color: var(--green-dim); background: var(--green-dim); }
+.pill-charging   { color: var(--teal); border-color: var(--teal-dim); background: var(--teal-dim); }
+.pill-lodging    { color: var(--magenta); border-color: var(--magenta-dim); background: var(--magenta-dim); }
+.pill-tolls      { color: var(--orange); border-color: var(--orange-dim); background: var(--orange-dim); }
+.pill-activities { color: var(--green); border-color: var(--green-dim); background: var(--green-dim); }
 
 /* ---------- cards ---------- */
 
@@ -596,7 +630,7 @@ a.map-link:hover {
 }
 
 .radius-btn {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0.45em 0.9em;
   font-size: 0.72rem;
 }
@@ -681,7 +715,7 @@ a.map-link:hover {
 }
 
 .timer-controls .btn {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0.5em 0.9em;
   font-size: 0.72rem;
 }
@@ -858,9 +892,9 @@ td[contenteditable="true"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  min-height: 36px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
   padding: 0;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -934,7 +968,7 @@ td[contenteditable="true"]:hover {
 .status-select {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  min-height: 40px;
+  min-height: 44px;
   background: var(--bg-raised);
   color: var(--text);
   border: 1px solid var(--border);
@@ -994,6 +1028,7 @@ td[contenteditable="true"]:hover {
 
 .claim-name-input {
   width: 100%;
+  min-height: 44px;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -1003,6 +1038,20 @@ td[contenteditable="true"]:hover {
 }
 
 .claim-name-input:focus { outline: 1px solid var(--green); }
+
+.venmo-input {
+  width: 100%;
+  min-height: 44px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.6em 0.8em;
+}
+
+.venmo-input:focus { outline: 1px solid var(--page-accent); }
 
 .hotel-picks {
   list-style: none;
@@ -1052,7 +1101,7 @@ td[contenteditable="true"]:hover {
 }
 
 .hotel-search-link {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0.5em 0.9em;
   font-size: 0.68rem;
   flex-shrink: 0;
@@ -1368,6 +1417,188 @@ footer .wrap {
 
 .countdown-label .countdown-date {
   color: var(--text-faint);
+}
+
+/* ---------- expenses ---------- */
+
+.estimate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+@media (max-width: 760px) {
+  .estimate-grid { grid-template-columns: 1fr; }
+}
+
+.estimate-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.estimate-field span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+}
+
+.estimate-field input,
+.estimate-field select {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.6em 0.8em;
+  min-height: 44px;
+}
+
+.estimate-field input:focus,
+.estimate-field select:focus { outline: 1px solid var(--page-accent); }
+
+.estimate-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+.estimate-result > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.estimate-result-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+}
+
+.estimate-result-num {
+  font-size: 1.3rem;
+  color: var(--page-accent);
+}
+
+.expense-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 760px) {
+  .expense-form { grid-template-columns: 1fr; }
+}
+
+.expense-split-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-top: 1rem;
+}
+
+.expense-split-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+}
+
+.split-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.split-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--page-accent);
+  cursor: pointer;
+}
+
+.net-positive { color: var(--green); }
+.net-negative { color: var(--orange); }
+
+.settle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.settle-row:first-child { border-top: none; }
+
+.settle-text { font-size: 0.95rem; }
+.settle-amount { font-size: 1rem; color: var(--page-accent); }
+
+/* ---------- focus visibility (keyboard nav) ---------- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--page-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- sunlight mode (bright outdoor readability) ----------
+   redefines the same design tokens the rest of the site already reads from,
+   rather than overriding individual selectors — near-black backgrounds get
+   pushed to true black, foreground grays get brighter, pill/badge dim
+   backgrounds go to black so accent text reads at max contrast, and the
+   base font scales up. Kept as a dark theme (not flipped to light) because
+   the existing accent palette (links, stat numbers, countdown digits) is
+   only contrast-tested against a near-black background — flipping to white
+   would silently break all of those instead of just the backgrounds. */
+
+html.sunlight-mode {
+  --bg: #000000;
+  --bg-raised: #0a0a0a;
+  --bg-card: #000000;
+  --border: #ffffff;
+  --text: #ffffff;
+  --text-dim: #f2f2f2;
+  --text-faint: #e0e0e0;
+  --orange-dim: #000000;
+  --magenta-dim: #000000;
+  --teal-dim: #000000;
+  --gold-dim: #000000;
+  --green-dim: #000000;
+  font-size: 118%;
+}
+
+html.sunlight-mode .card,
+html.sunlight-mode .stop-card,
+html.sunlight-mode .day-card,
+html.sunlight-mode .hotel-card,
+html.sunlight-mode .callout,
+html.sunlight-mode .countdown-card,
+html.sunlight-mode .pill,
+html.sunlight-mode .status-select {
+  border-width: 2px;
+}
+
+html.sunlight-mode .site-nav {
+  background: #000000;
 }
 
 /* ---------- print button ---------- */

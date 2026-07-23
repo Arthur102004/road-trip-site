@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
+<script>(function(){try{if(localStorage.getItem("roadtrip-sunlight-mode")==="1")document.documentElement.classList.add("sunlight-mode");}catch(e){}})();</script>
 </head>
 <body class="page-vegas">
 <div class="page-loader" id="page-loader"></div>
@@ -15,14 +16,18 @@
 <nav class="site-nav">
   <div class="wrap">
     <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="itinerary.html">Itinerary</a></li>
       <li><a href="charging.html">Charging</a></li>
       <li><a href="vegas.html" aria-current="page">Vegas Budget</a></li>
       <li><a href="info.html">Trip Info</a></li>
+      <li><a href="expenses.html">Expenses</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <div class="nav-controls">
+      <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
   </div>
 </nav>
 <div class="route-strip" aria-hidden="true"></div>
@@ -221,12 +226,13 @@
 
 <footer>
   <div class="wrap">
-    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>OKC ⇄ Las Vegas · Jul 31 - Aug 10, 2026 · UWC-USA reunion</span>
     <span>Source: road-trip-content.md</span>
     <span class="small mono" id="offline-status"></span>
   </div>
 </footer>
 
+<script src="js/accessibility.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/sw-register.js"></script>
 <script src="js/transitions.js"></script>

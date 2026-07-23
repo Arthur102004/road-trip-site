@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
+<script>(function(){try{if(localStorage.getItem("roadtrip-sunlight-mode")==="1")document.documentElement.classList.add("sunlight-mode");}catch(e){}})();</script>
 </head>
 <body class="page-itinerary">
 <div class="page-loader" id="page-loader"></div>
@@ -15,21 +16,25 @@
 <nav class="site-nav">
   <div class="wrap">
     <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="itinerary.html" aria-current="page">Itinerary</a></li>
       <li><a href="charging.html">Charging</a></li>
       <li><a href="vegas.html">Vegas Budget</a></li>
       <li><a href="info.html">Trip Info</a></li>
+      <li><a href="expenses.html">Expenses</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <div class="nav-controls">
+      <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
   </div>
 </nav>
 <div class="route-strip" aria-hidden="true"></div>
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow mono"><span>12 Days · Jul 30 - Aug 10, 2026</span></span>
+    <span class="eyebrow mono"><span>11 Days · Jul 31 - Aug 10, 2026</span></span>
     <h1 class="poster">Day-by-Day<br />Itinerary</h1>
     <div class="legend">
       <span class="legend-item"><span class="legend-dot dot-outbound"></span>Outbound</span>
@@ -276,12 +281,13 @@
 
 <footer>
   <div class="wrap">
-    <span>OKC ⇄ Las Vegas · Jul 30 - Aug 10, 2026 · UWC-USA reunion</span>
+    <span>OKC ⇄ Las Vegas · Jul 31 - Aug 10, 2026 · UWC-USA reunion</span>
     <span>Source: road-trip-content.md</span>
     <span class="small mono" id="offline-status"></span>
   </div>
 </footer>
 
+<script src="js/accessibility.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/sw-register.js"></script>
 <script src="js/transitions.js"></script>
