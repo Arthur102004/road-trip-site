@@ -23,6 +23,7 @@
       <li><a href="vegas.html">Vegas Budget</a></li>
       <li><a href="info.html">Trip Info</a></li>
       <li><a href="expenses.html">Expenses</a></li>
+      <li><a href="photos.html">Photos</a></li>
     </ul>
     <div class="nav-controls">
       <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
@@ -50,6 +51,22 @@
 
 <main>
 <div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" id="rotation-section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Driving Rotation</h2>
+      <span class="pill mono" id="rotation-elapsed">—</span>
+    </div>
+    <div class="card card-accent">
+      <span class="small mono">Current driver</span>
+      <h3 class="mt-0" id="rotation-current-name">—</h3>
+      <p class="small mt-0" id="rotation-status">Swap every 2-3 hours per the playbook.</p>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary" id="rotation-swap-btn">🔄 Swap driver</button>
+      </div>
+      <div class="rotation-roster" id="rotation-roster"></div>
+    </div>
+  </div>
 
   <div class="section nearby-section" id="nearby-section" style="padding-top:0;" hidden>
     <div class="section-head">
@@ -412,5 +429,6 @@
 <script src="js/maps-link.js"></script>
 <script src="js/print.js"></script>
 <script src="js/charging.js"></script>
+<script src="js/rotation.js"></script>
 </body>
 </html>
