@@ -270,14 +270,20 @@ out body ${fetchLimit};`;
     });
   }
 
-  // ---------- 25-minute charge countdown, one per stop ----------
+  // ---------- charge timer, one per stop, duration tuned per leg ----------
 
-  const DURATION = 25 * 60;
+  const TIMER_STORAGE_PREFIX = "roadtrip-charge-timer-";
+  let notificationRequested = false;
 
   function formatTime(totalSeconds) {
-    const m = Math.floor(totalSeconds / 60);
-    const s = totalSeconds % 60;
+    const clamped = Math.max(0, totalSeconds);
+    const m = Math.floor(clamped / 60);
+    const s = clamped % 60;
     return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+  }
+
+  function formatClock(date) {
+    return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   }
 
   // maps-link.js (loaded earlier) replaces a stop-card h3's leading text node
@@ -291,58 +297,146 @@ out body ${fetchLimit};`;
     return firstText ? firstText.textContent.trim() : h3.textContent.trim();
   }
 
+  function ensureNotificationPermission() {
+    if (notificationRequested || !("Notification" in window)) return;
+    notificationRequested = true;
+    if (Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
+  }
+
+  function notifyDone(cityName) {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    try {
+      new Notification("Charging done", {
+        body: `${cityName} — the car should be ready to go.`,
+        tag: `charge-${cityName}`,
+      });
+    } catch (e) {}
+  }
+
+  // three-note ascending chime, synthesized so no audio file has to be bundled
+  // (works offline too, matching the rest of the site's offline-first setup)
+  function playChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      [880, 1046.5, 1318.5].forEach((freq, i) => {
+        const start = now + i * 0.18;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.3, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.35);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.4);
+      });
+    } catch (e) {}
+  }
+
   document.querySelectorAll(".charge-timer").forEach((el) => {
-    let remaining = DURATION;
+    const stopId = el.dataset.stopId || Math.random().toString(36).slice(2);
+    const storageKey = TIMER_STORAGE_PREFIX + stopId;
+    const defaultDuration = (parseInt(el.dataset.defaultMinutes, 10) || 25) * 60;
+
+    let remaining = defaultDuration;
+    let running = false;
     let intervalId = null;
+
     const display = el.querySelector(".timer-display");
+    const departureEl = el.querySelector(".timer-departure");
     const startBtn = el.querySelector(".timer-start");
     const resetBtn = el.querySelector(".timer-reset");
+    const adjustBtns = el.querySelectorAll(".timer-adjust");
     const cityName = extractCityName(el.closest(".stop-card")?.querySelector("h3"));
 
     resetBtn.setAttribute("aria-label", `Reset charge timer for ${cityName}`);
+    adjustBtns.forEach((btn) => {
+      const delta = parseInt(btn.dataset.delta, 10);
+      btn.setAttribute("aria-label", `${delta > 0 ? "Add" : "Subtract"} 5 minutes to charge timer for ${cityName}`);
+    });
 
-    function render() {
-      display.textContent = formatTime(remaining);
+    function persist() {
+      try {
+        localStorage.setItem(
+          storageKey,
+          JSON.stringify({
+            running,
+            remaining,
+            endAt: running ? Date.now() + remaining * 1000 : null,
+            done: el.classList.contains("is-done"),
+          })
+        );
+      } catch (e) {}
     }
 
-    function finish() {
+    function render() {
+      if (el.classList.contains("is-done")) {
+        display.textContent = "Charged ✓";
+        departureEl.textContent = "";
+        return;
+      }
+      display.textContent = formatTime(remaining);
+      departureEl.textContent = remaining > 0 ? `Back by ${formatClock(new Date(Date.now() + remaining * 1000))}` : "";
+    }
+
+    function finish(silent) {
       clearInterval(intervalId);
       intervalId = null;
+      running = false;
       remaining = 0;
       el.classList.remove("is-running");
       el.classList.add("is-done");
-      display.textContent = "Charged ✓";
       startBtn.textContent = "Start";
       startBtn.setAttribute("aria-label", `Restart charge timer for ${cityName}`);
+      render();
+      persist();
+      if (!silent) {
+        playChime();
+        notifyDone(cityName);
+      }
     }
 
     function tick() {
       remaining -= 1;
       if (remaining <= 0) {
-        finish();
+        finish(false);
       } else {
         render();
+        persist();
       }
     }
 
     function start() {
+      ensureNotificationPermission();
       el.classList.remove("is-done");
       el.classList.add("is-running");
+      running = true;
+      clearInterval(intervalId);
       intervalId = setInterval(tick, 1000);
       startBtn.textContent = "Pause";
       startBtn.setAttribute("aria-label", `Pause charge timer for ${cityName}`);
+      render();
+      persist();
     }
 
     function pause() {
       clearInterval(intervalId);
       intervalId = null;
+      running = false;
       el.classList.remove("is-running");
       startBtn.textContent = "Start";
       startBtn.setAttribute("aria-label", `Start charge timer for ${cityName}`);
+      persist();
     }
 
     startBtn.addEventListener("click", () => {
-      if (intervalId) {
+      if (running) {
         pause();
       } else {
         start();
@@ -351,12 +445,58 @@ out body ${fetchLimit};`;
 
     resetBtn.addEventListener("click", () => {
       pause();
-      remaining = DURATION;
+      remaining = defaultDuration;
       el.classList.remove("is-done");
       render();
+      persist();
     });
 
-    startBtn.setAttribute("aria-label", `Start charge timer for ${cityName}`);
+    adjustBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const delta = parseInt(btn.dataset.delta, 10) * 60;
+        remaining = Math.max(0, remaining + delta);
+        if (remaining === 0 && running) {
+          finish(false);
+        } else {
+          el.classList.remove("is-done");
+          render();
+          persist();
+        }
+      });
+    });
+
+    // restore from localStorage — a running timer stores an absolute end
+    // timestamp rather than just "seconds left," so a reload or the phone
+    // locking doesn't freeze the countdown; elapsed real time is caught up
+    // in one step instead of drifting
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (saved) {
+        if (saved.done) {
+          remaining = 0;
+          el.classList.add("is-done");
+        } else if (saved.running && saved.endAt) {
+          const secondsLeft = Math.round((saved.endAt - Date.now()) / 1000);
+          if (secondsLeft <= 0) {
+            // timer would have finished while the page was closed — land on
+            // "done" quietly rather than firing a stale notification/chime now
+            remaining = 0;
+            el.classList.add("is-done");
+          } else {
+            remaining = secondsLeft;
+            start();
+          }
+        } else if (typeof saved.remaining === "number") {
+          remaining = saved.remaining;
+        }
+      }
+    } catch (e) {}
+
+    // start() already sets its own "Pause..." label when restore resumes a
+    // running timer — only stamp the default "Start" label when it didn't
+    if (!running) {
+      startBtn.setAttribute("aria-label", `Start charge timer for ${cityName}`);
+    }
     render();
   });
 })();

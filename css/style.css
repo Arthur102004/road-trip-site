@@ -551,6 +551,29 @@ main {
 
 .day-card li { margin-bottom: 0.35rem; }
 
+.day-card.is-today {
+  box-shadow: var(--shadow), 0 0 0 2px var(--gold), 0 0 28px -6px var(--gold);
+}
+
+.weather-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.weather-strip:empty { display: none; }
+
+.weather-text { color: var(--text-dim); }
+
+.monsoon-badge {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  font-weight: 700;
+}
+
 .callout {
   margin-top: 0.9rem;
   padding: 0.75rem 1rem;
@@ -700,10 +723,20 @@ a.map-link:hover {
   border-top: 1px dashed var(--border);
 }
 
+.timer-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
 .timer-display {
   font-size: 1.15rem;
   color: var(--text-dim);
   min-width: 5ch;
+}
+
+.timer-departure {
+  color: var(--text-faint);
 }
 
 .charge-timer.is-running .timer-display { color: var(--page-accent); }
@@ -711,6 +744,7 @@ a.map-link:hover {
 
 .timer-controls {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -718,6 +752,11 @@ a.map-link:hover {
   min-height: 44px;
   padding: 0.5em 0.9em;
   font-size: 0.72rem;
+}
+
+.timer-adjust {
+  min-width: 44px;
+  padding: 0.5em 0.6em;
 }
 
 /* ---------- budget list (vegas) ---------- */
@@ -1438,6 +1477,20 @@ footer .wrap {
   color: var(--text-faint);
 }
 
+/* ---------- today card (home) ---------- */
+
+.today-card {
+  margin-top: 1.75rem;
+}
+
+.today-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
 /* ---------- expenses ---------- */
 
 .estimate-grid {
@@ -1639,6 +1692,9 @@ html.sunlight-mode .site-nav {
   .nav-toggle,
   .locate-row,
   .nearby-section,
+  .weather-strip,
+  .today-card,
+  .sunlight-toggle,
   .hero .btn-row,
   .charge-timer,
   .mic-btn,
