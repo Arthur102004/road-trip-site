@@ -61,6 +61,16 @@
       </div>
     </div>
 
+    <div class="card card-accent today-card" id="today-card" hidden>
+      <div class="today-card-head">
+        <span class="pill pill-outbound">📍 Today</span>
+        <span class="mono small" id="today-date-label"></span>
+      </div>
+      <h3 class="mt-0" id="today-route"></h3>
+      <p class="small mt-0" id="today-charge"></p>
+      <a class="btn btn-primary" id="today-itinerary-link" href="itinerary.html">View today in the itinerary →</a>
+    </div>
+
     <div class="stat-band">
       <div class="stat"><span class="num mono num-outbound">3,000</span><span class="label">miles round trip</span></div>
       <div class="stat"><span class="num mono num-vegas">12</span><span class="label">days on the road</span></div>
@@ -210,5 +220,7 @@
 <script src="js/sw-register.js"></script>
 <script src="js/transitions.js"></script>
 <script src="js/countdown.js"></script>
+<script src="js/trip-data.js"></script>
+<script src="js/today.js"></script>
 </body>
 </html>
