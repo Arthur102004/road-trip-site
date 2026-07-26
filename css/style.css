@@ -711,6 +711,90 @@ a.map-link:hover {
   box-shadow: var(--shadow), 0 0 0 2px var(--green), 0 0 28px -6px var(--green);
 }
 
+/* ---------- supercharger detail + SOC (charging) ---------- */
+
+.supercharger-detail {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.verify-flag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  margin-left: 0.4em;
+  cursor: help;
+}
+
+.soc-info {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 0.75rem;
+}
+
+.soc-arrival {
+  font-weight: 600;
+}
+
+.soc-arrival.soc-warning {
+  color: var(--gold);
+}
+
+.soc-arrival.soc-critical {
+  color: var(--orange);
+}
+
+.depart-recommend {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--green-dim);
+  border: 1px solid var(--green);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- quick-stop cards (charging) — intermediate Superchargers,
+   visually condensed so the anchor stops stay dominant ---------- */
+
+.stop-card.quick-stop {
+  padding: 1rem 1.25rem;
+}
+
+.stop-card.quick-stop h3 {
+  font-size: 1rem;
+}
+
+.stop-card.quick-stop .miles {
+  font-size: 0.72rem;
+}
+
+.stop-card.quick-stop .supercharger-detail,
+.stop-card.quick-stop .soc-info {
+  font-size: 0.85rem;
+}
+
+.stop-card.quick-stop .charge-timer {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+}
+
 /* ---------- charge timer (charging) ---------- */
 
 .charge-timer {

@@ -1,4 +1,4 @@
-const CACHE_NAME = "roadtrip-cache-v8";
+const CACHE_NAME = "roadtrip-cache-v9";
 
 const PRECACHE_URLS = [
   "index.html",
@@ -14,6 +14,7 @@ const PRECACHE_URLS = [
   "js/transitions.js",
   "js/charging.js",
   "js/rotation.js",
+  "js/soc.js",
   "js/vegas.js",
   "js/info.js",
   "js/expenses.js",
