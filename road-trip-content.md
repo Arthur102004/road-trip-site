@@ -9,7 +9,7 @@ This is the single source of truth for the OKC ⇄ Las Vegas road trip website. 
 ## Trip at a Glance
 
 - **Trip:** OKC ⇄ Las Vegas round trip, a UWC-USA reunion.
-- **Dates:** Thursday July 30 to Monday August 10, 2026.
+- **Dates:** Friday July 31 to Monday August 10, 2026.
 - **Crew:** 5 friends (students).
 - **Vehicle:** one Tesla Model Y (electric, seats 5), rented round trip from OKC.
 - **How everyone travels:** 3 drive the whole loop; 2 fly into Las Vegas on Aug 3, then ride back to OKC with the group. Everyone flies home out of OKC on Aug 10.
@@ -24,13 +24,13 @@ This is the single source of truth for the OKC ⇄ Las Vegas road trip website. 
 - **Flying in:** 2 friends land in Las Vegas on Aug 3 and join the house.
 - **Driving home (Aug 7-9):** all 5 in the Model Y (it seats exactly 5).
 - **Charging:** the Model Y is electric, so charge stops replace gas stops. Anchor charging in big cities so there is plenty to do during a 20-40 minute Supercharge. See the Tesla playbook at the bottom.
-- **Lodging status:** Las Vegas is **booked**: Airbnb "Modern 5B/3B, Near Strip," Aug 3-7. Hotel picks are set for the five overnight stopover cities (Santa Rosa, Albuquerque, Phoenix, Grand Junction, Hays); see Where We're Staying for details. Both OKC nights are still open; search closer to the date once flight times are locked.
+- **Lodging status:** Las Vegas is **booked**: Airbnb "Modern 5B/3B, Near Strip," Aug 3-7. Hotel picks are set for the five overnight stopover cities (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays); see Where We're Staying for details. Both OKC nights are still open; search closer to the date once flight times are locked.
 
 ---
 
 ## Route Overview
 
-Outbound: **OKC → Santa Rosa, NM → UWC Montezuma → Albuquerque → Phoenix → Hoover Dam → Las Vegas.**
+Outbound: **OKC → Las Vegas, NM → UWC Montezuma → Albuquerque → Phoenix → Hoover Dam → Las Vegas.**
 
 Return (scenic, different states): **Las Vegas → Grand Junction, CO → Hays, KS → OKC.**
 
@@ -40,25 +40,20 @@ Color code used across the materials: **orange = on the road (outbound), pink/ma
 
 ## Day-by-Day Itinerary
 
-### Thu, Jul 30: Land in OKC *(outbound)*
-The two early-arriving drivers land in Oklahoma City, pick up the Model Y, and grab supplies. Arthur doesn't land until tomorrow morning (Fri, Jul 31, 10:14 AM). See tomorrow's note.
-- **Tonight:** plug in and charge to 100% overnight; spend 20 minutes learning the car (see playbook).
-- **Eat:** Wingstop · Cattlemen's Steakhouse (historic Stockyards) · Tucker's Onion Burgers · Florence's · dinner and a walk around Bricktown.
-- **💡 Suggested plan:** since only two of three drivers are here today, get the Model Y fully ready tonight (100% charge, supplies loaded, controls learned) so it's sitting done and charged when Arthur lands tomorrow morning. Nobody has to wait around on car prep once he's off the plane.
-
-### Fri, Jul 31: OKC → Santa Rosa, NM *(outbound)* · ~430 mi · wake 9:00
-- **⚠️ Tight morning, confirmed:** Arthur lands OKC at **10:14 AM** (Delta 1108 → Delta 2490), the same day the group rolls out on the 430-mile drive to Santa Rosa. **Recommended:** with the car already prepped and charged from the night before, the other two drivers pick Arthur up straight from the airport and the group heads out from there. No need to push the whole day's departure to the afternoon and eat into driving daylight. If the airport pickup runs long, sliding departure to early afternoon is the fallback.
+### Fri, Jul 31: OKC → Las Vegas, NM *(outbound)* · ~450 mi · wake 9:00
+Two of the three drivers arrive in Oklahoma City ahead of departure, pick up the Model Y, grab supplies, and get it fully prepped (100% charge, supplies loaded, controls learned) so it's sitting done and charged before rolling out.
+- **⚠️ Tight morning, confirmed:** Arthur lands OKC at **10:14 AM** (Delta 1108 → Delta 2490), the same day the group rolls out on the 450-mile drive to Las Vegas, NM. **Recommended:** with the car already prepped and charged beforehand, the other two drivers pick Arthur up straight from the airport and the group heads out from there. No need to push the whole day's departure to the afternoon and eat into driving daylight. If the airport pickup runs long, sliding departure to early afternoon is the fallback.
 - Roll out west on I-40.
 - Cadillac Ranch in Amarillo (free, bring spray paint).
-- Arrive Santa Rosa; visit the Route 66 Auto Museum (~$5).
-- **Charge:** leave OKC at 100%; Supercharge in **Amarillo** while at Cadillac Ranch; top up in Tucumcari if needed.
+- Quick charge and stretch in Santa Rosa; the Route 66 Auto Museum is right off the highway if there's time (~$5).
+- Arrive Las Vegas, NM for the night; check into the **Holiday Inn Express** (816 S Grand Ave).
+- **Charge:** leave OKC at 100%; Supercharge in **Amarillo** while at Cadillac Ranch; top up in Santa Rosa if needed.
 - **Eat:** Wingstop (OKC/Amarillo) · The Big Texan (Amarillo) · Joseph's Bar & Grill (Santa Rosa).
 
-### Sat, Aug 1: UWC Montezuma → Albuquerque *(outbound)* · ~185 mi · wake 9:00
-- North from Santa Rosa to Las Vegas, NM (~75 mi).
-- **UWC-USA, Montezuma:** campus, grounds, and the free Montezuma Hot Springs (shallow sit-and-soak, no swimming needed). Take your time; short drive today.
+### Sat, Aug 1: UWC Montezuma → Albuquerque *(outbound)* · ~105 mi · wake 9:00
+- Right there this morning: **UWC-USA, Montezuma** — campus, grounds, and the free Montezuma Hot Springs (shallow sit-and-soak, no swimming needed). Take your time; no long drive before it today.
 - South to Albuquerque for the night.
-- **Charge:** short day; top up in Las Vegas, NM if needed, then charge overnight in Albuquerque.
+- **Charge:** short day; charge overnight in Albuquerque.
 - **Eat:** Wingstop · Frontier (UNM icon, cheap) · El Pinto · Sadie's · Green Jeans Food Hall. Order chile "Christmas" (red + green).
 - **Book ahead:** Aug 1 is a Saturday and UWC is closed weekends. Email admissions this week to arrange a Saturday visit.
 
@@ -111,8 +106,8 @@ Anchor charging where there is variety. Wingstop is called out at every stop tha
 **Outbound**
 - **Oklahoma City**: start and finish. Charge to 100%. Wingstop · Cattlemen's · Tucker's · Florence's. Do: Bricktown, Myriad Botanical Gardens, OKC National Memorial (all free/cheap).
 - **Amarillo, TX**: lunch charge. Wingstop · The Big Texan. Do: Cadillac Ranch (free), Palo Duro Canyon ($8, 30 min south).
-- **Santa Rosa, NM**: quick top-up / overnight. Joseph's Bar & Grill. Do: Route 66 Auto Museum (~$5), Blue Hole (look, no swim, free).
-- **Las Vegas, NM (UWC)**: charge during the campus visit. Plaza restaurants. Do: UWC campus (free), Montezuma Hot Springs (free, shallow soak).
+- **Santa Rosa, NM**: quick top-up. Joseph's Bar & Grill. Do: Route 66 Auto Museum (~$5), Blue Hole (look, no swim, free).
+- **Las Vegas, NM (UWC)**: first overnight, charge during the campus visit. Plaza restaurants. Do: UWC campus (free), Montezuma Hot Springs (free, shallow soak).
 - **Albuquerque, NM**: overnight charge. Wingstop · Frontier · El Pinto · Green Jeans Food Hall. Do: Old Town (free), Sandia Peak Tramway ($29 student, sunset), Route 66 neon in Nob Hill (free).
 - **Flagstaff, AZ**: coffee charge, 30° cooler than Phoenix. Wingstop · downtown eats. Do: historic downtown/Route 66 (free), Meteor Crater (~$32, 35 min east), Standin' on the Corner in Winslow (free).
 - **Phoenix, AZ**: overnight charge; park in shade. Wingstop · Pizzeria Bianco · Little Miss BBQ. Do: Roosevelt Row murals after dark (free), Mill Avenue Tempe (free), D-backs game (from ~$15, AC stadium).
@@ -187,7 +182,7 @@ Note: the two flyers need a one-way ticket into Vegas plus a flight home from OK
 
 **⚠️ Double-check:** Delta 2490 appears on both Arthur's outbound (Jul 31) and return (Aug 10) connections. Same flight number in both directions on different dates isn't impossible, but it's worth confirming this isn't a typo in the booking.
 
-**⚠️ Confirmed: Arthur's arrival lands on the departure day.** Only the other two drivers land Jul 30 as originally planned; Arthur lands OKC Jul 31 at 10:14 AM, the same day the group rolls out for Santa Rosa. **Recommended:** the two early arrivals fully prep the Model Y on Jul 30 (charge, supplies, controls) so it's ready to go, then pick Arthur up from the airport Jul 31 morning and depart from there, keeping the 430-mile day on schedule without pushing the whole group's departure to the afternoon.
+**⚠️ Confirmed: Arthur's arrival lands on the departure day.** The other two drivers arrive ahead of departure as planned; Arthur lands OKC Jul 31 at 10:14 AM, the same day the group rolls out for Las Vegas, NM. **Recommended:** the two early arrivals fully prep the Model Y beforehand (charge, supplies, controls) so it's ready to go, then pick Arthur up from the airport Jul 31 morning and depart from there, keeping the ~450-mile day on schedule without pushing the whole group's departure to the afternoon.
 
 ---
 
@@ -195,8 +190,8 @@ Note: the two flyers need a one-way ticket into Vegas plus a flight home from OK
 
 | Night | City | Status |
 |---|---|---|
-| Thu Jul 30 | Oklahoma City | search closer to date |
-| Fri Jul 31 | Santa Rosa, NM | not booked (see hotel picks) |
+| Night before departure | Oklahoma City | search closer to date |
+| Fri Jul 31 | Las Vegas, NM | not booked (see hotel picks) |
 | Sat Aug 1 | Albuquerque, NM | not booked (see hotel picks) |
 | Sun Aug 2 | Phoenix, AZ | not booked (see hotel picks) |
 | **Aug 3-7 (4 nights)** | **LAS VEGAS: Airbnb "Modern 5B/3B, Near Strip"** | **BOOKED** |
@@ -208,7 +203,7 @@ Note: the two flyers need a one-way ticket into Vegas plus a flight home from OK
 
 Vegas needs no hotel since it's booked. OKC nights are left open since timing depends on final flight times.
 
-- **Santa Rosa, NM**: Top pick: **La Quinta Inn & Suites by Wyndham Santa Rosa** (9.2/10), which has a Tesla Supercharger on site. Prioritize this one. Runner-up: Hotel Blue 66 (4.1 stars). Budget: Motel 6 Santa Rosa.
+- **Las Vegas, NM**: **Holiday Inn Express** (816 S Grand Ave) — selected as the first overnight stop.
 - **Albuquerque, NM**: Top pick: **Hotel Albuquerque at Old Town** (9.0/10, 0.3 mi from Old Town Plaza). Runner-up: Sheraton Albuquerque Uptown (has a Tesla connector for guests). Budget: Hampton Inn & Suites Albuquerque.
 - **Phoenix, AZ**: Top pick: **Found:Re Phoenix** (boutique, downtown). Runner-up: Best Western Downtown Phoenix (8.4/10). Budget: SureStay by Best Western Motor Lodge.
 - **Grand Junction, CO**: Top pick: **Hotel Maverick** (9.4/10, boutique, downtown). Runner-up: SpringHill Suites Marriott Grand Junction Downtown. Budget: Grand Vista Hotel (8.2/10).
@@ -233,8 +228,8 @@ Vegas needs no hotel since it's booked. OKC nights are left open since timing de
 ## Pre-Trip Checklist
 
 - [x] **Las Vegas lodging**: booked (Airbnb "Modern 5B/3B, Near Strip," Aug 3-7).
-- [ ] **Book the five stopover hotels** (Santa Rosa, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready; someone needs to actually claim and book each one.
-- [ ] **Tell the other two drivers the plan for Jul 30-31**: they land Jul 30 and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Santa Rosa.
+- [ ] **Book the five stopover hotels** (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready; someone needs to actually claim and book each one.
+- [ ] **Tell the other two drivers the plan for departure day**: they arrive in OKC ahead of Friday and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Las Vegas, NM.
 - [ ] **Double-check Arthur's return flight numbers**: Delta 2490 shows up on both his outbound and return connections; confirm that's not a typo.
 - [ ] **Book the Tesla Model Y** in OKC, round trip. Under 25, so expect a young-driver surcharge (~$25-35/day); confirm the age policy and the charging-return rule. Photograph the car at pickup.
 - [ ] **Email UWC admissions** to arrange the Saturday, Aug 1 visit (campus is closed weekends).

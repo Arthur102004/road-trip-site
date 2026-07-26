@@ -13,7 +13,7 @@
     if (todayIndex === -1) return; // outside the trip window — leave the countdown cards as the only date widget
 
     const todayEntry = days[todayIndex];
-    const originEntry = todayIndex > 0 ? days[todayIndex - 1] : todayEntry;
+    const originEntry = todayIndex > 0 ? days[todayIndex - 1] : (window.TRIP_ORIGIN || todayEntry);
 
     // find the next day (today or later) that actually has a charging stop —
     // Vegas rest days and the fly-home day don't have one of their own
@@ -31,7 +31,7 @@
       chargeEl.textContent = "No more charging stops planned — almost home.";
     } else {
       const chargeDay = days[chargeIndex];
-      const chargeOrigin = chargeIndex > 0 ? days[chargeIndex - 1] : chargeDay;
+      const chargeOrigin = chargeIndex > 0 ? days[chargeIndex - 1] : (window.TRIP_ORIGIN || chargeDay);
       const miles = window.haversineMilesTrip(chargeOrigin.lat, chargeOrigin.lon, chargeDay.chargeStop.lat, chargeDay.chargeStop.lon);
       const hours = miles / AVG_MPH;
       const whenPrefix = chargeIndex === todayIndex ? "" : ` (${chargeDay.label})`;

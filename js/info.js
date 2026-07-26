@@ -13,8 +13,8 @@
       { who: "Flyer 2", date: "Aug 10", route: "OKC → Home", conf: "", leg: "return" },
     ],
     stays: [
-      { night: "Thu Jul 30", city: "Oklahoma City", status: "searching", leg: "outbound" },
-      { night: "Fri Jul 31", city: "Santa Rosa, NM", status: "not-booked", leg: "outbound" },
+      { night: "Night before departure", city: "Oklahoma City", status: "searching", leg: "outbound" },
+      { night: "Fri Jul 31", city: "Las Vegas, NM", status: "not-booked", leg: "outbound" },
       { night: "Sat Aug 1", city: "Albuquerque, NM", status: "not-booked", leg: "outbound" },
       { night: "Sun Aug 2", city: "Phoenix, AZ", status: "not-booked", leg: "outbound" },
       { night: "Aug 3-7 (4 nights)", city: "LAS VEGAS: Airbnb \"Modern 5B/3B, Near Strip\"", status: "booked", leg: "vegas" },
@@ -23,15 +23,15 @@
       { night: "Sun Aug 9", city: "Oklahoma City (near airport)", status: "searching", leg: "return" },
     ],
     hotelClaims: {
-      "santa-rosa": { claimed: false, name: "" },
+      "las-vegas-nm": { claimed: false, name: "" },
       "albuquerque": { claimed: false, name: "" },
       "phoenix": { claimed: false, name: "" },
       "grand-junction": { claimed: false, name: "" },
       "hays": { claimed: false, name: "" },
     },
     checklist: [
-      { id: 1, text: "Book the five stopover hotels (Santa Rosa, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready above; someone needs to claim and book each one.", done: false },
-      { id: 2, text: "Tell the other two drivers the plan for Jul 30-31. They land Jul 30 and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Santa Rosa.", done: false },
+      { id: 1, text: "Book the five stopover hotels (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready above; someone needs to claim and book each one.", done: false },
+      { id: 2, text: "Tell the other two drivers the plan for departure day. They arrive in OKC ahead of Friday and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Las Vegas, NM.", done: false },
       { id: 3, text: "Double-check Arthur's return flight numbers. Delta 2490 shows up on both his outbound and return connections; confirm that's not a typo.", done: false },
       { id: 4, text: "Book the Tesla Model Y in OKC, round trip. Under 25, so expect a young-driver surcharge (~$25-35/day); confirm the age policy and the charging-return rule. Photograph the car at pickup.", done: false },
       { id: 5, text: "Email UWC admissions to arrange the Saturday, Aug 1 visit (campus is closed weekends).", done: false },
@@ -489,7 +489,7 @@
   // city is safer than a named facility we can't keep current or verify
   const HOSPITAL_CITIES = [
     "Oklahoma City, OK",
-    "Santa Rosa, NM",
+    "Las Vegas, NM",
     "Albuquerque, NM",
     "Phoenix, AZ",
     "Las Vegas, NV",

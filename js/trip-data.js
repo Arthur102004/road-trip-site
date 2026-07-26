@@ -1,10 +1,15 @@
 // Shared day-by-day trip data, read by both index.html's "Today" widget and
 // itinerary.html's weather strips — single source of truth so the two stay
 // in sync instead of duplicating city/coordinate data in two places.
+
+// The trip's fixed starting point. TRIP_DAYS' first entry is now a driving
+// day (OKC -> Las Vegas, NM), so today.js needs a real origin for it instead
+// of falling back to the entry itself.
+window.TRIP_ORIGIN = { city: "Oklahoma City", lat: 35.4676, lon: -97.5164 };
+
 window.TRIP_DAYS = [
-  { date: "2026-07-30", label: "Thu, Jul 30", city: "Oklahoma City", state: "OK", lat: 35.4676, lon: -97.5164, leg: "outbound", driveMiles: 0, chargeStop: null },
-  { date: "2026-07-31", label: "Fri, Jul 31", city: "Santa Rosa, NM", state: "NM", lat: 34.9381, lon: -104.6819, leg: "outbound", driveMiles: 430, chargeStop: { city: "Amarillo, TX", lat: 35.2220, lon: -101.8313 } },
-  { date: "2026-08-01", label: "Sat, Aug 1", city: "Albuquerque, NM", state: "NM", lat: 35.0844, lon: -106.6504, leg: "outbound", driveMiles: 185, chargeStop: { city: "Las Vegas, NM", lat: 35.5939, lon: -105.2239 } },
+  { date: "2026-07-31", label: "Fri, Jul 31", city: "Las Vegas, NM", state: "NM", lat: 35.5939, lon: -105.2239, leg: "outbound", driveMiles: 450, chargeStop: { city: "Amarillo, TX", lat: 35.2220, lon: -101.8313 } },
+  { date: "2026-08-01", label: "Sat, Aug 1", city: "Albuquerque, NM", state: "NM", lat: 35.0844, lon: -106.6504, leg: "outbound", driveMiles: 105, chargeStop: null },
   { date: "2026-08-02", label: "Sun, Aug 2", city: "Phoenix, AZ", state: "AZ", lat: 33.4484, lon: -112.0740, leg: "outbound", driveMiles: 465, chargeStop: { city: "Flagstaff, AZ", lat: 35.1983, lon: -111.6513 } },
   { date: "2026-08-03", label: "Mon, Aug 3", city: "Las Vegas, NV", state: "NV", lat: 36.1699, lon: -115.1398, leg: "vegas", driveMiles: 300, chargeStop: { city: "Kingman, AZ", lat: 35.1894, lon: -114.0530 } },
   { date: "2026-08-04", label: "Tue, Aug 4", city: "Las Vegas, NV", state: "NV", lat: 36.1699, lon: -115.1398, leg: "vegas", driveMiles: 0, chargeStop: null },
