@@ -29,6 +29,39 @@
     return Math.round((target - realTodayMidnight) / 86400000);
   }
 
+  // Forecasts are cached in localStorage with their own expiry — deliberately
+  // NOT in the service worker (sw.js skips api.open-meteo.com entirely), so a
+  // stale forecast can never masquerade as a fresh one. Within CACHE_MAX_AGE_MS
+  // we serve the copy without refetching; past it we refetch, and only fall
+  // back to the stale copy (labeled with its age) if the network is gone.
+  const WEATHER_CACHE_PREFIX = "roadtrip-weather-";
+  const CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+
+  function weatherCacheKey(lat, lon, dateStr) {
+    return `${WEATHER_CACHE_PREFIX}${lat}-${lon}-${dateStr}`;
+  }
+
+  function readWeatherCache(lat, lon, dateStr) {
+    try {
+      const raw = localStorage.getItem(weatherCacheKey(lat, lon, dateStr));
+      if (!raw) return null;
+      const entry = JSON.parse(raw);
+      if (!entry || !entry.data || !entry.fetchedAt) return null;
+      return entry;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeWeatherCache(lat, lon, dateStr, data) {
+    try {
+      localStorage.setItem(
+        weatherCacheKey(lat, lon, dateStr),
+        JSON.stringify({ data, fetchedAt: Date.now() })
+      );
+    } catch (e) {}
+  }
+
   function fetchDayWeather(lat, lon, dateStr) {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
     return fetch(url).then((res) => {
@@ -37,7 +70,23 @@
     });
   }
 
-  function renderWeather(el, data) {
+  function getDayWeather(lat, lon, dateStr) {
+    const cached = readWeatherCache(lat, lon, dateStr);
+    if (cached && Date.now() - cached.fetchedAt < CACHE_MAX_AGE_MS) {
+      return Promise.resolve({ data: cached.data, cachedAt: null });
+    }
+    return fetchDayWeather(lat, lon, dateStr)
+      .then((data) => {
+        writeWeatherCache(lat, lon, dateStr, data);
+        return { data, cachedAt: null };
+      })
+      .catch((err) => {
+        if (cached) return { data: cached.data, cachedAt: cached.fetchedAt };
+        throw err;
+      });
+  }
+
+  function renderWeather(el, data, cachedAt) {
     const daily = data && data.daily;
     if (!daily || !daily.time || daily.time.length === 0 || daily.temperature_2m_max[0] == null) {
       el.textContent = "Forecast not available yet — Open-Meteo only covers ~16 days out, check back closer to the date.";
@@ -46,7 +95,12 @@
     const hi = Math.round(daily.temperature_2m_max[0]);
     const lo = Math.round(daily.temperature_2m_min[0]);
     const precip = daily.precipitation_probability_max ? daily.precipitation_probability_max[0] : null;
-    el.textContent = `${hi}°F / ${lo}°F` + (precip != null ? ` · ${precip}% chance of rain` : "");
+    let text = `${hi}°F / ${lo}°F` + (precip != null ? ` · ${precip}% chance of rain` : "");
+    if (cachedAt) {
+      const when = new Date(cachedAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+      text += ` · cached ${when}`;
+    }
+    el.textContent = text;
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -80,8 +134,8 @@
       }
 
       forecastText.textContent = "Loading forecast…";
-      fetchDayWeather(day.lat, day.lon, day.date)
-        .then((data) => renderWeather(forecastText, data))
+      getDayWeather(day.lat, day.lon, day.date)
+        .then((result) => renderWeather(forecastText, result.data, result.cachedAt))
         .catch(() => {
           forecastText.textContent = "Couldn't load forecast right now.";
         });
