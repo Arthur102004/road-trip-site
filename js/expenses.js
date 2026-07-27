@@ -410,3 +410,102 @@
     });
   });
 })();
+
+// ---------- shared pot (synced via TripSync when enabled) ----------
+// One field per person per property (`pot.<person>.paid`, `pot.<person>.amount`)
+// so marking two different people paid from two offline devices never
+// conflicts. Anyone can toggle any row — in practice whoever is collecting
+// marks people off as money arrives.
+(() => {
+  const LOCAL_KEY = "roadtrip-pot-v1";
+  const CREW = (window.TripSync && window.TripSync.crew) || ["Arthur", "Driver 1", "Driver 2", "Flyer 1", "Flyer 2"];
+  const sync = window.TripSync && window.TripSync.enabled ? window.TripSync : null;
+
+  function slug(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  }
+
+  function localLoad() {
+    try {
+      return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function localSave(data) {
+    try {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function getField(key) {
+    if (sync) return sync.get(key);
+    return localLoad()[key];
+  }
+
+  function setField(key, value) {
+    if (sync) {
+      sync.set(key, value);
+    } else {
+      const data = localLoad();
+      data[key] = value;
+      localSave(data);
+    }
+  }
+
+  function escapePot(str) {
+    const div = document.createElement("div");
+    div.textContent = str ?? "";
+    return div.innerHTML;
+  }
+
+  function render() {
+    const rows = document.getElementById("pot-rows");
+    if (!rows) return;
+    // don't rebuild rows under someone mid-typing an amount — the next
+    // subscribe/poll render catches up once focus leaves the input
+    if (rows.contains(document.activeElement) && document.activeElement.classList.contains("pot-amount")) return;
+    const who = sync ? sync.who() : null;
+    rows.innerHTML = "";
+    CREW.forEach((name) => {
+      const s = slug(name);
+      const paid = !!getField(`pot.${s}.paid`);
+      const amount = getField(`pot.${s}.amount`);
+      const row = document.createElement("div");
+      row.className = "pot-row";
+      row.innerHTML = `
+        <span class="pot-name">${escapePot(name)}${who === name ? ' <span class="small mono">(you)</span>' : ""}</span>
+        <input type="number" class="pot-amount" min="0" step="1" placeholder="$" value="${amount != null ? escapePot(String(amount)) : ""}" aria-label="Amount ${escapePot(name)} paid in" />
+        <button type="button" class="pot-paid-btn ${paid ? "paid" : ""}">${paid ? "✓ Paid in" : "Not paid"}</button>
+      `;
+      row.querySelector(".pot-paid-btn").addEventListener("click", () => {
+        setField(`pot.${s}.paid`, !paid);
+        render();
+      });
+      let amountTimer = null;
+      row.querySelector(".pot-amount").addEventListener("input", (e) => {
+        clearTimeout(amountTimer);
+        const val = parseFloat(e.target.value);
+        amountTimer = setTimeout(() => {
+          setField(`pot.${s}.amount`, isNaN(val) ? null : val);
+        }, 500);
+      });
+      rows.appendChild(row);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const rows = document.getElementById("pot-rows");
+    if (!rows) return;
+
+    const label = document.getElementById("pot-sync-label");
+    if (label) label.textContent = sync ? "shared across the crew" : "this device only";
+
+    const whoRow = document.getElementById("pot-who-row");
+    if (whoRow && window.TripSync) window.TripSync.renderWhoRow(whoRow, render);
+
+    render();
+    if (sync) sync.subscribe("pot.", render);
+  });
+})();

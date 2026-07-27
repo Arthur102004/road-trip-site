@@ -444,20 +444,25 @@
 
   function renderChecklist() {
     const list = document.getElementById("checklist");
+    const sync = window.TripSync && window.TripSync.enabled ? window.TripSync : null;
     list.innerHTML = "";
     data.checklist.forEach((item, i) => {
+      // shared done-state wins when sync is on; local value is the fallback
+      const remote = sync ? sync.get(`pretrip.${item.id}`) : undefined;
+      const done = remote !== undefined ? remote : item.done;
       const li = document.createElement("li");
       const checkboxId = `check-${item.id}`;
       const num = String(i + 1).padStart(2, "0");
       li.innerHTML = `
         <span class="check-num mono">${num}</span>
-        <input type="checkbox" id="${checkboxId}" ${item.done ? "checked" : ""} />
-        <label for="${checkboxId}" class="${item.done ? "done" : ""}">${escapeHtml(item.text)}</label>
+        <input type="checkbox" id="${checkboxId}" ${done ? "checked" : ""} />
+        <label for="${checkboxId}" class="${done ? "done" : ""}">${escapeHtml(item.text)}</label>
       `;
       li.querySelector("input").addEventListener("change", (e) => {
         item.done = e.target.checked;
         li.querySelector("label").classList.toggle("done", item.done);
         persist();
+        if (sync) sync.set(`pretrip.${item.id}`, item.done);
       });
       list.appendChild(li);
     });
@@ -575,6 +580,14 @@
     initEmailExtract();
     initEmergencyPrint();
 
+    const syncLabel = document.getElementById("checklist-sync-label");
+    if (window.TripSync && window.TripSync.enabled) {
+      window.TripSync.subscribe("pretrip.", renderChecklist);
+      if (syncLabel) syncLabel.textContent = "shared across the crew";
+    } else if (syncLabel) {
+      syncLabel.textContent = "this device only";
+    }
+
     document.getElementById("save-btn").addEventListener("click", persist);
 
     document.getElementById("reset-btn").addEventListener("click", () => {
@@ -594,6 +607,151 @@
       data.stays.push({ night: "", city: "", status: "not-booked", leg: "outbound" });
       renderStays();
       persist();
+    });
+  });
+})();
+
+// ---------- packing checklist (shared via TripSync when enabled) ----------
+// Item-per-key design (`packing.item.<id>`): fixed slugs for starter items,
+// random UUIDs for user-added ones, so two people ADDING items offline can
+// never conflict; deletes are a `removed` tombstone so they merge cleanly
+// under per-field LWW instead of resurrecting on the next sync.
+(() => {
+  const LOCAL_KEY = "roadtrip-packing-v1";
+  const PREFIX = "packing.item.";
+
+  const STARTERS = [
+    ["water-jugs", "Water jugs — more than feels necessary"],
+    ["first-aid", "First-aid kit"],
+    ["flashlight", "Flashlight"],
+    ["chargers", "Phone chargers + cables (all 5)"],
+    ["battery-pack", "Portable battery pack"],
+    ["spray-paint", "Spray paint for Cadillac Ranch"],
+    ["cooler-snacks", "Cooler + snacks"],
+    ["sunscreen", "Sunscreen"],
+    ["sun-gear", "Sunglasses + hats"],
+    ["driver-ids", "IDs / licenses for all 3 drivers"],
+    ["printed-pages", "Printed charging + itinerary pages"],
+    ["personal-meds", "Personal meds / toiletry kits"],
+  ];
+
+  const sync = window.TripSync && window.TripSync.enabled ? window.TripSync : null;
+
+  function localLoad() {
+    try {
+      return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function localSave(items) {
+    try {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(items));
+    } catch (e) {}
+  }
+
+  function getItems() {
+    if (sync) {
+      const out = {};
+      Object.entries(sync.entries(PREFIX)).forEach(([key, v]) => {
+        out[key.slice(PREFIX.length)] = v;
+      });
+      return out;
+    }
+    return localLoad();
+  }
+
+  function setItem(id, item) {
+    if (sync) {
+      sync.set(PREFIX + id, item);
+    } else {
+      const items = localLoad();
+      items[id] = item;
+      localSave(items);
+    }
+  }
+
+  function seedStarters() {
+    const items = getItems();
+    STARTERS.forEach(([id, label], i) => {
+      if (!items[id]) setItem(id, { label, packed: false, removed: false, pos: i });
+    });
+  }
+
+  function escapePacking(str) {
+    const div = document.createElement("div");
+    div.textContent = str ?? "";
+    return div.innerHTML;
+  }
+
+  function render() {
+    const list = document.getElementById("packing-list");
+    if (!list) return;
+    const items = getItems();
+    const visible = Object.entries(items)
+      .filter(([, it]) => it && !it.removed)
+      .sort((a, b) => (a[1].pos || 0) - (b[1].pos || 0));
+
+    list.innerHTML = "";
+    visible.forEach(([id, it]) => {
+      const li = document.createElement("li");
+      const boxId = `pack-${id}`;
+      li.innerHTML = `
+        <input type="checkbox" id="${boxId}" ${it.packed ? "checked" : ""} />
+        <label for="${boxId}" class="${it.packed ? "done" : ""}">${escapePacking(it.label)}</label>
+        <button class="packing-remove" title="Remove item">✕</button>
+      `;
+      li.querySelector("input").addEventListener("change", (e) => {
+        setItem(id, { ...it, packed: e.target.checked });
+        li.querySelector("label").classList.toggle("done", e.target.checked);
+      });
+      li.querySelector(".packing-remove").addEventListener("click", () => {
+        setItem(id, { ...it, removed: true });
+        render();
+      });
+      list.appendChild(li);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const list = document.getElementById("packing-list");
+    if (!list) return;
+
+    // onReady defers seeding on a never-synced device until after its first
+    // pull — otherwise fresh-stamped defaults would beat the crew's older
+    // real packed-states under LWW.
+    if (sync) {
+      sync.onReady(() => {
+        seedStarters();
+        render();
+      });
+    } else {
+      seedStarters();
+    }
+    render();
+
+    const label = document.getElementById("packing-sync-label");
+    if (label) label.textContent = sync ? "shared across the crew" : "this device only";
+    if (sync) sync.subscribe(PREFIX, render);
+
+    const input = document.getElementById("packing-add-input");
+    const addBtn = document.getElementById("packing-add-btn");
+
+    function addItem() {
+      const text = input.value.trim();
+      if (!text) return;
+      const items = getItems();
+      const maxPos = Object.values(items).reduce((m, it) => Math.max(m, it.pos || 0), 0);
+      const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2);
+      setItem(id, { label: text, packed: false, removed: false, pos: maxPos + 1 });
+      input.value = "";
+      render();
+    }
+
+    addBtn.addEventListener("click", addItem);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") addItem();
     });
   });
 })();

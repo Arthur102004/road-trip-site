@@ -176,9 +176,11 @@
   <div class="budget-tier tier-splurge">
     <div class="budget-tier-head">
       <span class="pill pill-vegas">★ Group splurges: vote on 1-2</span>
+      <span class="pill mono" id="vote-sync-label"></span>
     </div>
     <div class="card accent-splurge">
-      <label class="budget-item">
+      <div class="who-row" id="vote-who-row"></div>
+      <label class="budget-item" data-splurge-id="omega-mart">
         <input type="checkbox" class="budget-check" data-cost="50" />
         <div class="budget-item-body">
           <h4>Omega Mart (AREA15)</h4>
@@ -186,7 +188,7 @@
         </div>
         <span class="budget-price pill pill-vegas">$45-54</span>
       </label>
-      <label class="budget-item">
+      <label class="budget-item" data-splurge-id="lee-canyon">
         <input type="checkbox" class="budget-check" data-cost="75" />
         <div class="budget-item-body">
           <h4>Mountain biking at Lee Canyon</h4>
@@ -194,7 +196,7 @@
         </div>
         <span class="budget-price pill pill-vegas">$60-90</span>
       </label>
-      <label class="budget-item">
+      <label class="budget-item" data-splurge-id="sphere">
         <input type="checkbox" class="budget-check" data-cost="117" />
         <div class="budget-item-body">
           <h4>The Sphere</h4>
@@ -202,7 +204,7 @@
         </div>
         <span class="budget-price pill pill-vegas">$95-140</span>
       </label>
-      <label class="budget-item">
+      <label class="budget-item" data-splurge-id="maverick">
         <input type="checkbox" class="budget-check" data-cost="125" />
         <div class="budget-item-body">
           <h4>Maverick Helicopters</h4>
@@ -235,6 +237,7 @@
 </footer>
 
 <script src="js/accessibility.js"></script>
+<script src="js/sync.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/sw-register.js"></script>
 <script src="js/transitions.js"></script>

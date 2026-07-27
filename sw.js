@@ -2,7 +2,7 @@
 // the byte-diff is what makes browsers install the new worker and show
 // the update banner (see js/sw-register.js). Stale charging data is worse
 // than no data on this trip, so this is enforced in CLAUDE.md.
-const VERSION = "v11";
+const VERSION = "v12";
 const CACHE_NAME = "roadtrip-" + VERSION;
 
 // All URLs relative to this file so everything resolves under the
@@ -44,6 +44,7 @@ const PRECACHE_URLS = [
   "js/weather.js",
   "js/print.js",
   "js/sw-register.js",
+  "js/sync.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -84,8 +85,9 @@ self.addEventListener("fetch", (event) => {
   // stale forecasts with no expiry at all.
   if (url.hostname === "api.open-meteo.com") return;
 
-  // Other cross-origin requests (none in normal operation since fonts moved
-  // local) also go straight to the network.
+  // Other cross-origin requests go straight to the network. This includes
+  // the Supabase sync RPC (*.supabase.co) — js/sync.js has its own offline
+  // queue in localStorage, and caching sync responses here would defeat it.
   if (url.origin !== self.location.origin) return;
 
   // App shell: serve from cache instantly, revalidate in the background when

@@ -500,3 +500,68 @@ out body ${fetchLimit};`;
     render();
   });
 })();
+
+// ---------- per-stop "charged here" completion (shared via TripSync) ----------
+(() => {
+  const LOCAL_KEY = "roadtrip-charge-done-v1";
+  const sync = window.TripSync && window.TripSync.enabled ? window.TripSync : null;
+
+  function localLoad() {
+    try {
+      return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getDone(stopId) {
+    if (sync) return !!sync.get(`charge.${stopId}.done`);
+    return !!localLoad()[stopId];
+  }
+
+  function setDone(stopId, done) {
+    if (sync) {
+      sync.set(`charge.${stopId}.done`, done);
+    } else {
+      const data = localLoad();
+      data[stopId] = done;
+      try {
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+  }
+
+  function paint(card, btn, done) {
+    card.classList.toggle("stop-done", done);
+    btn.classList.toggle("done", done);
+    btn.textContent = done ? "✓ Charged here" : "Mark charged";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = Array.from(document.querySelectorAll(".stop-card[data-stop-id]"));
+    if (cards.length === 0) return;
+
+    cards.forEach((card) => {
+      const stopId = card.dataset.stopId;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "charge-done-btn no-print";
+      paint(card, btn, getDone(stopId));
+      btn.addEventListener("click", () => {
+        const next = !getDone(stopId);
+        setDone(stopId, next);
+        paint(card, btn, next);
+      });
+      card.appendChild(btn);
+    });
+
+    if (sync) {
+      sync.subscribe("charge.", () => {
+        cards.forEach((card) => {
+          const btn = card.querySelector(".charge-done-btn");
+          if (btn) paint(card, btn, getDone(card.dataset.stopId));
+        });
+      });
+    }
+  });
+})();

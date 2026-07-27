@@ -2071,3 +2071,200 @@ html.sunlight-mode .site-nav {
 body:has(.update-banner) .net-pill {
   bottom: 4.5rem;
 }
+
+/* --- shared-state sync layer (js/sync.js) --- */
+
+.sync-pill {
+  position: fixed;
+  bottom: 2.6rem;
+  left: 0.75rem;
+  z-index: 90;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  color: var(--text-dim);
+}
+
+.sync-pill[data-state="synced"] { color: var(--green); }
+.sync-pill[data-state="pending"] { color: var(--gold); }
+.sync-pill[data-state="offline"] { color: var(--gold); }
+.sync-pill[data-state="local"] { color: var(--text-faint); }
+
+/* who-am-I chooser chip */
+.who-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.who-chip {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.who-chip.who-active {
+  border-color: var(--page-accent);
+  color: var(--page-accent);
+}
+
+/* packing checklist */
+.packing-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.packing-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.packing-list li:last-child { border-bottom: none; }
+
+.packing-list input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--page-accent);
+  flex-shrink: 0;
+}
+
+.packing-list label { flex: 1; cursor: pointer; }
+.packing-list label.done { text-decoration: line-through; color: var(--text-faint); }
+
+.packing-remove {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.packing-add-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.packing-add-row input {
+  flex: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 0.45rem 0.7rem;
+  font-family: var(--font-body);
+}
+
+/* shared pot */
+.pot-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pot-row:last-child { border-bottom: none; }
+.pot-row .pot-name { flex: 1; }
+
+.pot-row .pot-amount {
+  width: 6.5rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 0.35rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.pot-paid-btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pot-paid-btn.paid {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+/* charging-stop done toggle */
+.charge-done-btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-top: 0.6rem;
+}
+
+.charge-done-btn.done {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+.stop-card.stop-done { opacity: 0.55; }
+.stop-card.stop-done h3 { text-decoration: line-through; }
+
+/* splurge vote */
+.vote-block {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.vote-btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.vote-btn.voted {
+  border-color: var(--magenta);
+  color: var(--magenta);
+  background: var(--magenta-dim);
+}
+
+.vote-tally {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.vote-tally .vote-names { color: var(--text-faint); }

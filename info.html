@@ -299,9 +299,24 @@
   <div class="section">
     <div class="section-head">
       <h2>Pre-Trip Checklist</h2>
+      <span class="pill mono" id="checklist-sync-label"></span>
     </div>
     <div class="card">
       <ul class="checklist" id="checklist"></ul>
+    </div>
+  </div>
+
+  <div class="section" id="packing-section">
+    <div class="section-head">
+      <h2>Packing Checklist</h2>
+      <span class="pill mono" id="packing-sync-label"></span>
+    </div>
+    <div class="card">
+      <ul class="packing-list" id="packing-list"></ul>
+      <div class="packing-add-row">
+        <input type="text" id="packing-add-input" placeholder="Add an item..." maxlength="80" />
+        <button class="btn" id="packing-add-btn">＋ Add</button>
+      </div>
     </div>
   </div>
 
@@ -390,6 +405,7 @@
 </footer>
 
 <script src="js/accessibility.js"></script>
+<script src="js/sync.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/sw-register.js"></script>
 <script src="js/transitions.js"></script>
