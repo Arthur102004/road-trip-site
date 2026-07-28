@@ -66,9 +66,19 @@
   });
 
   // ---- itinerary.html: one link per day, to that day's destination place ----
+  // Titles are either "A → B" (link the final stop) or a plain rest-day/
+  // fly-home title with no arrow ("Las Vegas: Lee Canyon", "Fly Home from
+  // OKC") — those need the descriptive suffix stripped too, or the whole
+  // phrase becomes the Maps query and the link goes nowhere useful.
   document.querySelectorAll(".day-card .day-head h3").forEach((h3) => {
     const raw = h3.textContent.trim();
-    const dest = raw.includes("→") ? raw.split("→").pop().trim() : raw;
+    const dest = raw.includes("→")
+      ? raw.split("→").pop().trim()
+      : raw.includes(":")
+      ? raw.split(":")[0].trim()
+      : raw.includes(" from ")
+      ? raw.split(" from ").pop().trim()
+      : raw;
     if (!dest) return;
     h3.innerHTML = "";
     h3.appendChild(makeLink(raw, dest));
