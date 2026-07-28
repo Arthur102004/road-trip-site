@@ -46,7 +46,9 @@ create or replace function sync_trip(secret text, changes jsonb)
 returns jsonb
 language plpgsql
 security definer
-set search_path = public
+-- "extensions" must be on the path: Supabase installs pgcrypto there, so with
+-- search_path = public alone, digest() is unresolvable and every call 404s.
+set search_path = public, extensions
 as $$
 declare
   tid text := encode(digest(secret, 'sha256'), 'hex');
