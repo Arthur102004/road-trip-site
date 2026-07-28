@@ -15,8 +15,7 @@
     stays: [
       { night: "Night before departure", city: "Oklahoma City", status: "searching", leg: "outbound" },
       { night: "Fri Jul 31", city: "Las Vegas, NM", status: "not-booked", leg: "outbound" },
-      { night: "Sat Aug 1", city: "Albuquerque, NM", status: "not-booked", leg: "outbound" },
-      { night: "Sun Aug 2", city: "Phoenix, AZ", status: "not-booked", leg: "outbound" },
+      { night: "Sat Aug 1 - Sun Aug 2 (2 nights)", city: "Phoenix, AZ", status: "not-booked", leg: "outbound" },
       { night: "Aug 3-7 (4 nights)", city: "LAS VEGAS: Airbnb \"Modern 5B/3B, Near Strip\"", status: "booked", leg: "vegas" },
       { night: "Fri Aug 7", city: "Grand Junction, CO", status: "not-booked", leg: "return" },
       { night: "Sat Aug 8", city: "Hays, KS", status: "not-booked", leg: "return" },
@@ -24,13 +23,12 @@
     ],
     hotelClaims: {
       "las-vegas-nm": { claimed: false, name: "" },
-      "albuquerque": { claimed: false, name: "" },
       "phoenix": { claimed: false, name: "" },
       "grand-junction": { claimed: false, name: "" },
       "hays": { claimed: false, name: "" },
     },
     checklist: [
-      { id: 1, text: "Book the five stopover hotels (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready above; someone needs to claim and book each one.", done: false },
+      { id: 1, text: "Book the four stopover hotels (Las Vegas NM, Phoenix — 2 nights, Grand Junction, Hays). Picks are ready above; someone needs to claim and book each one.", done: false },
       { id: 2, text: "Tell the other two drivers the plan for departure day. They arrive in OKC ahead of Friday and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Las Vegas, NM.", done: false },
       { id: 3, text: "Double-check Arthur's return flight numbers. Delta 2490 shows up on both his outbound and return connections; confirm that's not a typo.", done: false },
       { id: 4, text: "Book the Tesla Model Y in OKC, round trip. Under 25, so expect a young-driver surcharge (~$25-35/day); confirm the age policy and the charging-return rule. Photograph the car at pickup.", done: false },
@@ -495,7 +493,6 @@
   const HOSPITAL_CITIES = [
     "Oklahoma City, OK",
     "Las Vegas, NM",
-    "Albuquerque, NM",
     "Phoenix, AZ",
     "Las Vegas, NV",
     "Grand Junction, CO",

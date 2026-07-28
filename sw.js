@@ -2,7 +2,7 @@
 // the byte-diff is what makes browsers install the new worker and show
 // the update banner (see js/sw-register.js). Stale charging data is worse
 // than no data on this trip, so this is enforced in CLAUDE.md.
-const VERSION = "v15";
+const VERSION = "v16";
 const CACHE_NAME = "roadtrip-" + VERSION;
 
 // All URLs relative to this file so everything resolves under the

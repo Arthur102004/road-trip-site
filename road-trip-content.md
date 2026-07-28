@@ -24,13 +24,13 @@ This is the single source of truth for the OKC ⇄ Las Vegas road trip website. 
 - **Flying in:** 2 friends land in Las Vegas on Aug 3 and join the house.
 - **Driving home (Aug 7-9):** all 5 in the Model Y (it seats exactly 5).
 - **Charging:** the Model Y is electric, so charge stops replace gas stops. Anchor charging in big cities so there is plenty to do during a 20-40 minute Supercharge. See the Tesla playbook at the bottom.
-- **Lodging status:** Las Vegas is **booked**: Airbnb "Modern 5B/3B, Near Strip," Aug 3-7. Hotel picks are set for the five overnight stopover cities (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays); see Where We're Staying for details. Both OKC nights are still open; search closer to the date once flight times are locked.
+- **Lodging status:** Las Vegas is **booked**: Airbnb "Modern 5B/3B, Near Strip," Aug 3-7. Hotel picks are set for the four stopover cities (Las Vegas NM, Phoenix — 2 nights, Grand Junction, Hays); see Where We're Staying for details. Both OKC nights are still open; search closer to the date once flight times are locked.
 
 ---
 
 ## Route Overview
 
-Outbound: **OKC → Las Vegas, NM → UWC Montezuma → Albuquerque → Phoenix → Hoover Dam → Las Vegas.**
+Outbound: **OKC → Las Vegas, NM → UWC Montezuma → Phoenix → Hoover Dam → Las Vegas.**
 
 Return (scenic, different states): **Las Vegas → Grand Junction, CO → Hays, KS → OKC.**
 
@@ -50,17 +50,18 @@ Two of the three drivers arrive in Oklahoma City ahead of departure, pick up the
 - **Charge:** leave OKC at 100%; Supercharge in **Amarillo** while at Cadillac Ranch; top up in Santa Rosa if needed.
 - **Eat:** Wingstop (OKC/Amarillo) · The Big Texan (Amarillo) · Joseph's Bar & Grill (Santa Rosa).
 
-### Sat, Aug 1: UWC Montezuma → Albuquerque *(outbound)* · ~105 mi · wake 9:00
-- Right there this morning: **UWC-USA, Montezuma** — campus, grounds, and the free Montezuma Hot Springs (shallow sit-and-soak, no swimming needed). Take your time; no long drive before it today.
-- South to Albuquerque for the night.
-- **Charge:** short day; charge overnight in Albuquerque.
-- **Eat:** Wingstop · Frontier (UNM icon, cheap) · El Pinto · Sadie's · Green Jeans Food Hall. Order chile "Christmas" (red + green).
+### Sat, Aug 1: Las Vegas, NM → Phoenix *(outbound)* · ~575 mi · wake 9:00
+Longest driving day of the trip — spend the morning at UWC before rolling, then budget extra time for three charging stops on the way to Phoenix.
+- Morning: **UWC-USA, Montezuma** — campus, grounds, and the free Montezuma Hot Springs (shallow sit-and-soak, no swimming needed). It's right there; no drive needed to reach it.
+- South through Albuquerque (lunch stop), then west on I-40 to Flagstaff (cool pines, coffee), then I-17 south into Phoenix.
+- Arrive Phoenix for the first of two nights.
+- **Charge:** leave Las Vegas, NM full; Supercharge in **Albuquerque** (lunch), **Gallup**, then **Flagstaff or Camp Verde**. Loaded and hot, real range runs well under the dash number.
+- **Eat:** Wingstop · Frontier (UNM icon, cheap) · El Pinto · Green Jeans Food Hall in Albuquerque (lunch). Order chile "Christmas" (red + green).
 - **Book ahead:** Aug 1 is a Saturday and UWC is closed weekends. Email admissions this week to arrange a Saturday visit.
 
-### Sun, Aug 2: Albuquerque → Phoenix *(outbound)* · ~465 mi · wake 9:00
-- I-40 west to Flagstaff (cool pines, coffee), then I-17 south.
+### Sun, Aug 2: Phoenix rest day *(outbound)* · wake 9:00
+Second night in Phoenix — no driving today, recover from yesterday's long haul.
 - **Phoenix heat:** early August runs 110-115°F. Treat daytime as indoor AC time (aquarium, arcade, mall, movie); explore after sunset (Roosevelt Row, Mill Avenue in Tempe, or an air-conditioned D-backs game at Chase Field).
-- **Charge:** longest desert day, plan two stops. Leave ABQ full; Superchargers at **Gallup**, then **Flagstaff or Camp Verde**. Loaded and hot, real range runs well under the dash number.
 - **Eat:** Wingstop · Pizzeria Bianco · Little Miss BBQ.
 
 ### Mon, Aug 3: Phoenix → Hoover Dam → Las Vegas *(outbound → Vegas)* · ~300 mi · wake 9:00
@@ -108,7 +109,7 @@ Anchor charging where there is variety. Wingstop is called out at every stop tha
 - **Amarillo, TX**: lunch charge. Wingstop · The Big Texan. Do: Cadillac Ranch (free), Palo Duro Canyon ($8, 30 min south).
 - **Santa Rosa, NM**: quick top-up. Joseph's Bar & Grill. Do: Route 66 Auto Museum (~$5), Blue Hole (look, no swim, free).
 - **Las Vegas, NM (UWC)**: first overnight, charge during the campus visit. Plaza restaurants. Do: UWC campus (free), Montezuma Hot Springs (free, shallow soak).
-- **Albuquerque, NM**: overnight charge. Wingstop · Frontier · El Pinto · Green Jeans Food Hall. Do: Old Town (free), Sandia Peak Tramway ($29 student, sunset), Route 66 neon in Nob Hill (free).
+- **Albuquerque, NM**: lunch charge, on the long Las Vegas NM → Phoenix day. Wingstop · Frontier · El Pinto · Green Jeans Food Hall. Do: Old Town (free), Sandia Peak Tramway ($29 student, sunset), Route 66 neon in Nob Hill (free) if time allows.
 - **Flagstaff, AZ**: coffee charge, 30° cooler than Phoenix. Wingstop · downtown eats. Do: historic downtown/Route 66 (free), Meteor Crater (~$32, 35 min east), Standin' on the Corner in Winslow (free).
 - **Phoenix, AZ**: overnight charge; park in shade. Wingstop · Pizzeria Bianco · Little Miss BBQ. Do: Roosevelt Row murals after dark (free), Mill Avenue Tempe (free), D-backs game (from ~$15, AC stadium).
 - **Kingman, AZ**: quick charge before Hoover Dam. Mr. D'z Route 66 Diner. Do: Hoover Dam ahead ($10 parking), Route 66 Museum (~$10).
@@ -192,8 +193,7 @@ Note: the two flyers need a one-way ticket into Vegas plus a flight home from OK
 |---|---|---|
 | Night before departure | Oklahoma City | search closer to date |
 | Fri Jul 31 | Las Vegas, NM | not booked (see hotel picks) |
-| Sat Aug 1 | Albuquerque, NM | not booked (see hotel picks) |
-| Sun Aug 2 | Phoenix, AZ | not booked (see hotel picks) |
+| **Sat Aug 1 - Sun Aug 2 (2 nights)** | Phoenix, AZ | not booked (see hotel picks) |
 | **Aug 3-7 (4 nights)** | **LAS VEGAS: Airbnb "Modern 5B/3B, Near Strip"** | **BOOKED** |
 | Fri Aug 7 | Grand Junction, CO | not booked (see hotel picks) |
 | Sat Aug 8 | Hays, KS | not booked (see hotel picks) |
@@ -204,8 +204,7 @@ Note: the two flyers need a one-way ticket into Vegas plus a flight home from OK
 Vegas needs no hotel since it's booked. OKC nights are left open since timing depends on final flight times.
 
 - **Las Vegas, NM**: **Holiday Inn Express** (816 S Grand Ave) — selected as the first overnight stop.
-- **Albuquerque, NM**: Top pick: **Hotel Albuquerque at Old Town** (9.0/10, 0.3 mi from Old Town Plaza). Runner-up: Sheraton Albuquerque Uptown (has a Tesla connector for guests). Budget: Hampton Inn & Suites Albuquerque.
-- **Phoenix, AZ**: Top pick: **Found:Re Phoenix** (boutique, downtown). Runner-up: Best Western Downtown Phoenix (8.4/10). Budget: SureStay by Best Western Motor Lodge.
+- **Phoenix, AZ** (2 nights, book the same hotel for both): Top pick: **Found:Re Phoenix** (boutique, downtown). Runner-up: Best Western Downtown Phoenix (8.4/10). Budget: SureStay by Best Western Motor Lodge.
 - **Grand Junction, CO**: Top pick: **Hotel Maverick** (9.4/10, boutique, downtown). Runner-up: SpringHill Suites Marriott Grand Junction Downtown. Budget: Grand Vista Hotel (8.2/10).
 - **Hays, KS**: Top pick: **Hilton Garden Inn Hays** (top-rated in town). Runner-up: Econo Lodge Hays I-70 (4.2 stars, 829 reviews, 86% recommend). Budget: Baymont by Wyndham Hays.
 
@@ -228,7 +227,7 @@ Vegas needs no hotel since it's booked. OKC nights are left open since timing de
 ## Pre-Trip Checklist
 
 - [x] **Las Vegas lodging**: booked (Airbnb "Modern 5B/3B, Near Strip," Aug 3-7).
-- [ ] **Book the five stopover hotels** (Las Vegas NM, Albuquerque, Phoenix, Grand Junction, Hays). Picks are ready; someone needs to actually claim and book each one.
+- [ ] **Book the four stopover hotels** (Las Vegas NM, Phoenix — 2 nights, Grand Junction, Hays). Picks are ready; someone needs to actually claim and book each one.
 - [ ] **Tell the other two drivers the plan for departure day**: they arrive in OKC ahead of Friday and prep the Model Y (charge, supplies, controls); Arthur lands Jul 31 at 10:14 AM and they pick him up straight from the airport before departing for Las Vegas, NM.
 - [ ] **Double-check Arthur's return flight numbers**: Delta 2490 shows up on both his outbound and return connections; confirm that's not a typo.
 - [ ] **Book the Tesla Model Y** in OKC, round trip. Under 25, so expect a young-driver surcharge (~$25-35/day); confirm the age policy and the charging-return rule. Photograph the car at pickup.
