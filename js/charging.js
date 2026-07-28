@@ -534,6 +534,7 @@ out body ${fetchLimit};`;
   function paint(card, btn, done) {
     card.classList.toggle("stop-done", done);
     btn.classList.toggle("done", done);
+    btn.setAttribute("aria-pressed", String(done));
     btn.textContent = done ? "✓ Charged here" : "Mark charged";
   }
 

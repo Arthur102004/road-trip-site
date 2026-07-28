@@ -94,6 +94,7 @@
         btn.disabled = !who;
         btn.title = who ? "" : "Pick who you are first";
         btn.classList.toggle("voted", mine);
+        btn.setAttribute("aria-pressed", String(mine));
         btn.textContent = mine ? "★ Voted" : "☆ Vote";
 
         tally.innerHTML =

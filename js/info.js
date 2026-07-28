@@ -700,7 +700,7 @@
       li.innerHTML = `
         <input type="checkbox" id="${boxId}" ${it.packed ? "checked" : ""} />
         <label for="${boxId}" class="${it.packed ? "done" : ""}">${escapePacking(it.label)}</label>
-        <button class="packing-remove" title="Remove item">✕</button>
+        <button class="packing-remove" title="Remove item" aria-label="Remove ${escapePacking(it.label)}">✕</button>
       `;
       li.querySelector("input").addEventListener("change", (e) => {
         setItem(id, { ...it, packed: e.target.checked });

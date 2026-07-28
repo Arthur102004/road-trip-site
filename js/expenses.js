@@ -477,7 +477,7 @@
       row.innerHTML = `
         <span class="pot-name">${escapePot(name)}${who === name ? ' <span class="small mono">(you)</span>' : ""}</span>
         <input type="number" class="pot-amount" min="0" step="1" placeholder="$" value="${amount != null ? escapePot(String(amount)) : ""}" aria-label="Amount ${escapePot(name)} paid in" />
-        <button type="button" class="pot-paid-btn ${paid ? "paid" : ""}">${paid ? "✓ Paid in" : "Not paid"}</button>
+        <button type="button" class="pot-paid-btn ${paid ? "paid" : ""}" aria-pressed="${paid}" aria-label="${escapePot(name)} paid into the pot">${paid ? "✓ Paid in" : "Not paid"}</button>
       `;
       row.querySelector(".pot-paid-btn").addEventListener("click", () => {
         setField(`pot.${s}.paid`, !paid);

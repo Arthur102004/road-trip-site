@@ -259,6 +259,11 @@
       return f ? f.v : undefined;
     },
 
+    // Server-corrected wall clock. Values that encode a moment in time (e.g.
+    // the rotation shift start) should be stamped with this, not Date.now(),
+    // so elapsed-time math agrees across phones with skewed clocks.
+    now,
+
     // All entries under a prefix, e.g. entries("packing.item.")
     entries(prefix) {
       const out = {};
@@ -320,6 +325,8 @@
     // Shared "You are: <name>" chip row used by the pot and the splurge vote.
     renderWhoRow(container, onChange) {
       const self = this;
+      container.setAttribute("role", "group");
+      container.setAttribute("aria-label", "Select who you are");
       function draw() {
         const who = self.who();
         container.innerHTML = "";
@@ -332,6 +339,7 @@
           chip.type = "button";
           chip.className = "who-chip" + (who === name ? " who-active" : "");
           chip.textContent = name;
+          chip.setAttribute("aria-pressed", String(who === name));
           chip.addEventListener("click", () => {
             self.setWho(name);
             draw();

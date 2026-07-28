@@ -1,0 +1,33 @@
+#!/bin/sh
+# Blocks commits that change a service-worker-precached file without bumping
+# the VERSION constant in sw.js. Without the bump, deployed browsers keep
+# serving the old cache forever and never see the update banner — and stale
+# charging data on this trip is worse than no data.
+#
+# Enabled via: git config core.hooksPath .githooks   (see CLAUDE.md)
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$staged" ] && exit 0
+
+# Which staged file (if any) is in sw.js's PRECACHE_URLS?
+touched=""
+for f in $staged; do
+    if grep -q "\"$f\"" sw.js 2>/dev/null; then
+        touched="$f"
+        break
+    fi
+done
+[ -z "$touched" ] && exit 0
+
+# A precached file changed: the staged sw.js diff must include a VERSION bump.
+if git diff --cached -U0 -- sw.js | grep -q '^+const VERSION'; then
+    exit 0
+fi
+
+echo "COMMIT BLOCKED: $touched is precached by the service worker, but this" >&2
+echo "commit does not bump 'const VERSION' in sw.js." >&2
+echo "" >&2
+echo "Fix: edit the VERSION constant at the top of sw.js (v13 -> v14 etc.)," >&2
+echo "stage it, and commit again. Deployed phones only see updates when the" >&2
+echo "sw.js bytes change." >&2
+exit 1

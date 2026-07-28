@@ -16,3 +16,7 @@ each device's localStorage — never commit them; the repo is public.
 ## Service worker versioning — required on every deploy
 
 Any commit that changes a file listed in `PRECACHE_URLS` in `sw.js` (HTML, CSS, JS, fonts, icons, manifest) MUST also bump the `VERSION` constant at the top of `sw.js` in that same commit. The byte-diff in `sw.js` is what triggers browsers to install the new worker and show the "new version available" banner — without the bump, users keep the old cache forever. Stale charging data on this site is worse than no data; a wrong charging stop could strand the car.
+
+This is enforced mechanically by `.githooks/pre-commit`. On a fresh clone,
+enable it once with: `git config core.hooksPath .githooks` (already set in
+this working copy).

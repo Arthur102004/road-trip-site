@@ -3,6 +3,18 @@
   const SWAP_WARN_MS = 2 * 60 * 60 * 1000; // 2 hours — "consider swapping"
   const SWAP_OVERDUE_MS = 3 * 60 * 60 * 1000; // 3 hours — "swap now"
 
+  // Shared via TripSync when enabled: `rotation.current` = {index, startAt}
+  // as ONE atomic field (index and shift-start must travel together — as two
+  // fields, LWW could pair one phone's driver with another phone's timer),
+  // plus `rotation.driver.<i>` per name so renaming different drivers from
+  // two offline phones never conflicts. Timestamps use sync.now() (server-
+  // corrected) so the elapsed timer reads the same on every phone.
+  const sync = window.TripSync && window.TripSync.enabled ? window.TripSync : null;
+
+  function nowMs() {
+    return sync ? sync.now() : Date.now();
+  }
+
   const DEFAULTS = {
     drivers: ["Arthur", "Driver 1", "Driver 2"], // only 3 drive the whole loop, per the playbook
     currentIndex: 0,
@@ -33,6 +45,31 @@
     } catch (e) {}
   }
 
+  // Shared value when present and sane; local data as the fallback.
+  function currentState() {
+    if (sync) {
+      const rc = sync.get("rotation.current");
+      if (rc && typeof rc.index === "number" && typeof rc.startAt === "number") return rc;
+    }
+    return { index: data.currentIndex, startAt: data.shiftStartAt };
+  }
+
+  function driverName(i) {
+    if (sync) {
+      const n = sync.get(`rotation.driver.${i}`);
+      if (typeof n === "string") return n;
+    }
+    return data.drivers[i];
+  }
+
+  function setCurrent(index) {
+    const stamp = { index, startAt: nowMs() };
+    data.currentIndex = index;
+    data.shiftStartAt = stamp.startAt;
+    persist();
+    if (sync) sync.set("rotation.current", stamp);
+  }
+
   function formatElapsed(ms) {
     const totalMinutes = Math.max(0, Math.floor(ms / 60000));
     const h = Math.floor(totalMinutes / 60);
@@ -47,8 +84,9 @@
     const card = document.querySelector("#rotation-section .card");
     if (!nameEl) return;
 
-    const current = data.drivers[data.currentIndex] || data.drivers[0];
-    const elapsedMs = Date.now() - data.shiftStartAt;
+    const state = currentState();
+    const current = driverName(state.index) || driverName(0);
+    const elapsedMs = nowMs() - state.startAt;
 
     nameEl.textContent = current || "—";
     elapsedEl.textContent = `driving ${formatElapsed(elapsedMs)}`;
@@ -78,7 +116,7 @@
       .map(
         (name, i) => `
         <div class="roster-item" data-index="${i}">
-          <input type="text" class="roster-name-input mono" data-index="${i}" value="${escapeHtml(name)}" />
+          <input type="text" class="roster-name-input mono" data-index="${i}" value="${escapeHtml(driverName(i) ?? name)}" aria-label="Driver ${i + 1} name" />
           <button class="btn roster-select-btn" data-index="${i}">Set as driver</button>
         </div>
       `
@@ -87,18 +125,18 @@
 
     roster.querySelectorAll(".roster-name-input").forEach((input) => {
       input.addEventListener("input", () => {
-        data.drivers[Number(input.dataset.index)] = input.value;
+        const i = Number(input.dataset.index);
+        data.drivers[i] = input.value;
         persist();
+        if (sync) sync.set(`rotation.driver.${i}`, input.value);
         const nameEl = document.getElementById("rotation-current-name");
-        if (Number(input.dataset.index) === data.currentIndex && nameEl) nameEl.textContent = input.value || "—";
+        if (i === currentState().index && nameEl) nameEl.textContent = input.value || "—";
       });
     });
 
     roster.querySelectorAll(".roster-select-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
-        data.currentIndex = Number(btn.dataset.index);
-        data.shiftStartAt = Date.now();
-        persist();
+        setCurrent(Number(btn.dataset.index));
         render();
       });
     });
@@ -111,8 +149,9 @@
   function updateRosterHighlight() {
     const roster = document.getElementById("rotation-roster");
     if (!roster) return;
+    const currentIndex = currentState().index;
     roster.querySelectorAll(".roster-item").forEach((item) => {
-      const isCurrent = Number(item.dataset.index) === data.currentIndex;
+      const isCurrent = Number(item.dataset.index) === currentIndex;
       item.classList.toggle("is-current", isCurrent);
       const btn = item.querySelector(".roster-select-btn");
       btn.disabled = isCurrent;
@@ -127,9 +166,7 @@
   }
 
   function swap() {
-    data.currentIndex = (data.currentIndex + 1) % data.drivers.length;
-    data.shiftStartAt = Date.now();
-    persist();
+    setCurrent((currentState().index + 1) % data.drivers.length);
     render();
   }
 
@@ -139,5 +176,18 @@
     render();
     document.getElementById("rotation-swap-btn").addEventListener("click", swap);
     intervalId = setInterval(render, 30000);
+
+    if (sync) {
+      sync.subscribe("rotation.", () => {
+        // update non-focused name inputs to the remote value; never touch the
+        // one someone is mid-edit on
+        document.querySelectorAll(".roster-name-input").forEach((input) => {
+          if (input === document.activeElement) return;
+          const v = driverName(Number(input.dataset.index));
+          if (typeof v === "string" && input.value !== v) input.value = v;
+        });
+        render();
+      });
+    }
   });
 })();

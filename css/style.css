@@ -2105,9 +2105,10 @@ body:has(.update-banner) .net-pill {
 }
 
 .who-chip {
+  min-height: 44px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  padding: 0.25rem 0.7rem;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--bg-raised);
@@ -2132,6 +2133,7 @@ body:has(.update-banner) .net-pill {
   align-items: center;
   gap: 0.6rem;
   padding: 0.45rem 0;
+  min-height: 44px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -2148,6 +2150,8 @@ body:has(.update-banner) .net-pill {
 .packing-list label.done { text-decoration: line-through; color: var(--text-faint); }
 
 .packing-remove {
+  min-height: 44px;
+  min-width: 44px;
   background: none;
   border: none;
   color: var(--text-faint);
@@ -2164,6 +2168,7 @@ body:has(.update-banner) .net-pill {
 
 .packing-add-row input {
   flex: 1;
+  min-height: 44px;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -2186,6 +2191,7 @@ body:has(.update-banner) .net-pill {
 
 .pot-row .pot-amount {
   width: 6.5rem;
+  min-height: 44px;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -2195,7 +2201,17 @@ body:has(.update-banner) .net-pill {
   font-size: 0.85rem;
 }
 
+/* 375px-wide phones: name + amount + button don't fit on one line without
+   shrinking the tap targets, so let the row wrap instead */
+@media (max-width: 430px) {
+  .pot-row { flex-wrap: wrap; }
+  .pot-row .pot-name { flex-basis: 100%; }
+  .pot-row .pot-amount { flex: 1; }
+}
+
 .pot-paid-btn {
+  min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   padding: 0.3rem 0.8rem;
@@ -2215,6 +2231,8 @@ body:has(.update-banner) .net-pill {
 
 /* charging-stop done toggle */
 .charge-done-btn {
+  min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   padding: 0.3rem 0.8rem;
@@ -2232,7 +2250,9 @@ body:has(.update-banner) .net-pill {
   background: var(--green-dim);
 }
 
-.stop-card.stop-done { opacity: 0.55; }
+/* 0.65 not lower: at 0.55 the card's dim text (--text-dim) blends below the
+   4.5:1 AA floor against the page background; 0.65 keeps it ~4.7:1 */
+.stop-card.stop-done { opacity: 0.65; }
 .stop-card.stop-done h3 { text-decoration: line-through; }
 
 /* splurge vote */
@@ -2245,6 +2265,8 @@ body:has(.update-banner) .net-pill {
 }
 
 .vote-btn {
+  min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   padding: 0.3rem 0.8rem;
@@ -2257,7 +2279,9 @@ body:has(.update-banner) .net-pill {
 
 .vote-btn.voted {
   border-color: var(--magenta);
-  color: var(--magenta);
+  /* not var(--magenta): #f0439b on --magenta-dim is 4.31:1, just under the
+     WCAG AA 4.5:1 needed at this small size — this lighter tint is 5.9:1 */
+  color: #f775b5;
   background: var(--magenta-dim);
 }
 
