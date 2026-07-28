@@ -2,7 +2,7 @@
 // the byte-diff is what makes browsers install the new worker and show
 // the update banner (see js/sw-register.js). Stale charging data is worse
 // than no data on this trip, so this is enforced in CLAUDE.md.
-const VERSION = "v12";
+const VERSION = "v13";
 const CACHE_NAME = "roadtrip-" + VERSION;
 
 // All URLs relative to this file so everything resolves under the
@@ -93,8 +93,14 @@ self.addEventListener("fetch", (event) => {
   // App shell: serve from cache instantly, revalidate in the background when
   // a connection exists. On flaky 1-bar signal this avoids hanging on the
   // network the way network-first would.
+  // ignoreSearch: asset URLs carry a ?v= cache-buster whose only job is to
+  // punch through ANCIENT (pre-v10) service workers that cached js/css by
+  // exact URL forever — those browsers could never see the update banner
+  // because the banner code itself was trapped in their old cache. Here the
+  // query is meaningless: match it to the bare precached URL so offline
+  // still works for never-visited pages.
   event.respondWith(
-    caches.match(req).then((cached) => {
+    caches.match(req, { ignoreSearch: true }).then((cached) => {
       const networked = fetch(req)
         .then((res) => {
           if (res && res.ok) {
