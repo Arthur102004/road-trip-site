@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Return Route Decision: OKC ⇄ Vegas</title>
+<link rel="stylesheet" href="css/fonts.css?v=17" />
+<link rel="stylesheet" href="css/style.css?v=17" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#15161a" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<script>(function(){try{if(localStorage.getItem("roadtrip-sunlight-mode")==="1")document.documentElement.classList.add("sunlight-mode");}catch(e){}})();</script>
+</head>
+<body class="page-itinerary">
+<div class="page-loader" id="page-loader"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OKC <span class="mid">⇄</span> VEGAS</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="itinerary.html">Itinerary</a></li>
+      <li><a href="charging.html">Charging</a></li>
+      <li><a href="vegas.html">Vegas Budget</a></li>
+      <li><a href="info.html">Trip Info</a></li>
+      <li><a href="expenses.html">Expenses</a></li>
+      <li><a href="photos.html">Photos</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="sunlight-toggle" id="sunlight-toggle" type="button" aria-pressed="false" aria-label="Toggle sunlight mode: larger text and higher contrast">☀️</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </div>
+  </div>
+</nav>
+<div class="route-strip" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono"><span>⚠️ Group decision pending — nothing below is final</span></span>
+    <h1 class="poster">Return Route<br />Decision</h1>
+    <p style="max-width:640px;">The group wants to drop the Kansas return leg and instead loop back through New Mexico for a second UWC-USA Montezuma visit — but the new route needs one more driving day than the current plan, and the current schedule ends right on Arthur's booked return flight (Mon Aug 10). This page lays out the four ways to handle that, side by side, so we can pick together. <strong style="color:var(--text)">The live itinerary is unchanged until we decide.</strong></p>
+  </div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="section-head">
+      <h2>At a Glance</h2>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Total days</th>
+            <th>Fly home</th>
+            <th>Extra cost</th>
+            <th>Extra day off?</th>
+            <th>Main downside</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A</strong> — extend trip</td>
+            <td class="mono">12</td>
+            <td class="mono">Tue Aug 11</td>
+            <td>Flight change fee (TBD below) + 1 extra hotel night</td>
+            <td>Yes</td>
+            <td>Rebooking 5 flights</td>
+          </tr>
+          <tr>
+            <td><strong>B1</strong> — drop a Vegas day</td>
+            <td class="mono">11</td>
+            <td class="mono">Mon Aug 10</td>
+            <td>1 unused Airbnb night (already paid) + 1 extra hotel night</td>
+            <td>No</td>
+            <td>Lose the last Vegas evening</td>
+          </tr>
+          <tr>
+            <td><strong>B2</strong> — drop Grand Junction night</td>
+            <td class="mono">11</td>
+            <td class="mono">Mon Aug 10</td>
+            <td>Hotel-neutral (swaps, doesn't add)</td>
+            <td>No</td>
+            <td>~755 mi day, ~16 hrs door-to-door, ~1 AM arrival</td>
+          </tr>
+          <tr>
+            <td><strong>C</strong> — one mega-day</td>
+            <td class="mono">11</td>
+            <td class="mono">Mon Aug 10</td>
+            <td>Hotel-neutral (straight swap)</td>
+            <td>No</td>
+            <td>~641 mi day, ~14.5 hrs door-to-door, ~11 PM arrival</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">"Extra hotel night" = the new route needs overnight stops in Denver-area and/or Las Vegas NM that the old Kansas route never had. "Hotel-neutral" options swap one city's overnight for another's rather than adding a new one.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Shared charging notes</h2>
+      <span class="pill mono">apply to all 4 options</span>
+    </div>
+    <div class="card card-accent">
+      <p class="mt-0">The underlying Superchargers and mileages are identical no matter which option we pick — only which nights count as "overnight" changes. Two spots need extra departure charge to stay above 20% arrival:</p>
+      <ul>
+        <li><strong style="color:var(--text)">Glenwood Springs → Denver area:</strong> the biggest climb of the return (+3,336 ft to 9,097 ft) — charge to 100% before leaving Glenwood Springs, not the usual 90%.</li>
+        <li><strong style="color:var(--text)">Amarillo → Weatherford:</strong> a long, hot 185-mi leg — charge to 100% before leaving Amarillo.</li>
+      </ul>
+      <p class="small">⚠️ Trinidad → Raton's net elevation change (+534 ft) understates real consumption — Raton Pass itself peaks at 7,834 ft between them, same situation as the outbound Flagstaff leg.</p>
+    </div>
+  </div>
+
+  <!-- OPTION A -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Option A: Extend to 12 Days</h2>
+      <span class="pill pill-outbound">Fly home moves to Tue Aug 11</span>
+    </div>
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <p class="mt-0">Keeps every day at a normal length (nothing over 510 mi) by simply adding a calendar day. Requires changing Arthur's booked Delta flight and the other 4 flights (Flyer 1, Flyer 2, and both drivers' return plans) from Aug 10 to Aug 11 — one more day off work/school for all five.</p>
+      <label class="estimate-field" style="display:block;max-width:320px;">
+        <span>Flight change fee estimate (fill in once known)</span>
+        <input type="number" id="flight-cost-input" min="0" step="1" placeholder="$0" />
+      </label>
+      <span class="small mono" id="flight-cost-sync-label"></span>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Grand Junction, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~510 mi</span></div>
+      <p class="small mt-0">Unchanged from the current itinerary.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sat, Aug 8</span><h3 style="margin:0;">Grand Junction → Denver area, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~245 mi</span></div>
+      <p class="small mt-0">Via Glenwood Springs. New overnight in Frisco/Silverthorne.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sun, Aug 9</span><h3 style="margin:0;">Denver area → Las Vegas, NM</h3></div>
+      <div class="day-stats"><span class="pill mono">~396 mi</span></div>
+      <p class="small mt-0">Via Colorado Springs, Pueblo, Trinidad, Raton. <strong style="color:var(--text)">Second UWC-USA Montezuma visit</strong> — new overnight in Las Vegas, NM.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Las Vegas, NM → OKC</h3></div>
+      <div class="day-stats"><span class="pill mono">~450 mi</span></div>
+      <p class="small mt-0">Via Santa Rosa, Amarillo, Weatherford.</p>
+    </div>
+    <div class="card leg-return day-card">
+      <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Tue, Aug 11</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
+      <p class="small mt-0">⚠️ Requires changing all 5 return flights from Aug 10.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B1 -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Option B1: Drop a Vegas Day</h2>
+      <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
+    </div>
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <p class="mt-0">Leaves Vegas one day earlier (Thu instead of Fri), sacrificing the "Downtown, Last Night" day. The Airbnb is booked through Fri regardless, so that last night is paid for but unused. No flight changes.</p>
+    </div>
+    <div class="card leg-vegas day-card">
+      <div class="day-head"><span class="pill pill-vegas">Vegas</span><span class="day-date mono">Tue-Wed, Aug 4-5</span><h3 style="margin:0;">Vegas rest days (unchanged)</h3></div>
+    </div>
+    <div class="card leg-vegas day-card" style="opacity:0.5;">
+      <div class="day-head"><span class="pill pill-vegas">Vegas</span><span class="day-date mono">Thu, Aug 6</span><h3 style="margin:0;">Downtown, Last Night — DROPPED</h3></div>
+      <p class="small mt-0">Airbnb night still paid for; just not used.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Thu, Aug 6</span><h3 style="margin:0;">Las Vegas, NV → Grand Junction, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~510 mi</span></div>
+      <p class="small mt-0">Same drive as today's plan, moved up one day.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Grand Junction → Denver area, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~245 mi</span></div>
+      <p class="small mt-0">Via Glenwood Springs. New overnight.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sat, Aug 8</span><h3 style="margin:0;">Denver area → Las Vegas, NM</h3></div>
+      <div class="day-stats"><span class="pill mono">~396 mi</span></div>
+      <p class="small mt-0">Via Colorado Springs, Pueblo, Trinidad, Raton. <strong style="color:var(--text)">Second UWC-USA Montezuma visit</strong> — new overnight.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sun, Aug 9</span><h3 style="margin:0;">Las Vegas, NM → OKC</h3></div>
+      <div class="day-stats"><span class="pill mono">~450 mi</span></div>
+      <p class="small mt-0">Via Santa Rosa, Amarillo, Weatherford.</p>
+    </div>
+    <div class="card leg-return day-card">
+      <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
+      <p class="small mt-0">Unchanged — no flight changes needed.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B2 -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Option B2: Drop the Grand Junction Night</h2>
+      <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
+    </div>
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <p class="mt-0">Keeps all 4 Vegas nights and the booked flights, by merging the drive to Grand Junction with the drive past it into one very long day. Grand Junction becomes a charging stop only — no Colorado National Monument, no downtown time there.</p>
+      <div class="callout" style="border-color:var(--gold-dim);">
+        <strong style="color:var(--gold)">⚠️ Reality check:</strong> ~755 mi ≈ 13.7 hrs driving + ~2.5 hrs across 5 charging stops (St. George, Green River, Grand Junction pass-through, Glenwood Springs, arrival Denver area) ≈ <strong style="color:var(--text)">16 hrs door-to-door.</strong> A 9:00 AM departure lands around 1:00 AM — the longest and latest day of the whole trip.
+      </div>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Denver area, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~755 mi</span></div>
+      <p class="small mt-0">Via St. George, Green River, Grand Junction (charge only, no stop), Glenwood Springs.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sat, Aug 8</span><h3 style="margin:0;">Denver area → Las Vegas, NM</h3></div>
+      <div class="day-stats"><span class="pill mono">~396 mi</span></div>
+      <p class="small mt-0">Via Colorado Springs, Pueblo, Trinidad, Raton. <strong style="color:var(--text)">Second UWC-USA Montezuma visit.</strong></p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sun, Aug 9</span><h3 style="margin:0;">Las Vegas, NM → OKC</h3></div>
+      <div class="day-stats"><span class="pill mono">~450 mi</span></div>
+      <p class="small mt-0">Via Santa Rosa, Amarillo, Weatherford.</p>
+    </div>
+    <div class="card leg-return day-card">
+      <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
+      <p class="small mt-0">Unchanged — no flight changes needed.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Option C: One Long Day, Keep Grand Junction</h2>
+      <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
+    </div>
+    <div class="card card-accent" style="margin-bottom:1rem;">
+      <p class="mt-0">Keeps the Grand Junction overnight and all its sightseeing. Instead, Denver-area becomes a charging stop only, and that day absorbs the whole Colorado Springs → Pueblo → Trinidad → Raton stretch in one go.</p>
+      <div class="callout" style="border-color:var(--gold-dim);">
+        <strong style="color:var(--gold)">⚠️ Reality check:</strong> ~641 mi ≈ 11.7 hrs driving + ~2.5-3 hrs across 6 charging stops (Glenwood Springs, Denver area pass-through, Colorado Springs, Pueblo, Trinidad, Raton) ≈ <strong style="color:var(--text)">~14.5 hrs door-to-door.</strong> A 9:00 AM departure lands around 11:00 PM.
+      </div>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Grand Junction, CO</h3></div>
+      <div class="day-stats"><span class="pill mono">~510 mi</span></div>
+      <p class="small mt-0">Unchanged from the current itinerary.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sat, Aug 8</span><h3 style="margin:0;">Grand Junction → Las Vegas, NM</h3></div>
+      <div class="day-stats"><span class="pill mono">~641 mi</span></div>
+      <p class="small mt-0">Via Glenwood Springs, Denver area (charge only, no stop), Colorado Springs, Pueblo, Trinidad, Raton. <strong style="color:var(--text)">Second UWC-USA Montezuma visit</strong> on arrival.</p>
+    </div>
+    <div class="card leg-outbound day-card">
+      <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Sun, Aug 9</span><h3 style="margin:0;">Las Vegas, NM → OKC</h3></div>
+      <div class="day-stats"><span class="pill mono">~450 mi</span></div>
+      <p class="small mt-0">Via Santa Rosa, Amarillo, Weatherford.</p>
+    </div>
+    <div class="card leg-return day-card">
+      <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
+      <p class="small mt-0">Unchanged — no flight changes needed.</p>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>OKC ⇄ Las Vegas · Return route decision aid · not yet final</span>
+    <span>Source: road-trip-content.md (unchanged)</span>
+    <span class="small mono" id="offline-status"></span>
+  </div>
+</footer>
+
+<script src="js/accessibility.js?v=17"></script>
+<script src="js/sync.js?v=17"></script>
+<script src="js/nav.js?v=17"></script>
+<script src="js/sw-register.js?v=17"></script>
+<script src="js/transitions.js?v=17"></script>
+<script src="js/print.js?v=17"></script>
+<script src="js/return-decision.js?v=17"></script>
+</body>
+</html>
