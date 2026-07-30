@@ -70,17 +70,28 @@
   // fly-home title with no arrow ("Las Vegas: Lee Canyon", "Fly Home from
   // OKC") — those need the descriptive suffix stripped too, or the whole
   // phrase becomes the Maps query and the link goes nowhere useful.
-  document.querySelectorAll(".day-card .day-head h3").forEach((h3) => {
-    const raw = h3.textContent.trim();
-    const dest = raw.includes("→")
-      ? raw.split("→").pop().trim()
-      : raw.includes(":")
-      ? raw.split(":")[0].trim()
-      : raw.includes(" from ")
-      ? raw.split(" from ").pop().trim()
-      : raw;
-    if (!dest) return;
-    h3.innerHTML = "";
-    h3.appendChild(makeLink(raw, dest));
-  });
+  //
+  // Exposed so js/itinerary-render.js can re-run this after swapping in a
+  // return-route variant. Safe to call repeatedly: linkFirstTextNode no-ops
+  // on a heading whose first child is already an <a> (not a text node), so
+  // already-linked, unchanged day-cards are left alone.
+  window.relinkItineraryDayHeadings = function () {
+    document.querySelectorAll(".day-card .day-head h3").forEach((h3) => {
+      const raw = h3.textContent.trim();
+      const dest = raw.includes("→")
+        ? raw.split("→").pop().trim()
+        : raw.includes(":")
+        ? raw.split(":")[0].trim()
+        : raw.includes(" from ")
+        ? raw.split(" from ").pop().trim()
+        : raw;
+      if (!dest) return;
+      const firstChild = h3.childNodes[0];
+      if (!firstChild || firstChild.nodeType !== Node.TEXT_NODE) return;
+      h3.innerHTML = "";
+      h3.appendChild(makeLink(raw, dest));
+    });
+  };
+
+  window.relinkItineraryDayHeadings();
 })();

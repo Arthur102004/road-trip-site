@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Return Route Decision: OKC ⇄ Vegas</title>
-<link rel="stylesheet" href="css/fonts.css?v=17" />
-<link rel="stylesheet" href="css/style.css?v=17" />
+<link rel="stylesheet" href="css/fonts.css?v=18" />
+<link rel="stylesheet" href="css/style.css?v=18" />
 <link rel="manifest" href="manifest.webmanifest" />
 <meta name="theme-color" content="#15161a" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
@@ -44,6 +44,24 @@
 
 <main>
 <div class="wrap" style="padding-top:2rem;">
+
+  <div class="section" style="padding-top:0;">
+    <div class="card card-accent" id="decision-status-card">
+      <p class="mt-0 small mono">Loading decision status…</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Group Vote</h2>
+      <span class="pill mono" id="route-vote-sync-label"></span>
+    </div>
+    <div class="card card-accent">
+      <p class="small mt-0">Pick whichever option you're leaning toward right now — change it anytime, this is just so everyone can see where the group stands while we talk it through.</p>
+      <div class="who-row" id="route-vote-who-row"></div>
+      <div id="route-vote-rows"></div>
+    </div>
+  </div>
 
   <div class="section" style="padding-top:0;">
     <div class="section-head">
@@ -116,7 +134,7 @@
   </div>
 
   <!-- OPTION A -->
-  <div class="section">
+  <div class="section" data-option="A">
     <div class="section-head">
       <h2>Option A: Extend to 12 Days</h2>
       <span class="pill pill-outbound">Fly home moves to Tue Aug 11</span>
@@ -128,7 +146,12 @@
         <input type="number" id="flight-cost-input" min="0" step="1" placeholder="$0" />
       </label>
       <span class="small mono" id="flight-cost-sync-label"></span>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary lock-decision-btn" data-option="A">🔒 Lock in Option A</button>
+      </div>
     </div>
+    <button class="btn option-toggle-btn" data-option="A" hidden>Show day-by-day ▾</button>
+    <div class="option-body">
     <div class="card leg-outbound day-card">
       <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Grand Junction, CO</h3></div>
       <div class="day-stats"><span class="pill mono">~510 mi</span></div>
@@ -153,17 +176,23 @@
       <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Tue, Aug 11</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
       <p class="small mt-0">⚠️ Requires changing all 5 return flights from Aug 10.</p>
     </div>
+    </div>
   </div>
 
   <!-- OPTION B1 -->
-  <div class="section">
+  <div class="section" data-option="B1">
     <div class="section-head">
       <h2>Option B1: Drop a Vegas Day</h2>
       <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
     </div>
     <div class="card card-accent" style="margin-bottom:1rem;">
       <p class="mt-0">Leaves Vegas one day earlier (Thu instead of Fri), sacrificing the "Downtown, Last Night" day. The Airbnb is booked through Fri regardless, so that last night is paid for but unused. No flight changes.</p>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary lock-decision-btn" data-option="B1">🔒 Lock in Option B1</button>
+      </div>
     </div>
+    <button class="btn option-toggle-btn" data-option="B1" hidden>Show day-by-day ▾</button>
+    <div class="option-body">
     <div class="card leg-vegas day-card">
       <div class="day-head"><span class="pill pill-vegas">Vegas</span><span class="day-date mono">Tue-Wed, Aug 4-5</span><h3 style="margin:0;">Vegas rest days (unchanged)</h3></div>
     </div>
@@ -195,10 +224,11 @@
       <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
       <p class="small mt-0">Unchanged — no flight changes needed.</p>
     </div>
+    </div>
   </div>
 
   <!-- OPTION B2 -->
-  <div class="section">
+  <div class="section" data-option="B2">
     <div class="section-head">
       <h2>Option B2: Drop the Grand Junction Night</h2>
       <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
@@ -208,7 +238,12 @@
       <div class="callout" style="border-color:var(--gold-dim);">
         <strong style="color:var(--gold)">⚠️ Reality check:</strong> ~755 mi ≈ 13.7 hrs driving + ~2.5 hrs across 5 charging stops (St. George, Green River, Grand Junction pass-through, Glenwood Springs, arrival Denver area) ≈ <strong style="color:var(--text)">16 hrs door-to-door.</strong> A 9:00 AM departure lands around 1:00 AM — the longest and latest day of the whole trip.
       </div>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary lock-decision-btn" data-option="B2">🔒 Lock in Option B2</button>
+      </div>
     </div>
+    <button class="btn option-toggle-btn" data-option="B2" hidden>Show day-by-day ▾</button>
+    <div class="option-body">
     <div class="card leg-outbound day-card">
       <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Denver area, CO</h3></div>
       <div class="day-stats"><span class="pill mono">~755 mi</span></div>
@@ -228,10 +263,11 @@
       <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
       <p class="small mt-0">Unchanged — no flight changes needed.</p>
     </div>
+    </div>
   </div>
 
   <!-- OPTION C -->
-  <div class="section">
+  <div class="section" data-option="C">
     <div class="section-head">
       <h2>Option C: One Long Day, Keep Grand Junction</h2>
       <span class="pill pill-vegas">Fly home stays Mon Aug 10</span>
@@ -241,7 +277,12 @@
       <div class="callout" style="border-color:var(--gold-dim);">
         <strong style="color:var(--gold)">⚠️ Reality check:</strong> ~641 mi ≈ 11.7 hrs driving + ~2.5-3 hrs across 6 charging stops (Glenwood Springs, Denver area pass-through, Colorado Springs, Pueblo, Trinidad, Raton) ≈ <strong style="color:var(--text)">~14.5 hrs door-to-door.</strong> A 9:00 AM departure lands around 11:00 PM.
       </div>
+      <div class="btn-row mt-0">
+        <button class="btn btn-primary lock-decision-btn" data-option="C">🔒 Lock in Option C</button>
+      </div>
     </div>
+    <button class="btn option-toggle-btn" data-option="C" hidden>Show day-by-day ▾</button>
+    <div class="option-body">
     <div class="card leg-outbound day-card">
       <div class="day-head"><span class="pill pill-outbound">Return</span><span class="day-date mono">Fri, Aug 7</span><h3 style="margin:0;">Las Vegas, NV → Grand Junction, CO</h3></div>
       <div class="day-stats"><span class="pill mono">~510 mi</span></div>
@@ -261,6 +302,7 @@
       <div class="day-head"><span class="pill pill-return">Return</span><span class="day-date mono">Mon, Aug 10</span><h3 style="margin:0;">Fly Home from OKC</h3></div>
       <p class="small mt-0">Unchanged — no flight changes needed.</p>
     </div>
+    </div>
   </div>
 
 </div>
@@ -274,12 +316,12 @@
   </div>
 </footer>
 
-<script src="js/accessibility.js?v=17"></script>
-<script src="js/sync.js?v=17"></script>
-<script src="js/nav.js?v=17"></script>
-<script src="js/sw-register.js?v=17"></script>
-<script src="js/transitions.js?v=17"></script>
-<script src="js/print.js?v=17"></script>
-<script src="js/return-decision.js?v=17"></script>
+<script src="js/accessibility.js?v=18"></script>
+<script src="js/sync.js?v=18"></script>
+<script src="js/nav.js?v=18"></script>
+<script src="js/sw-register.js?v=18"></script>
+<script src="js/transitions.js?v=18"></script>
+<script src="js/print.js?v=18"></script>
+<script src="js/return-decision.js?v=18"></script>
 </body>
 </html>

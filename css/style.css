@@ -2293,3 +2293,31 @@ body:has(.update-banner) .net-pill {
 }
 
 .vote-tally .vote-names { color: var(--text-faint); }
+
+/* --- return-route decision page: vote, lock, collapse --- */
+
+.section.option-collapsed .option-body { display: none; }
+.section.option-collapsed .card-accent { opacity: 0.6; }
+.section.option-decided .card-accent { opacity: 1; border-color: var(--green); }
+
+.option-toggle-btn { margin-bottom: 1rem; }
+
+.decision-banner-locked {
+  border-color: var(--green);
+}
+
+.decision-banner-locked h3 {
+  color: var(--green);
+}
+
+.route-vote-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.route-vote-row:last-child { border-bottom: none; }
+.route-vote-row .route-vote-label { flex: 1; min-width: 140px; font-weight: 600; }

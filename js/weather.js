@@ -103,7 +103,12 @@
     el.textContent = text;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // Exposed so js/itinerary-render.js can re-run this after swapping in a
+  // return-route variant (new/changed day-cards need fresh weather-strips,
+  // and window.TRIP_DAYS may have been overridden by then). Re-render clears
+  // each weather-strip first, so calling this more than once never
+  // double-appends a monsoon badge or forecast span onto an unchanged card.
+  window.renderTripWeather = function (scrollToToday) {
     if (!window.TRIP_DAYS) return;
     const today = window.getTripToday();
     const todayKey = window.dateToTripKey(today);
@@ -112,10 +117,11 @@
       const card = document.getElementById(`day-${day.date}`);
       if (!card) return;
 
-      if (day.date === todayKey) card.classList.add("is-today");
+      card.classList.toggle("is-today", day.date === todayKey);
 
       const weatherEl = card.querySelector(".weather-strip");
       if (!weatherEl) return;
+      weatherEl.innerHTML = "";
 
       if (MONSOON_STATES.has(day.state) && isAugust(day.date)) {
         const badge = document.createElement("span");
@@ -143,9 +149,11 @@
 
     // land on today's day-card automatically — but let an explicit #day-...
     // link (e.g. from index.html's Today card) take priority over this
-    if (!window.location.hash) {
+    if (scrollToToday && !window.location.hash) {
       const todayCard = document.getElementById(`day-${todayKey}`);
       if (todayCard) todayCard.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  });
+  };
+
+  document.addEventListener("DOMContentLoaded", () => window.renderTripWeather(true));
 })();

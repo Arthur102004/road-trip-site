@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Day-by-Day Itinerary: OKC ⇄ Vegas</title>
-<link rel="stylesheet" href="css/fonts.css?v=13" />
-<link rel="stylesheet" href="css/style.css?v=13" />
+<link rel="stylesheet" href="css/fonts.css?v=18" />
+<link rel="stylesheet" href="css/style.css?v=18" />
 <link rel="manifest" href="manifest.webmanifest" />
 <meta name="theme-color" content="#15161a" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
@@ -53,13 +53,14 @@
 <main>
 <div class="wrap" style="padding-top:2rem;">
 
-  <!-- REMOVE THIS CALLOUT once the group has picked a return route -->
-  <a href="return-route-decision.html" class="card card-accent" style="display:block;margin-bottom:1.5rem;border-color:var(--gold-dim);">
+  <!-- Hidden automatically by js/itinerary-render.js once a decision is locked -->
+  <a href="return-route-decision.html" class="card card-accent" id="pending-decision-callout" style="display:block;margin-bottom:1.5rem;border-color:var(--gold-dim);">
     <span class="pill mono" style="background:var(--gold-dim);color:var(--gold);">⚠️ Pending decision</span>
     <h3 class="mt-0" style="margin-top:0.5rem;">Return route: Kansas vs. New Mexico (2nd UWC visit)</h3>
     <p class="small mt-0" style="margin-bottom:0;">The days below still show the original Kansas return. See the 4 options being weighed →</p>
   </a>
 
+  <div id="itinerary-days">
   <!-- DAY 1 -->
   <div class="card leg-outbound day-card" id="day-2026-07-31">
     <div class="day-head">
@@ -277,6 +278,8 @@
     <p class="mt-0">All five fly out of OKC to their respective homes.</p>
   </div>
 
+  </div>
+
 </div>
 </main>
 
@@ -288,14 +291,16 @@
   </div>
 </footer>
 
-<script src="js/accessibility.js?v=13"></script>
-<script src="js/sync.js?v=13"></script>
-<script src="js/nav.js?v=13"></script>
-<script src="js/sw-register.js?v=13"></script>
-<script src="js/transitions.js?v=13"></script>
-<script src="js/maps-link.js?v=13"></script>
-<script src="js/print.js?v=13"></script>
-<script src="js/trip-data.js?v=13"></script>
-<script src="js/weather.js?v=13"></script>
+<script src="js/accessibility.js?v=18"></script>
+<script src="js/sync.js?v=18"></script>
+<script src="js/nav.js?v=18"></script>
+<script src="js/sw-register.js?v=18"></script>
+<script src="js/transitions.js?v=18"></script>
+<script src="js/maps-link.js?v=18"></script>
+<script src="js/print.js?v=18"></script>
+<script src="js/trip-data.js?v=18"></script>
+<script src="js/return-variants.js?v=18"></script>
+<script src="js/itinerary-render.js?v=18"></script>
+<script src="js/weather.js?v=18"></script>
 </body>
 </html>
